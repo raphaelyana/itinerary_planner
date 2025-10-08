@@ -265,6 +265,12 @@ def determine_route_greedy(
                 best_path = path
 
         if best_candidate is None or best_path is None:
+            logger.error(
+                "Planner: greedy solver stuck at %s with remaining=%s (accessibility=%s)",
+                current,
+                remaining,
+                constraints.accessibility,
+            )
             raise ValueError("Unable to build a step-free route for all POIs using greedy heuristic.")
 
         ordered.append(best_candidate)
