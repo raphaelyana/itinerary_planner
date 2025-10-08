@@ -15,13 +15,6 @@ PROFILE_WEIGHT_PROPERTY: Dict[UserProfile, str] = {
     "elder": "elder_walk_min",
 }
 
-APOC_EXPAND_CONFIG = {
-    "relationshipFilter": "CONNECTS_TO>",
-    "minLevel": 1,
-    "maxLevel": 20,
-    "uniqueness": "NODE_GLOBAL",
-}
-
 
 @dataclass
 class PathSegment:
@@ -109,12 +102,6 @@ def get_shortest_path(
     driver = GraphDatabase.driver(uri, auth=(user, password))
     try:
         with driver.session() as session:
-            config = APOC_EXPAND_CONFIG.copy()
-            config_update = {
-                "terminatorNodes": [{"id": end_id, "label": "POI"}],
-            }
-            config.update(config_update)
-
             filters: List[str] = []
             if accessibility == "step_free":
                 filters.append("all(rel IN relationships(path) WHERE rel.is_step_free = true)")
@@ -130,7 +117,14 @@ def get_shortest_path(
             record = session.run(
                 f"""
                 MATCH (start:POI {{id: $start_id}}), (end:POI {{id: $end_id}})
-                CALL apoc.path.expandConfig(start, $config)
+                CALL apoc.path.expandConfig(start, {{
+                    relationshipFilter: "CONNECTS_TO>",
+                    minLevel: 1,
+                    maxLevel: 20,
+                    uniqueness: "NODE_GLOBAL",
+                    endNodes: [end],
+                    terminatorNodes: [end]
+                }})
                 YIELD path
                 WHERE last(nodes(path)) = end
                   {filters_text}
@@ -155,7 +149,6 @@ def get_shortest_path(
                 """,
                 start_id=start_id,
                 end_id=end_id,
-                config=config,
                 weight_property=weight_property,
                 default_weight=float(default_edge_weight),
             ).single()
