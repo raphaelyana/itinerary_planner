@@ -1,1 +1,17 @@
 .env
+
+# Python caches
+__pycache__/
+*.py[cod]
+
+# Virtual envs
+.venv/
+venv/
+
+# Test & benchmark artifacts
+.pytest_cache/
+benchmarks.json
+benchmarks_offline.json
+
+# OS cruft
+.DS_Store
