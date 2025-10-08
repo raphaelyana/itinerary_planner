@@ -277,6 +277,7 @@ def determine_route_greedy(
         len(ordered),
         merged.total_minutes,
     )
+    logger.info("Planner: greedy route order %s", ordered)
     return ordered, pair_paths, merged
 
 
