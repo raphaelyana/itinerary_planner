@@ -1,0 +1,114 @@
+{
+  "runs": [
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 0,
+      "poi_count": 8,
+      "solver": "default",
+      "offline": true,
+      "greedy_cost": 40.0,
+      "greedy_time_sec": 4.587500006891787e-05,
+      "brute_cost": 38.0,
+      "brute_time_sec": 0.20653695899818558
+    },
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 1,
+      "poi_count": 8,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 44.0,
+      "greedy_time_sec": 2.912498894147575e-05,
+      "brute_cost": 38.0,
+      "brute_time_sec": 0.2058182500040857
+    },
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 2,
+      "poi_count": 8,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 44.0,
+      "greedy_time_sec": 2.5291999918408692e-05,
+      "brute_cost": 38.0,
+      "brute_time_sec": 0.2559123749961145
+    },
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 3,
+      "poi_count": 8,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 38.0,
+      "greedy_time_sec": 2.9499991796910763e-05,
+      "brute_cost": 38.0,
+      "brute_time_sec": 0.20392933300172444
+    },
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 4,
+      "poi_count": 8,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 39.0,
+      "greedy_time_sec": 2.649999805726111e-05,
+      "brute_cost": 38.0,
+      "brute_time_sec": 0.20441700000083074
+    },
+    {
+      "scenario": "extended_mixed",
+      "trial": 0,
+      "poi_count": 9,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 52.0,
+      "greedy_time_sec": 2.9082992114126682e-05,
+      "brute_cost": 46.0,
+      "brute_time_sec": 2.114986249987851
+    },
+    {
+      "scenario": "extended_mixed",
+      "trial": 1,
+      "poi_count": 9,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 48.0,
+      "greedy_time_sec": 3.662498784251511e-05,
+      "brute_cost": 46.0,
+      "brute_time_sec": 2.127683540995349
+    },
+    {
+      "scenario": "extended_mixed",
+      "trial": 2,
+      "poi_count": 9,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 56.0,
+      "greedy_time_sec": 3.391699283383787e-05,
+      "brute_cost": 46.0,
+      "brute_time_sec": 2.290834957995685
+    },
+    {
+      "scenario": "extended_mixed",
+      "trial": 3,
+      "poi_count": 9,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 49.0,
+      "greedy_time_sec": 3.575001028366387e-05,
+      "brute_cost": 46.0,
+      "brute_time_sec": 2.1304244589991868
+    },
+    {
+      "scenario": "extended_mixed",
+      "trial": 4,
+      "poi_count": 9,
+      "solver": "default",
+      "offline": false,
+      "greedy_cost": 48.0,
+      "greedy_time_sec": 3.416699473746121e-05,
+      "brute_cost": 46.0,
+      "brute_time_sec": 2.1007785420079017
+    }
+  ]
+}

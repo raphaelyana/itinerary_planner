@@ -1,0 +1,196 @@
+version: 2.0
+metadata:
+  domain: "versailles"
+  description: "Knowledge graph model of Versailles intended for Itinerary Planning"
+  id_policy: 
+    poi: "versailles:{category}:{id_num}"
+time_conventions: 
+  unit: "minutes"
+  timezone: "Paris"
+
+
+enums:
+  Zone:
+    - Castle
+    - Gardens
+    - Park
+    - Trianon
+  Category:
+    - Room
+    - Garden
+    - Facility
+    - ArtworkHub
+  Accessibility_level:
+    - full
+    - none
+  Path_type:
+    - indoor
+    - outdoor
+    - mixed
+  Facility_type:
+    - Restroom
+    - Changing_table
+    - Cafe
+    - Restaurant
+    - Point_eau
+    - Charging_spot
+    - Luggage_storage
+    - Info
+    - Audio_guide_furnisher #vestibule du pavillon Dufour
+    - Audio_phone_furnisher #comptoir audiophone à l'Aile des Ministres Nord
+  Garden_type: 
+    - Bosquet
+    - Bassin
+    - Parterre
+    - Other
+  Entrance_type:
+    - Main
+    - Group
+    - Accessible
+    - Exit_only
+  Days:
+    - Mon
+    - Tue
+    - Wed
+    - Thu
+    - Fri
+    - Sat
+    - Sun
+  Season:
+    - High
+    - Low
+    - Holiday
+  Crowd_level:
+    - low
+    - med
+    - high
+
+node_labels:
+  POI:
+    description: "Points of interests to visit"
+    required: True
+    properties:
+      id: {type: string, required: True, unique: True, description: "global ID"}
+      id_num: {type: string, required: True, unique: True, pattern: "^[a-z0-9-]+$"}
+      name: {type: string, required: True}
+      zone: {type: enum, enum: Zone, required: True}
+      category: {type: enum, enum: Category, required: True}
+      interest_tags: {type: list, required: False, vocabulary: "data/dictionaries/interest_tags.csv"}
+      estimated_visit_minutes: {type: integer, required: True, min: 0}
+      accessibility_level: {type: enum, enum: Accessibility_level, required: True}
+      accessibility_notes: {type: string, required: False, max_length: 500}
+      priority_score: {type: number, required: True, default: 1.0, min: 0}
+      opening_ruleset_id: {type: string, required: False}
+      exception_calendar_id: {type: string, required: False}
+
+  Rooms:
+    extends: POI
+    properties:
+      floor: {type: string, required: False}
+      wing: {type: string, required: False, vocabulary: "data/dictionaries/wings.csv"}
+  
+  Garden:
+    extends: POI
+    properties:
+      garden_type: {type: enum, enum: Garden_type, required: True}
+      is_fountain_area: {type: boolean, required: False, default: False}
+
+  Facility:
+    extends: POI
+    properties:
+      facility_type: {type: enum, enum: Facility_type, required: True}
+      cost_category: {type: enum, enum: [free, paid], required: True}
+
+  Entrance:
+    extends: POI
+    properties:
+      entrance_type: {type: enum, enum: Entrance_type, required: True}
+
+  Artwork:
+    description: "Content for node (optional), attached to given Room through LOCATED_IN"
+    properties:
+      id: {type: string, required: True, unique: True}
+      title: {type: string, required: False}
+      artist: {type: string, required: False}
+      period: {type: string, required: False}
+
+  Time_window:
+    description: "Opening and Closing times"
+    properties:
+      ruleset_id: {type: string, required: True}
+      day: {type: enum, enum: Days, required: True}
+      season: {type: enum, enum: Season, required: False}
+      open_local:  {type: string, required: True, pattern: "^\\d{2}:\\d{2}$"}
+      close_local: {type: string, required: True, pattern: "^\\d{2}:\\d{2}$"}
+
+relationships:
+  CONNECTS_TO:
+    from: POI
+    to: POI
+    directed: True
+    properties: 
+      base_walk_min: {type: number, required: True, min: 0.01}
+      family_walk_min: {type: number, required: True, min: 0.01}
+      elder_walk_min: {type: number, required: True, min: 0.01}
+      is_step_free: {type: boolean, required: True}
+      stroller_friendly: {type: boolean, required: True}
+      path_type: {type: enum, enum: Path_type, required: True}
+      notes: {type: string, required: False}
+    validation:
+      - rule: "no_self_loop"
+        description: "from_id != to_id"
+
+  LOCATED_IN:
+    from: [Artwork, Facility]
+    to: [Room, POI]
+    directed: True
+    properties: {}
+
+  REQUIRES_TICKET:
+    from: POI
+    to: Ticket_type
+    directed: True
+    properties: 
+      ticket_code: {type: string, required: True}
+      notes: {type: string, required: False}
+
+  HAS_TIME_WINDOW:
+    from: POI
+    to: Time_window
+    directed: True
+    properties: {}
+
+constraints:
+  node_uniqueness:
+    - label: PointOfInterest
+      property: id
+    - label: PointOfInterest
+      property: slug
+    - label: Artwork
+      property: id
+  indexes:
+    - label: PointOfInterest
+      property: zone
+    - label: PointOfInterest
+      property: category
+    - label: PointOfInterest
+      property: interest_tags
+    - label: PointOfInterest
+      property: accessibility_level
+
+ingestion_rules:
+  id_generation:
+    allow_external_ids: True
+    enforce_id_num_pattern: True
+  validation_order:
+    - enums
+    - required_fields
+    - unique
+    - existing_connections
+    - numerical_ranges
+  hard_constraints:
+    - name: wheelchair_step_free
+      description: "Wheelchair and stroller only when is_step_free=true for given edge"
+  semantics:
+    edges_are_directed: True
+    symmetric_edges_required: False 
