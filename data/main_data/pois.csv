@@ -32,3 +32,7 @@ versailles:Garden:cour-dhonneur-sortie,cour-dhonneur-sortie,Cour d'Honneur (Sort
 versailles:Garden:cour-dhonneur,cour-dhonneur,Cour d'Honneur,Castle,Garden,"entrance;processional;scenic;architecture_classique",0,full,,0,GARDENS_DEFAULT,,"",,Other,false,,,
 versailles:Garden:cour-royale,cour-royale,Cour Royale,Castle,Garden,"entrance;processional;louis_xiv;architecture_classique",0,full,"Pré-entrée avant contrôle Pavillon Dufour.",0,GARDENS_DEFAULT,,"",,Other,false,,,
 versailles:Garden:acces-principal-jardins-parterres-deau,acces-principal-jardins-parterres-deau,Accès Principal Jardins (Parterres d'Eau),Gardens,Garden,"entrance;jardins;point_de_vue;fontaines",5,none,"Accès principal vers les Parterres d’Eau; non totalement de plain-pied.",0.60,GARDENS_DEFAULT,,,"",,Parterre,true,,,
+versailles:Trianon:grand-trianon,grand-trianon,Grand Trianon,Trianon,Garden,"architecture;history;garden",60,full,,1.00,TRIANON_DEFAULT,,,"",,Other,false,,,
+versailles:Trianon:petit-trianon,petit-trianon,Petit Trianon,Trianon,Garden,"architecture;history;scenic",45,full,,0.90,TRIANON_DEFAULT,,,"",,Other,false,,,
+versailles:Park:grand-canal,grand-canal,Grand Canal,Park,Garden,"must_see;water;scenic",30,full,,0.80,PARK_DEFAULT,,,"",,Other,false,,,
+versailles:Park:queen-grove,queen-grove,Queen's Grove,Park,Garden,"garden;walk;scenic",20,full,,0.70,PARK_DEFAULT,,,"",,Other,false,,,

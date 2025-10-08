@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import itertools
+import logging
 import os
 from dataclasses import dataclass
 from datetime import datetime, timedelta, time
@@ -9,6 +10,10 @@ from typing import Iterable, List, Optional, Sequence, Tuple
 from neo4j import GraphDatabase
 
 from scripts.planner_utils import AccessibilityRequirement, ShortestPathResult, UserProfile, get_shortest_path
+
+logger = logging.getLogger(__name__)
+if not logger.handlers:
+    logging.basicConfig(level=os.environ.get("PLANNER_LOG_LEVEL", "INFO"))
 
 
 @dataclass
@@ -156,6 +161,7 @@ def determine_route(
         return [poi_ids[0]], [], zero_path
 
     if len(poi_ids) > 7:
+        logger.info("Planner: falling back to greedy solver for %d POIs", len(poi_ids))
         return determine_route_greedy(poi_ids, constraints=constraints)
 
     best_order: Optional[List[str]] = None
@@ -190,6 +196,11 @@ def determine_route(
         raise ValueError("Could not determine a viable route for the selected POIs.")
 
     merged = _merge_paths(best_pair_paths)
+    logger.info(
+        "Planner: permutation solver finished (%d POIs, cost=%.2f)",
+        len(poi_ids),
+        merged.total_minutes,
+    )
     return best_order, best_pair_paths, merged
 
 
@@ -251,6 +262,11 @@ def determine_route_greedy(
         remaining.remove(best_candidate)
 
     merged = _merge_paths(pair_paths)
+    logger.info(
+        "Planner: greedy solver finished (%d POIs, cost=%.2f)",
+        len(ordered),
+        merged.total_minutes,
+    )
     return ordered, pair_paths, merged
 
 
@@ -339,6 +355,12 @@ def plan_versailles_itinerary(
         driver.close()
 
     if not candidates:
+        logger.info(
+            "Planner: no candidates match filters interests=%s accessibility=%s exclude=%s",
+            constraints.interests,
+            constraints.accessibility,
+            constraints.exclude_ids,
+        )
         raise ValueError("No POIs match the specified constraints.")
 
     candidate_lookup = {candidate.poi_id: candidate for candidate in candidates}
@@ -355,6 +377,7 @@ def plan_versailles_itinerary(
         raise ValueError("Unable to fit any POIs within the allotted duration.")
 
     poi_ids = [poi.poi_id for poi in selected]
+    logger.info("Planner: selected %d POIs for itinerary", len(poi_ids))
     if constraints.must_include:
         for required in constraints.must_include:
             if required not in poi_ids:
@@ -366,6 +389,13 @@ def plan_versailles_itinerary(
     travel_minutes = travel_segments.total_minutes
     visit_minutes = sum(step.stay_minutes for step in itinerary_steps)
     total_minutes = travel_minutes + visit_minutes + idle_minutes
+
+    logger.info(
+        "Planner: itinerary built (travel=%.2f, visit=%d, idle=%.2f)",
+        travel_minutes,
+        visit_minutes,
+        idle_minutes,
+    )
 
     return Itinerary(
         steps=itinerary_steps,

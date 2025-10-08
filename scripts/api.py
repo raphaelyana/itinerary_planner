@@ -116,7 +116,7 @@ def health() -> dict:
 
 
 @app.post("/itinerary", response_model=ItineraryResponse)
-def create_itinerary(request: ItineraryRequest) -> ItineraryResponse:
+def create_itinerary(request: Itineraryrequest) -> ItineraryResponse:
     constraints = PlannerConstraints(
         interests=request.constraints.interests,
         user_profile=request.constraints.user_profile,
@@ -134,6 +134,7 @@ def create_itinerary(request: ItineraryRequest) -> ItineraryResponse:
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:  # pragma: no cover - safety net
+        logger.exception("Planner failed")
         raise HTTPException(status_code=500, detail="Unexpected error during itinerary planning") from exc
 
     return ItineraryResponse.from_model(itinerary)
