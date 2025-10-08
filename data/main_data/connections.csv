@@ -29,6 +29,7 @@ versailles:Room:galerie-des-batailles,versailles:Room:chapelle-royale,2,3,4,true
 versailles:Room:chapelle-royale,versailles:Room:salles-louis-xiv,1,1.5,2,true,true,indoor,"Chapelle vers Salles Louis XIV"
 versailles:Room:salles-louis-xiv,versailles:Room:salon-dhercule,1,1.5,2,true,true,indoor,"Retour vers Salon d'Hercule"
 versailles:Room:cabinet-du-conseil,versailles:Room:appartements-de-mesdames,4,6,8,false,false,indoor,"Descente vers le rez-de-chaussée"
+versailles:Room:cabinet-du-conseil,versailles:Room:chambre-du-roi,1,1.5,2,true,true,indoor,"Cabinet du Conseil vers Chambre du Roi"
 versailles:Room:appartements-de-mesdames,versailles:Garden:acces-principal-jardins-parterres-deau,3,4.5,6,true,true,mixed,"Sortie vers le parterre"
 versailles:Room:appartements-du-dauphin-et-de-la-dauphine,versailles:Garden:acces-principal-jardins-parterres-deau,3,4.5,6,true,true,mixed,"Sortie aile Nord vers jardins"
 versailles:Garden:cour-dhonneur,versailles:Garden:acces-principal-jardins-parterres-deau,4,6,8,true,true,outdoor,"Allée latérale Cour d'Honneur connecté aux jardins"

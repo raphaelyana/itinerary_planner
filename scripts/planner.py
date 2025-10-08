@@ -71,7 +71,17 @@ WHERE poi.opening_time IS NOT NULL
   AND poi.priority_score IS NOT NULL
   AND ($interests IS NULL OR size($interests) = 0 OR any(tag IN poi.interest_tags WHERE tag IN $interests))
   AND ($exclude_ids IS NULL OR NOT poi.id IN $exclude_ids)
-  AND ($accessibility = 'any' OR poi.accessibility_level = 'full')
+  AND (
+        $accessibility = 'any'
+        OR (
+            poi.accessibility_level = 'full'
+            AND EXISTS {
+                MATCH (poi)-[r:CONNECTS_TO]->(:POI)
+                WHERE ($accessibility = 'step_free' AND r.is_step_free = true)
+                   OR ($accessibility = 'stroller' AND r.is_step_free = true AND r.stroller_friendly = true)
+            }
+        )
+      )
 RETURN poi.id AS id,
        poi.name AS name,
        poi.priority_score AS priority_score,
