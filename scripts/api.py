@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from datetime import datetime
 from typing import List, Literal, Optional
 
@@ -10,6 +11,8 @@ from scripts.planner import Itinerary, ItineraryStep, PlannerConstraints, plan_v
 from scripts.planner_utils import ShortestPathResult
 
 app = FastAPI(title="Versailles Itinerary Planner")
+
+logger = logging.getLogger(__name__)
 
 
 UserProfileLiteral = Literal["standard", "family", "elder"]
@@ -116,7 +119,7 @@ def health() -> dict:
 
 
 @app.post("/itinerary", response_model=ItineraryResponse)
-def create_itinerary(request: Itineraryrequest) -> ItineraryResponse:
+def create_itinerary(request: ItineraryRequest) -> ItineraryResponse:
     constraints = PlannerConstraints(
         interests=request.constraints.interests,
         user_profile=request.constraints.user_profile,
