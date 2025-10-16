@@ -5,15 +5,29 @@ import logging
 import os
 from dataclasses import dataclass
 from datetime import datetime, timedelta, time
-from typing import Iterable, List, Optional, Sequence, Tuple
+from typing import Dict, Iterable, List, Optional, Sequence, Tuple
 
 from neo4j import GraphDatabase
 
-from scripts.planner_utils import AccessibilityRequirement, ShortestPathResult, UserProfile, get_shortest_path
+from scripts.planner_utils import (
+    AccessibilityRequirement,
+    PathSegment,
+    ShortestPathResult,
+    UserProfile,
+    get_shortest_path,
+)
+from scripts.path_cache import PathCache
 
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     logging.basicConfig(level=os.environ.get("PLANNER_LOG_LEVEL", "INFO"))
+
+DUMMY_START_ID = "__dummy_start__"
+DEFAULT_ENTRANCE = "versailles:Garden:cour-dhonneur"
+TRIANON_ENTRANCE = "versailles:Trianon:grand-trianon"
+CACHE_FILE = os.getenv("PLANNER_DISTANCE_CACHE", "cache/full_path_cache.json")
+
+PATH_CACHE = PathCache(CACHE_FILE, auto_save=False)
 
 
 @dataclass
@@ -158,6 +172,211 @@ def select_pois(
     return selected
 
 
+def _compute_pairwise_paths(
+    poi_ids: Sequence[str],
+    *,
+    constraints: PlannerConstraints,
+) -> Dict[Tuple[int, int], ShortestPathResult]:
+    pair_paths: Dict[Tuple[int, int], ShortestPathResult] = {}
+    cache_hits = 0
+    live_lookups = 0
+    profile = constraints.user_profile
+    accessibility = constraints.accessibility
+    for i, origin in enumerate(poi_ids):
+        for j, destination in enumerate(poi_ids):
+            if i == j:
+                continue
+            key = (i, j)
+            if key in pair_paths:
+                continue
+
+            cached = PATH_CACHE.get(profile, accessibility, origin, destination)
+            if cached:
+                pair_paths[key] = cached
+                cache_hits += 1
+                continue
+
+            try:
+                path = get_shortest_path(
+                    origin,
+                    destination,
+                    user_profile=constraints.user_profile,
+                    accessibility=constraints.accessibility,
+                )
+            except ValueError as exc:
+                raise ValueError(f"No path between {origin!r} and {destination!r}: {exc}") from exc
+
+            pair_paths[key] = path
+            PATH_CACHE.store(profile, accessibility, origin, destination, path, persist=False)
+            PATH_CACHE.store(profile, accessibility, destination, origin, path, persist=False)
+            live_lookups += 1
+
+    if cache_hits and logger.isEnabledFor(logging.DEBUG):
+        logger.debug("Planner: distance cache hits=%d, live lookups=%d", cache_hits, live_lookups)
+
+    return pair_paths
+
+
+def _run_held_karp(
+    poi_ids: Sequence[str],
+    pair_paths: Dict[Tuple[int, int], ShortestPathResult],
+    *,
+    start_index: Optional[int] = None,
+) -> Tuple[List[int], List[ShortestPathResult], ShortestPathResult]:
+    n = len(poi_ids)
+    all_mask = (1 << n) - 1
+    dp: Dict[Tuple[int, int], Tuple[float, Optional[int]]] = {}
+
+    initial_indices: Iterable[int]
+    if start_index is not None:
+        initial_indices = (start_index,)
+    else:
+        initial_indices = range(n)
+
+    for idx in initial_indices:
+        dp[(1 << idx, idx)] = (0.0, None)
+
+    for mask in range(1, all_mask + 1):
+        for current in range(n):
+            if not (mask & (1 << current)):
+                continue
+            current_state = dp.get((mask, current))
+            if current_state is None:
+                continue
+            current_cost, _ = current_state
+            remaining_mask = all_mask ^ mask
+            next_candidate = remaining_mask
+            while next_candidate:
+                next_index = (next_candidate & -next_candidate).bit_length() - 1
+                next_candidate &= next_candidate - 1
+                key = (current, next_index)
+                if key not in pair_paths:
+                    continue
+                new_mask = mask | (1 << next_index)
+                new_cost = current_cost + pair_paths[key].total_minutes
+                existing = dp.get((new_mask, next_index))
+                if existing is None or new_cost < existing[0]:
+                    dp[(new_mask, next_index)] = (new_cost, current)
+
+    best_cost = float("inf")
+    best_end: Optional[int] = None
+    for idx in range(n):
+        state = dp.get((all_mask, idx))
+        if state is None:
+            continue
+        if state[0] < best_cost:
+            best_cost = state[0]
+            best_end = idx
+
+    if best_end is None:
+        raise ValueError("Unable to assemble a route that connects all POIs.")
+
+    order_indices: List[int] = []
+    mask = all_mask
+    current = best_end
+    while current is not None:
+        order_indices.append(current)
+        state = dp[(mask, current)]
+        prev = state[1]
+        mask &= ~(1 << current)
+        current = prev
+    order_indices.reverse()
+
+    pairwise_segments: List[ShortestPathResult] = []
+    for a, b in zip(order_indices, order_indices[1:]):
+        pairwise_segments.append(pair_paths[(a, b)])
+
+    merged = _merge_paths(pairwise_segments)
+    return order_indices, pairwise_segments, merged
+
+
+def _solve_route_via_held_karp(
+    poi_ids: Sequence[str],
+    *,
+    constraints: PlannerConstraints,
+) -> Tuple[List[str], List[ShortestPathResult], ShortestPathResult]:
+    base_ids = list(dict.fromkeys(poi_ids))
+    if not base_ids:
+        raise ValueError("At least one POI is required to build a route.")
+    if len(base_ids) == 1:
+        zero_path = ShortestPathResult(node_ids=[base_ids[0]], total_minutes=0.0, segments=[])
+        return [base_ids[0]], [], zero_path
+
+    includes_trianon = any(poi.startswith("versailles:Trianon") for poi in base_ids)
+    start_candidates: List[str] = [DEFAULT_ENTRANCE]
+    if includes_trianon:
+        start_candidates.append(TRIANON_ENTRANCE)
+
+    candidate_results: List[Tuple[float, List[str], List[ShortestPathResult]]] = []
+
+    for start_id in start_candidates:
+        scenario_ids = list(base_ids)
+        if start_id not in scenario_ids:
+            scenario_ids.append(start_id)
+
+        try:
+            base_pair_paths = _compute_pairwise_paths(scenario_ids, constraints=constraints)
+        except ValueError:
+            continue
+
+        pair_paths: Dict[Tuple[int, int], ShortestPathResult] = {}
+        for (i, j), path in base_pair_paths.items():
+            pair_paths[(i + 1, j + 1)] = path
+
+        augmented_ids = [DUMMY_START_ID] + scenario_ids
+        start_idx = scenario_ids.index(start_id) + 1
+        pair_paths[(0, start_idx)] = ShortestPathResult(
+            node_ids=[DUMMY_START_ID, start_id], total_minutes=0.0, segments=[]
+        )
+
+        try:
+            order_indices, pair_segments, merged = _run_held_karp(
+                augmented_ids, pair_paths, start_index=0
+            )
+        except ValueError:
+            continue
+
+        # remove dummy index and associated zero-cost segment
+        filtered_indices = [idx for idx in order_indices if idx != 0]
+        filtered_segments = [
+            segment
+            for segment, (a, b) in zip(
+                pair_segments, zip(order_indices, order_indices[1:])
+            )
+            if a != 0 and b != 0
+        ]
+
+        if not filtered_indices:
+            continue
+
+        merged_filtered = _merge_paths(filtered_segments)
+        route_order = [augmented_ids[idx] for idx in filtered_indices]
+        candidate_results.append((merged_filtered.total_minutes, route_order, filtered_segments))
+
+    if candidate_results:
+        best_cost, best_order, best_segments = min(
+            candidate_results, key=lambda item: item[0]
+        )
+        logger.info(
+            "Planner: Held-Karp solver finished with fixed start (%d POIs, cost=%.2f)",
+            len(best_order),
+            best_cost,
+        )
+        merged = _merge_paths(best_segments)
+        return best_order, best_segments, merged
+
+    # Fallback: no scenario succeeded; solve on original set without dummy
+    pair_paths = _compute_pairwise_paths(base_ids, constraints=constraints)
+    order_indices, pair_segments, merged = _run_held_karp(base_ids, pair_paths)
+    logger.info(
+        "Planner: Held-Karp solver finished (%d POIs, cost=%.2f)",
+        len(base_ids),
+        merged.total_minutes,
+    )
+    route_order = [base_ids[idx] for idx in order_indices]
+    return route_order, pair_segments, merged
+
+
 def determine_route(
     poi_ids: Sequence[str],
     *,
@@ -171,8 +390,7 @@ def determine_route(
         return [poi_ids[0]], [], zero_path
 
     if len(poi_ids) > 7:
-        logger.info("Planner: falling back to greedy solver for %d POIs", len(poi_ids))
-        return determine_route_greedy(poi_ids, constraints=constraints)
+        return _solve_route_via_held_karp(poi_ids, constraints=constraints)
 
     best_order: Optional[List[str]] = None
     best_cost = float("inf")
@@ -307,6 +525,11 @@ def build_itinerary(
     for index, poi_id in enumerate(route):
         poi = poi_lookup.get(poi_id)
         if not poi:
+            if index < len(route) - 1:
+                travel_path = next(travel_iter, None)
+                if travel_path is None:
+                    raise ValueError("Travel path segments are misaligned with itinerary order.")
+                time_cursor += timedelta(minutes=travel_path.total_minutes)
             continue
 
         if not poi.opening_time or not poi.closing_time:

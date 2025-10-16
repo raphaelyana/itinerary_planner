@@ -236,3 +236,37 @@ def test_determine_route_greedy_handles_large_sets(monkeypatch):
     assert len(order) == len(pois)
     assert len(pair_paths) == len(pois) - 1
     assert merged.total_minutes == pytest.approx(sum(path.total_minutes for path in pair_paths))
+
+
+def test_determine_route_held_karp_finds_minimum(monkeypatch):
+    import itertools
+
+    constraints = PlannerConstraints(interests=[], user_profile="standard", accessibility="any")
+
+    def mocked_shortest_path(a, b, **kwargs):
+        cost = abs(hash((a, b))) % 7 + 1
+        segment = PathSegment(
+            from_id=a,
+            to_id=b,
+            distance_min=float(cost),
+            is_step_free=True,
+            stroller_friendly=True,
+            path_type="indoor",
+            notes=None,
+        )
+        return ShortestPathResult(node_ids=[a, b], total_minutes=float(cost), segments=[segment])
+
+    monkeypatch.setattr("scripts.planner.get_shortest_path", mocked_shortest_path)
+
+    pois = [f"poi:{i}" for i in range(7)]
+    order, pair_paths, merged = determine_route(pois, constraints=constraints)
+
+    assert len(order) == len(pois)
+    total_cost = sum(path.total_minutes for path in pair_paths)
+    assert merged.total_minutes == pytest.approx(total_cost)
+
+    def cost_for_order(permutation):
+        return sum(mocked_shortest_path(a, b).total_minutes for a, b in zip(permutation, permutation[1:]))
+
+    brute_force_best = min(cost_for_order(perm) for perm in itertools.permutations(pois))
+    assert total_cost == pytest.approx(brute_force_best)
