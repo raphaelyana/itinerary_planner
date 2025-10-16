@@ -116,7 +116,9 @@ def get_shortest_path(
 
             record = session.run(
                 f"""
-                MATCH (start:POI {{id: $start_id}}), (end:POI {{id: $end_id}})
+                MATCH (start:POI {{id: $start_id}})
+                WITH start
+                MATCH (end:POI {{id: $end_id}})
                 CALL apoc.path.expandConfig(start, {{
                     relationshipFilter: "CONNECTS_TO>",
                     minLevel: 1,
