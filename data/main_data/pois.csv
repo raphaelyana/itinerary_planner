@@ -40,3 +40,4 @@ versailles:Park:grand-canal,grand-canal,Grand Canal,Park,Garden,must_see;water;s
 versailles:Park:queen-grove,queen-grove,Queen's Grove,Park,Garden,garden;walk;scenic,20,full,,0.70,PARK_DEFAULT,,,,Garden,false,,,
 versailles:Trianon:jardin-francais,jardin-francais,Jardin Français du Petit Trianon,Trianon,Garden,gardens;walk;scenic,10,full,,0.80,,,,,Garden,false,,,
 versailles:Trianon:temple-amour,temple-amour,Temple de l'Amour,Trianon,Garden,architecture;photo_spot;scenic,10,full,,1.00,,,,,Garden,false,,,
+versailles:Trianon:hameau-main,hameau-main,Hameau de la Reine – Entrée,Trianon,Facility,scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,

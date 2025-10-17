@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import os
 from itertools import combinations
 from pathlib import Path
 from typing import Iterable, List
@@ -10,7 +11,16 @@ from scripts.planner_utils import get_shortest_path
 
 PROFILES: List[str] = ["standard", "family", "elder"]
 ACCESSIBILITY_MODES: List[str] = ["any", "step_free", "stroller"]
-CACHE_FILE = "cache/full_path_cache.json"
+
+profiles_env = os.getenv("CACHE_PROFILES")
+if profiles_env:
+    PROFILES = [p.strip() for p in profiles_env.split(",") if p.strip()] or PROFILES
+
+access_env = os.getenv("CACHE_ACCESSIBILITY")
+if access_env:
+    ACCESSIBILITY_MODES = [a.strip() for a in access_env.split(",") if a.strip()] or ACCESSIBILITY_MODES
+
+CACHE_FILE = os.getenv("PLANNER_DISTANCE_CACHE", "cache/full_path_cache.json")
 POIS_CSV = Path("data/main_data/pois.csv")
 
 

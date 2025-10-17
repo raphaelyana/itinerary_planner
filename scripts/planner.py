@@ -26,8 +26,8 @@ DUMMY_START_ID = "__dummy_start__"
 DEFAULT_ENTRANCE = "versailles:Garden:cour-dhonneur"
 TRIANON_ENTRANCE = "versailles:Trianon:grand-trianon"
 CACHE_FILE = os.getenv("PLANNER_DISTANCE_CACHE", "cache/full_path_cache.json")
-
 PATH_CACHE = PathCache(CACHE_FILE, auto_save=False)
+_CACHE_DIRTY = False
 
 
 @dataclass
@@ -177,6 +177,7 @@ def _compute_pairwise_paths(
     *,
     constraints: PlannerConstraints,
 ) -> Dict[Tuple[int, int], ShortestPathResult]:
+    global _CACHE_DIRTY
     pair_paths: Dict[Tuple[int, int], ShortestPathResult] = {}
     cache_hits = 0
     live_lookups = 0
@@ -210,6 +211,7 @@ def _compute_pairwise_paths(
             PATH_CACHE.store(profile, accessibility, origin, destination, path, persist=False)
             PATH_CACHE.store(profile, accessibility, destination, origin, path, persist=False)
             live_lookups += 1
+            _CACHE_DIRTY = True
 
     if cache_hits and logger.isEnabledFor(logging.DEBUG):
         logger.debug("Planner: distance cache hits=%d, live lookups=%d", cache_hits, live_lookups)
@@ -636,6 +638,11 @@ def plan_versailles_itinerary(
         visit_minutes,
         idle_minutes,
     )
+
+    global _CACHE_DIRTY
+    if _CACHE_DIRTY:
+        PATH_CACHE.save()
+        _CACHE_DIRTY = False
 
     return Itinerary(
         steps=itinerary_steps,
