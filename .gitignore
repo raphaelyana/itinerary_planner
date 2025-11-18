@@ -15,3 +15,6 @@ benchmarks_offline.json
 
 # OS cruft
 .DS_Store
+
+data/main_data/connections_copie.csv
+data/main_data/pois_copie.csv

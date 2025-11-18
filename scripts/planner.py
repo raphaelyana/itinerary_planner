@@ -28,6 +28,29 @@ TRIANON_ENTRANCE = "versailles:Trianon:grand-trianon"
 CACHE_FILE = os.getenv("PLANNER_DISTANCE_CACHE", "cache/full_path_cache.json")
 PATH_CACHE = PathCache(CACHE_FILE, auto_save=False)
 _CACHE_DIRTY = False
+LUNCH_BREAK_ID = "__lunch_break__"
+GREEDY_THRESHOLD = 10
+PERM_THRESHOLD = 7
+MIN_TRAVEL_PER_HOP = 5.0
+PROFILE_TRAVEL_RATIO = {
+    "standard": 0.4,
+    "family": 0.35,
+    "elder": 0.3,
+}
+PROFILE_TRAVEL_MIN = {
+    "standard": 60.0,
+    "family": 50.0,
+    "elder": 40.0,
+}
+PROFILE_TRAVEL_MAX = {
+    "standard": 150.0,
+    "family": 110.0,
+    "elder": 90.0,
+}
+
+
+def _parse_time(value: str) -> time:
+    return datetime.strptime(value, "%H:%M").time()
 
 
 @dataclass
@@ -37,6 +60,8 @@ class PlannerConstraints:
     accessibility: AccessibilityRequirement
     must_include: Sequence[str] = ()
     exclude_ids: Sequence[str] = ()
+    lunch_break: Optional[bool] = None
+    hard_time_limits: bool = False
 
 
 @dataclass
@@ -84,7 +109,6 @@ WHERE poi.opening_time IS NOT NULL
   AND poi.id IS NOT NULL
   AND poi.priority_score IS NOT NULL
   AND ($interests IS NULL OR size($interests) = 0 OR any(tag IN poi.interest_tags WHERE tag IN $interests))
-  AND ($exclude_ids IS NULL OR NOT poi.id IN $exclude_ids)
   AND (
         $accessibility = 'any'
         OR (
@@ -113,13 +137,13 @@ def fetch_candidate_pois(
     accessibility: AccessibilityRequirement,
     exclude_ids: Sequence[str],
 ) -> List[CandidatePOI]:
-    result = session.run(
+    excluded = set(exclude_ids)
+    raw_result = session.run(
         FILTER_QUERY,
         interests=list(interests),
-        exclude_ids=list(exclude_ids),
         accessibility=accessibility,
     )
-    return [
+    candidates = [
         CandidatePOI(
             poi_id=record["id"],
             name=record["name"],
@@ -129,8 +153,142 @@ def fetch_candidate_pois(
             opening_time=record["opening_time"],
             closing_time=record["closing_time"],
         )
-        for record in result
+        for record in raw_result
     ]
+    return [candidate for candidate in candidates if candidate.poi_id not in excluded]
+
+
+def _auto_max_poi_cap(constraints: PlannerConstraints, total_duration_minutes: int) -> Optional[int]:
+    """Limit POI count for light requests so routing stays tractable."""
+    if constraints.must_include:
+        return None
+    if len(constraints.interests) <= 1 and total_duration_minutes <= 360:
+        return 8
+    if len(constraints.interests) <= 1 and total_duration_minutes <= 480:
+        return 10
+    return None
+
+
+def _should_schedule_lunch(start_time: datetime, total_duration_minutes: int, preference: Optional[bool]) -> bool:
+    if preference is not None:
+        return preference
+    day_end = start_time + timedelta(minutes=total_duration_minutes)
+    window_start = datetime.combine(start_time.date(), time(11, 0))
+    window_end = datetime.combine(start_time.date(), time(14, 0))
+    overlap_start = max(start_time, window_start)
+    overlap_end = min(day_end, window_end)
+    overlap_minutes = max(0.0, (overlap_end - overlap_start).total_seconds() / 60.0)
+    return overlap_minutes >= 120.0
+
+
+def _opening_minutes(poi: CandidatePOI) -> int:
+    if not poi.opening_time:
+        return 0
+    t = _parse_time(poi.opening_time)
+    return t.hour * 60 + t.minute
+
+
+def _order_pois_by_opening(
+    selected: Sequence[CandidatePOI],
+    *,
+    start_time: datetime,
+    late_threshold_minutes: int = 120,
+) -> List[CandidatePOI]:
+    start_minutes = start_time.hour * 60 + start_time.minute
+
+    def sort_key(poi: CandidatePOI) -> Tuple[int, int, float]:
+        opening = _opening_minutes(poi)
+        is_late = 1 if opening - start_minutes > late_threshold_minutes else 0
+        return (is_late, opening or start_minutes, -poi.priority_score)
+
+    return sorted(selected, key=sort_key)
+
+
+def _travel_budget_minutes(profile: UserProfile, total_duration_minutes: int) -> float:
+    ratio = PROFILE_TRAVEL_RATIO.get(profile, 0.4)
+    min_budget = PROFILE_TRAVEL_MIN.get(profile, 60.0)
+    max_budget = PROFILE_TRAVEL_MAX.get(profile, float("inf"))
+    budget = max(min_budget, total_duration_minutes * ratio)
+    return min(budget, max_budget)
+
+
+def _minimum_possible_minutes(selected: Sequence[CandidatePOI]) -> float:
+    visit_sum = sum(poi.estimated_visit_minutes for poi in selected)
+    travel_lb = max(0, (len(selected) - 1) * MIN_TRAVEL_PER_HOP)
+    return visit_sum + travel_lb
+
+
+def _has_only_required(selected: Sequence[CandidatePOI], constraints: PlannerConstraints) -> bool:
+    required = set(constraints.must_include)
+    if not required:
+        return False
+    return all(poi.poi_id in required for poi in selected)
+
+
+def _time_bounds_ok(
+    steps: Sequence[ItineraryStep],
+    *,
+    start_time: datetime,
+    total_duration_minutes: int,
+    poi_lookup: Dict[str, CandidatePOI],
+    enforce_hard: bool,
+) -> bool:
+    if not steps:
+        return True
+    allowed_end = start_time + timedelta(minutes=total_duration_minutes)
+    if steps[-1].departure_time > allowed_end:
+        logger.debug(
+            "Planner: total duration exceeded (end=%s, allowed=%s)",
+            steps[-1].departure_time,
+            allowed_end,
+        )
+        return False
+    if not enforce_hard:
+        return True
+
+    for step in steps:
+        if step.poi_id == LUNCH_BREAK_ID:
+            continue
+        poi = poi_lookup.get(step.poi_id)
+        if poi and poi.poi_id.startswith("versailles:Room"):
+            if poi.closing_time:
+                closing_dt = datetime.combine(step.arrival_time.date(), _parse_time(poi.closing_time))
+                limit_dt = closing_dt - timedelta(minutes=45)
+                if step.arrival_time > limit_dt:
+                    logger.debug(
+                        "Planner: castle entry too late for %s (arrival=%s, limit=%s)",
+                        step.name,
+                        step.arrival_time,
+                        limit_dt,
+                    )
+                    return False
+            break
+    return True
+
+
+def _prune_latest_optional(
+    selected: Sequence[CandidatePOI],
+    constraints: PlannerConstraints,
+) -> Optional[List[CandidatePOI]]:
+    optional = [poi for poi in selected if poi.poi_id not in constraints.must_include]
+    if not optional:
+        return None
+    optional.sort(key=lambda poi: (_opening_minutes(poi), poi.priority_score))
+    remove = optional[-1]
+    return [poi for poi in selected if poi.poi_id != remove.poi_id]
+
+
+def _prune_low_priority(
+    selected: Sequence[CandidatePOI],
+    constraints: PlannerConstraints,
+) -> Optional[Tuple[List[CandidatePOI], List[str]]]:
+    optional = [poi for poi in selected if poi.poi_id not in constraints.must_include]
+    if not optional:
+        return None
+    optional.sort(key=lambda poi: (poi.priority_score, poi.estimated_visit_minutes))
+    remove = optional[0]
+    remaining = [poi for poi in selected if poi.poi_id != remove.poi_id]
+    return remaining, [remove.poi_id]
 
 
 def select_pois(
@@ -139,6 +297,8 @@ def select_pois(
     total_duration_minutes: int,
     min_visit_minutes: int = 10,
     must_include: Sequence[str] = (),
+    max_pois: Optional[int] = None,
+    start_time: Optional[datetime] = None,
 ) -> List[CandidatePOI]:
     remaining = total_duration_minutes
     selected: List[CandidatePOI] = []
@@ -160,11 +320,32 @@ def select_pois(
         already_selected.add(candidate.poi_id)
         remaining -= candidate.estimated_visit_minutes
 
-    for candidate in sorted(candidates, key=lambda c: (-c.priority_score, c.estimated_visit_minutes)):
+    # Higher priority first, break ties by better score-per-minute, then shorter visits.
+    def _effective_priority(candidate: CandidatePOI) -> float:
+        base = candidate.priority_score
+        if start_time and candidate.opening_time:
+            opening_dt = datetime.combine(
+                start_time.date(), _parse_time(candidate.opening_time)
+            )
+            if opening_dt > start_time:
+                delay_minutes = (opening_dt - start_time).total_seconds() / 60.0
+                penalty = min(delay_minutes / 30.0, base)
+                base -= penalty
+        return max(base, 0.0)
+
+    def _sort_key(candidate: CandidatePOI) -> Tuple[float, float, int]:
+        duration = max(candidate.estimated_visit_minutes, 1)
+        effective_priority = _effective_priority(candidate)
+        score_per_min = effective_priority / duration
+        return (-effective_priority, -score_per_min, candidate.estimated_visit_minutes)
+
+    for candidate in sorted(candidates, key=_sort_key):
         if candidate.estimated_visit_minutes < min_visit_minutes:
             continue
         if candidate.poi_id in already_selected:
             continue
+        if max_pois is not None and len(selected) >= max_pois:
+            break
         if candidate.estimated_visit_minutes <= remaining:
             selected.append(candidate)
             already_selected.add(candidate.poi_id)
@@ -205,6 +386,13 @@ def _compute_pairwise_paths(
                     accessibility=constraints.accessibility,
                 )
             except ValueError as exc:
+                logger.warning(
+                    "Planner: no path from %s to %s (profile=%s, accessibility=%s)",
+                    origin,
+                    destination,
+                    constraints.user_profile,
+                    constraints.accessibility,
+                )
                 raise ValueError(f"No path between {origin!r} and {destination!r}: {exc}") from exc
 
             pair_paths[key] = path
@@ -384,6 +572,7 @@ def determine_route(
     *,
     constraints: PlannerConstraints,
 ) -> Tuple[List[str], List[ShortestPathResult], ShortestPathResult]:
+    poi_ids = list(poi_ids)
     if not poi_ids:
         raise ValueError("At least one POI is required to build a route.")
 
@@ -391,8 +580,21 @@ def determine_route(
         zero_path = ShortestPathResult(node_ids=[poi_ids[0]], total_minutes=0.0, segments=[])
         return [poi_ids[0]], [], zero_path
 
-    if len(poi_ids) > 7:
+    n = len(poi_ids)
+    if n > GREEDY_THRESHOLD:
         return _solve_route_via_held_karp(poi_ids, constraints=constraints)
+    if n > PERM_THRESHOLD:
+        logger.info("Planner: using greedy solver (%d POIs)", n)
+        return determine_route_greedy(poi_ids, constraints=constraints)
+
+    try:
+        raw_pair_paths = _compute_pairwise_paths(poi_ids, constraints=constraints)
+    except ValueError as exc:
+        raise ValueError("Unable to pre-compute pairwise paths for permutation solver.") from exc
+
+    pair_lookup: Dict[Tuple[str, str], ShortestPathResult] = {
+        (poi_ids[i], poi_ids[j]): path for (i, j), path in raw_pair_paths.items()
+    }
 
     best_order: Optional[List[str]] = None
     best_cost = float("inf")
@@ -400,27 +602,21 @@ def determine_route(
 
     for ordered in itertools.permutations(poi_ids):
         total_cost = 0.0
-        pair_paths: List[ShortestPathResult] = []
+        pair_segments: List[ShortestPathResult] = []
         valid = True
         for a, b in zip(ordered, ordered[1:]):
-            try:
-                path = get_shortest_path(
-                    a,
-                    b,
-                    user_profile=constraints.user_profile,
-                    accessibility=constraints.accessibility,
-                )
-            except ValueError:
+            path = pair_lookup.get((a, b))
+            if path is None:
                 valid = False
                 break
             total_cost += path.total_minutes
-            pair_paths.append(path)
+            pair_segments.append(path)
         if not valid:
             continue
         if total_cost < best_cost:
             best_cost = total_cost
             best_order = list(ordered)
-            best_pair_paths = pair_paths
+            best_pair_paths = pair_segments
 
     if best_order is None:
         raise ValueError("Could not determine a viable route for the selected POIs.")
@@ -507,15 +703,12 @@ def determine_route_greedy(
     return ordered, pair_paths, merged
 
 
-def _parse_time(value: str) -> time:
-    return datetime.strptime(value, "%H:%M").time()
-
-
 def build_itinerary(
     start_time: datetime,
     selected: Sequence[CandidatePOI],
     route: Sequence[str],
     pair_paths: Sequence[ShortestPathResult],
+    lunch_break_minutes: int = 0,
 ) -> Tuple[List[ItineraryStep], float]:
     steps: List[ItineraryStep] = []
     time_cursor = start_time
@@ -523,6 +716,33 @@ def build_itinerary(
     poi_lookup = {poi.poi_id: poi for poi in selected}
 
     travel_iter = iter(pair_paths)
+    lunch_inserted = lunch_break_minutes <= 0
+    lunch_duration = timedelta(minutes=lunch_break_minutes)
+    lunch_window_start = datetime.combine(start_time.date(), time(11, 0))
+    lunch_window_end = datetime.combine(start_time.date(), time(14, 0))
+
+    def maybe_insert_lunch() -> None:
+        nonlocal time_cursor, idle_minutes, lunch_inserted
+        if lunch_inserted or lunch_break_minutes <= 0:
+            return
+        if lunch_window_start <= time_cursor <= lunch_window_end:
+            logger.debug(
+                "Planner: inserting lunch break at %s for %d minutes",
+                time_cursor,
+                lunch_break_minutes,
+            )
+            steps.append(
+                ItineraryStep(
+                    poi_id=LUNCH_BREAK_ID,
+                    name="Lunch Break",
+                    arrival_time=time_cursor,
+                    departure_time=time_cursor + lunch_duration,
+                    stay_minutes=lunch_break_minutes,
+                )
+            )
+            time_cursor += lunch_duration
+            idle_minutes += lunch_break_minutes
+            lunch_inserted = True
 
     for index, poi_id in enumerate(route):
         poi = poi_lookup.get(poi_id)
@@ -533,6 +753,8 @@ def build_itinerary(
                     raise ValueError("Travel path segments are misaligned with itinerary order.")
                 time_cursor += timedelta(minutes=travel_path.total_minutes)
             continue
+
+        maybe_insert_lunch()
 
         if not poi.opening_time or not poi.closing_time:
             raise ValueError(f"POI {poi_id} has missing opening hours.")
@@ -572,6 +794,26 @@ def build_itinerary(
                 raise ValueError("Travel path segments are misaligned with itinerary order.")
             time_cursor += timedelta(minutes=travel_path.total_minutes)
 
+    if lunch_break_minutes > 0 and not lunch_inserted:
+        if time_cursor < lunch_window_start:
+            time_cursor = lunch_window_start
+        if time_cursor <= lunch_window_end:
+            logger.debug(
+                "Planner: late lunch break insertion at %s for %d minutes",
+                time_cursor,
+                lunch_break_minutes,
+            )
+            steps.append(
+                ItineraryStep(
+                    poi_id=LUNCH_BREAK_ID,
+                    name="Lunch Break",
+                    arrival_time=time_cursor,
+                    departure_time=time_cursor + lunch_duration,
+                    stay_minutes=lunch_break_minutes,
+                )
+            )
+            idle_minutes += lunch_break_minutes
+
     return steps, idle_minutes
 
 
@@ -610,11 +852,35 @@ def plan_versailles_itinerary(
         if required not in candidate_lookup:
             raise ValueError(f"Required POI {required!r} is unavailable under the current filters.")
 
-    selected = select_pois(
-        candidates,
-        total_duration_minutes=total_duration_minutes,
-        must_include=constraints.must_include,
-    )
+    max_pois = _auto_max_poi_cap(constraints, total_duration_minutes)
+    if max_pois is None:
+        selected = select_pois(
+            candidates,
+            total_duration_minutes=total_duration_minutes,
+            must_include=constraints.must_include,
+            start_time=start_time,
+        )
+    else:
+        cap = max_pois
+        selected: List[CandidatePOI] = []
+        while cap >= 1:
+            selected = select_pois(
+                candidates,
+                total_duration_minutes=total_duration_minutes,
+                must_include=constraints.must_include,
+                max_pois=cap,
+                start_time=start_time,
+            )
+            if selected:
+                break
+            cap -= 1
+        if not selected:
+            selected = select_pois(
+                candidates,
+                total_duration_minutes=total_duration_minutes,
+                must_include=constraints.must_include,
+                start_time=start_time,
+            )
     if not selected:
         raise ValueError("Unable to fit any POIs within the allotted duration.")
 
@@ -625,11 +891,114 @@ def plan_versailles_itinerary(
             if required not in poi_ids:
                 raise ValueError(f"Required POI {required!r} was not selected.")
 
-    route_order, pair_paths, travel_segments = determine_route(poi_ids, constraints=constraints)
-    itinerary_steps, idle_minutes = build_itinerary(start_time, selected, route_order, pair_paths)
+    selected_current = list(selected)
+    while True:
+        ordered_selected = _order_pois_by_opening(selected_current, start_time=start_time)
+        if constraints.hard_time_limits:
+            min_possible = _minimum_possible_minutes(ordered_selected)
+            if min_possible > total_duration_minutes:
+                logger.debug(
+                    "Planner: minimum possible duration %.1f exceeds limit %d",
+                    min_possible,
+                    total_duration_minutes,
+                )
+                pruned = _prune_latest_optional(ordered_selected, constraints)
+                if pruned:
+                    removed_ids = set(poi.poi_id for poi in ordered_selected) - set(poi.poi_id for poi in pruned)
+                    logger.debug(
+                        "Planner: pruning late-opening POI(s) before routing: %s",
+                        ", ".join(sorted(removed_ids)),
+                    )
+                    selected_current = pruned
+                    continue
+                last_error = "Even minimal schedule exceeds requested time window with required POIs."
+                logger.warning("Planner: %s", last_error)
+                raise ValueError(last_error)
+
+        max_attempts = len(ordered_selected)
+        last_error: Optional[str] = None
+        for _ in range(max_attempts):
+            poi_ids = [poi.poi_id for poi in ordered_selected]
+            route_order, pair_paths, travel_segments = determine_route(poi_ids, constraints=constraints)
+            lunch_flag = _should_schedule_lunch(start_time, total_duration_minutes, constraints.lunch_break)
+            lunch_minutes = 45 if lunch_flag else 0
+            itinerary_steps, idle_minutes = build_itinerary(
+                start_time,
+                ordered_selected,
+                route_order,
+                pair_paths,
+                lunch_break_minutes=lunch_minutes,
+            )
+            if not constraints.hard_time_limits:
+                break
+            poi_lookup = {poi.poi_id: poi for poi in ordered_selected}
+            if _time_bounds_ok(
+                itinerary_steps,
+                start_time=start_time,
+                total_duration_minutes=total_duration_minutes,
+                poi_lookup=poi_lookup,
+                enforce_hard=True,
+            ):
+                break
+            logger.debug(
+                "Planner: hard limits violated (after %d POIs). Travel=%.1f Visit=%d Idle=%.1f",
+                len(ordered_selected),
+                travel_segments.total_minutes,
+                sum(poi.estimated_visit_minutes for poi in ordered_selected),
+                idle_minutes,
+            )
+            pruned = _prune_latest_optional(ordered_selected, constraints)
+            if not pruned:
+                last_error = "Unable to satisfy hard time limits with required POIs."
+                break
+            removed = set(poi.poi_id for poi in ordered_selected) - set(poi.poi_id for poi in pruned)
+            logger.debug("Planner: pruning late-opening POI(s): %s", ", ".join(sorted(removed)))
+            ordered_selected = pruned
+        else:
+            last_error = "Unable to compute itinerary within requested time window."
+
+        if last_error:
+            logger.warning("Planner: %s", last_error)
+            raise ValueError(last_error)
+
+        travel_budget = _travel_budget_minutes(constraints.user_profile, total_duration_minutes)
+        if travel_segments.total_minutes <= travel_budget or not selected_current:
+            selected_current = ordered_selected
+            break
+
+        if _has_only_required(ordered_selected, constraints) and travel_segments.total_minutes > travel_budget:
+            logger.warning(
+                "Planner: travel %.1f exceeds budget %.1f but only required POIs remain.",
+                travel_segments.total_minutes,
+                travel_budget,
+            )
+            selected_current = ordered_selected
+            break
+
+        prune_result = _prune_low_priority(ordered_selected, constraints)
+        if not prune_result:
+            logger.warning(
+                "Planner: travel %.1f exceeds budget %.1f but only required POIs remain.",
+                travel_segments.total_minutes,
+                travel_budget,
+            )
+            selected_current = ordered_selected
+            break
+
+        ordered_selected, removed_ids = prune_result
+        logger.debug(
+            "Planner: pruning POI(s) to reduce travel burden: %s",
+            ", ".join(sorted(removed_ids)),
+        )
+        selected_current = ordered_selected
+        continue
+
+    selected = selected_current
 
     travel_minutes = travel_segments.total_minutes
-    visit_minutes = sum(step.stay_minutes for step in itinerary_steps)
+    visit_minutes = sum(
+        step.stay_minutes for step in itinerary_steps if step.poi_id != LUNCH_BREAK_ID
+    )
     total_minutes = travel_minutes + visit_minutes + idle_minutes
 
     logger.info(

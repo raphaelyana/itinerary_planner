@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+import atexit
 import os
 from dataclasses import dataclass
-from typing import Dict, List, Literal, Optional
+from threading import Lock
+from typing import Dict, List, Literal, Optional, Tuple
 
-from neo4j import GraphDatabase
+from neo4j import GraphDatabase, Driver
 
 UserProfile = Literal["standard", "family", "elder"]
 AccessibilityRequirement = Literal["any", "step_free", "stroller"]
@@ -14,6 +16,32 @@ PROFILE_WEIGHT_PROPERTY: Dict[UserProfile, str] = {
     "family": "family_walk_min",
     "elder": "elder_walk_min",
 }
+
+_DRIVER_CACHE: Dict[Tuple[str, str, str], Driver] = {}
+_DRIVER_LOCK = Lock()
+
+
+def _get_driver(uri: str, user: str, password: str) -> Driver:
+    key = (uri, user, password)
+    with _DRIVER_LOCK:
+        driver = _DRIVER_CACHE.get(key)
+        if driver is None:
+            driver = GraphDatabase.driver(uri, auth=(user, password))
+            _DRIVER_CACHE[key] = driver
+        return driver
+
+
+def _close_cached_drivers() -> None:
+    with _DRIVER_LOCK:
+        for driver in _DRIVER_CACHE.values():
+            try:
+                driver.close()
+            except Exception:
+                pass
+        _DRIVER_CACHE.clear()
+
+
+atexit.register(_close_cached_drivers)
 
 
 @dataclass
@@ -99,23 +127,22 @@ def get_shortest_path(
     user = user or os.getenv("NEO4J_USERNAME", "neo4j")
     password = password or os.getenv("NEO4J_PASSWORD", "neo4j")
 
-    driver = GraphDatabase.driver(uri, auth=(user, password))
-    try:
-        with driver.session() as session:
-            filters: List[str] = []
-            if accessibility == "step_free":
-                filters.append("all(rel IN relationships(path) WHERE rel.is_step_free = true)")
-            elif accessibility == "stroller":
-                filters.append(
-                    "all(rel IN relationships(path) WHERE rel.is_step_free = true AND rel.stroller_friendly = true)"
-                )
+    driver = _get_driver(uri, user, password)
+    with driver.session() as session:
+        filters: List[str] = []
+        if accessibility == "step_free":
+            filters.append("all(rel IN relationships(path) WHERE rel.is_step_free = true)")
+        elif accessibility == "stroller":
+            filters.append(
+                "all(rel IN relationships(path) WHERE rel.is_step_free = true AND rel.stroller_friendly = true)"
+            )
 
-            filters_text = ""
-            if filters:
-                filters_text = "AND " + " AND ".join(filters)
+        filters_text = ""
+        if filters:
+            filters_text = "AND " + " AND ".join(filters)
 
-            record = session.run(
-                f"""
+        record = session.run(
+            f"""
                 MATCH (start:POI {{id: $start_id}})
                 WITH start
                 MATCH (end:POI {{id: $end_id}})
@@ -123,7 +150,7 @@ def get_shortest_path(
                     relationshipFilter: "CONNECTS_TO>",
                     minLevel: 1,
                     maxLevel: 20,
-                    uniqueness: "NODE_GLOBAL",
+                    uniqueness: "RELATIONSHIP_PATH",
                     endNodes: [end],
                     terminatorNodes: [end]
                 }})
@@ -148,46 +175,44 @@ def get_shortest_path(
                             }}
                        ] AS segments,
                        total_cost AS total_minutes
-                """,
-                start_id=start_id,
-                end_id=end_id,
-                weight_property=weight_property,
-                default_weight=float(default_edge_weight),
-            ).single()
+            """,
+            start_id=start_id,
+            end_id=end_id,
+            weight_property=weight_property,
+            default_weight=float(default_edge_weight),
+        ).single()
 
-            if record is None:
-                start_exists = session.run(
-                    "MATCH (n:POI {id: $id}) RETURN count(n) AS count",
-                    id=start_id,
-                ).single()["count"] > 0
-                end_exists = session.run(
-                    "MATCH (n:POI {id: $id}) RETURN count(n) AS count",
-                    id=end_id,
-                ).single()["count"] > 0
+        if record is None:
+            start_exists = session.run(
+                "MATCH (n:POI {id: $id}) RETURN count(n) AS count",
+                id=start_id,
+            ).single()["count"] > 0
+            end_exists = session.run(
+                "MATCH (n:POI {id: $id}) RETURN count(n) AS count",
+                id=end_id,
+            ).single()["count"] > 0
 
-                if not start_exists:
-                    raise ValueError(f"Start node {start_id!r} is unknown.")
-                if not end_exists:
-                    raise ValueError(f"End node {end_id!r} is unknown.")
-                raise ValueError(f"No path found between {start_id!r} and {end_id!r}.")
+            if not start_exists:
+                raise ValueError(f"Start node {start_id!r} is unknown.")
+            if not end_exists:
+                raise ValueError(f"End node {end_id!r} is unknown.")
+            raise ValueError(f"No path found between {start_id!r} and {end_id!r}.")
 
-            node_ids: List[str] = record["node_ids"]
-            total_minutes = float(record["total_minutes"])
-            segments_data = record["segments"] or []
+        node_ids: List[str] = record["node_ids"]
+        total_minutes = float(record["total_minutes"])
+        segments_data = record["segments"] or []
 
-            segments = [
-                PathSegment(
-                    from_id=segment["from_id"],
-                    to_id=segment["to_id"],
-                    distance_min=float(segment["distance"]),
-                    is_step_free=bool(segment["is_step_free"]),
-                    stroller_friendly=bool(segment["stroller_friendly"]),
-                    path_type=str(segment["path_type"]) if segment["path_type"] is not None else None,
-                    notes=str(segment["notes"]) if segment["notes"] is not None else None,
-                )
-                for segment in segments_data
-            ]
+        segments = [
+            PathSegment(
+                from_id=segment["from_id"],
+                to_id=segment["to_id"],
+                distance_min=float(segment["distance"]),
+                is_step_free=bool(segment["is_step_free"]),
+                stroller_friendly=bool(segment["stroller_friendly"]),
+                path_type=str(segment["path_type"]) if segment["path_type"] is not None else None,
+                notes=str(segment["notes"]) if segment["notes"] is not None else None,
+            )
+            for segment in segments_data
+        ]
 
-            return ShortestPathResult(node_ids=node_ids, total_minutes=total_minutes, segments=segments)
-    finally:
-        driver.close()
+        return ShortestPathResult(node_ids=node_ids, total_minutes=total_minutes, segments=segments)
