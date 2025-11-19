@@ -2,10 +2,21 @@ from __future__ import annotations
 
 import csv
 import os
+import sys
 from pathlib import Path
 from typing import Dict, Iterable, List, Tuple, Literal, Optional
 
 from neo4j import GraphDatabase, Session
+
+# Import validation utilities
+try:
+    from validate_graph import GraphValidator
+    VALIDATION_AVAILABLE = True
+except ImportError:
+    VALIDATION_AVAILABLE = False
+    print("Warning: Graph validation not available (validate_graph.py not found)")
+    print("Continuing without pre-ingestion validation...")
+    print()
 
 
 IngestMode = Literal["all", "pois_only", "connections_only"]
@@ -131,6 +142,7 @@ def run_ingestion(
     database: Optional[str] = None,
     pois_path: Optional[Path] = None,
     connections_path: Optional[Path] = None,
+    skip_validation: bool = False,
 ) -> Tuple[int, int]:
     """
     Run the ingestion pipeline without relying on CLI flags.
@@ -146,6 +158,8 @@ def run_ingestion(
         Neo4j defaults (neo4j://localhost:7687, neo4j/neo4j).
     pois_path, connections_path:
         Override CSV paths if desired. Defaults to the repository main-data files.
+    skip_validation:
+        If True, skip pre-ingestion graph validation. Default is False.
 
     Returns
     -------
@@ -162,6 +176,40 @@ def run_ingestion(
     connections_path = (
         Path(connections_path) if connections_path else Path("data/main_data/connections.csv")
     )
+
+    # Pre-ingestion validation
+    if not skip_validation and VALIDATION_AVAILABLE and mode in ("all", "connections_only"):
+        print("="*70)
+        print("PRE-INGESTION VALIDATION")
+        print("="*70)
+        print()
+
+        validator = GraphValidator(pois_path, connections_path, accessibility="any")
+        report = validator.validate_all()
+
+        if report.errors > 0:
+            print()
+            print("="*70)
+            print("❌ VALIDATION FAILED")
+            print("="*70)
+            print(f"Found {report.errors} critical error(s) in graph data.")
+            print("Please fix these issues before ingestion.")
+            print()
+            print("To see detailed validation report, run:")
+            print("  python scripts/validate_graph.py")
+            print()
+            print("To skip validation and ingest anyway, set skip_validation=True")
+            print("="*70)
+            sys.exit(1)
+        else:
+            print()
+            print("="*70)
+            print("✅ VALIDATION PASSED")
+            print("="*70)
+            if report.warnings > 0:
+                print(f"Note: {report.warnings} warning(s) found (see above)")
+            print("Proceeding with ingestion...")
+            print()
 
     poi_count = 0
     rel_count = 0

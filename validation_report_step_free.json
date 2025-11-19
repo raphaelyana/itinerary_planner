@@ -1,0 +1,130 @@
+{
+  "total_pois": 71,
+  "total_connections": 77,
+  "total_issues": 9,
+  "errors": 4,
+  "warnings": 2,
+  "accessibility_level": "step_free",
+  "zone_stats": {
+    "Castle": 40,
+    "Gardens": 16,
+    "Park": 2,
+    "Trianon": 13
+  },
+  "issues": [
+    {
+      "severity": "error",
+      "rule": "orphaned_pois",
+      "message": "Found 3 POI(s) with no connections",
+      "details": {
+        "orphaned_pois": [
+          "versailles:Room:escalier-de-la-reine",
+          "versailles:Room:escalier-des-princes",
+          "versailles:Room:salles-louis-xiv"
+        ]
+      }
+    },
+    {
+      "severity": "error",
+      "rule": "entrance_reachability",
+      "message": "Found 6 POI(s) unreachable from main entrance",
+      "details": {
+        "entrance": "versailles:Garden:cour-dhonneur",
+        "unreachable_pois": [
+          "versailles:Room:escalier-de-la-reine",
+          "versailles:Room:escalier-des-princes",
+          "versailles:Room:opera-royal",
+          "versailles:Room:petits-appartements-du-roi",
+          "versailles:Room:salles-des-croisades",
+          "versailles:Room:salles-louis-xiv"
+        ]
+      }
+    },
+    {
+      "severity": "error",
+      "rule": "entrance_reachability",
+      "message": "Found 3 Trianon POI(s) unreachable from Trianon entrance",
+      "details": {
+        "entrance": "versailles:Trianon:grand-trianon",
+        "unreachable_pois": [
+          "versailles:Trianon:belvedere",
+          "versailles:Trianon:grotte",
+          "versailles:Trianon:hameau-buildings"
+        ]
+      }
+    },
+    {
+      "severity": "info",
+      "rule": "castle_directionality",
+      "message": "Castle has 36 one-way edges (expected for museum tour)",
+      "details": {
+        "one_way_count": 36
+      }
+    },
+    {
+      "severity": "error",
+      "rule": "dead_ends",
+      "message": "Found 6 dead-end node(s) in garden zones",
+      "details": {
+        "dead_end_nodes": [
+          "versailles:Trianon:belvedere",
+          "versailles:Trianon:grotte",
+          "versailles:Trianon:hameau-buildings",
+          "versailles:Trianon:maison-reine",
+          "versailles:Trianon:theatre-reine",
+          "versailles:Trianon:tour-marlborough"
+        ]
+      }
+    },
+    {
+      "severity": "info",
+      "rule": "castle_tour_end",
+      "message": "Castle has 3 dead-end node(s) (expected for tour exit)",
+      "details": {
+        "tour_end_nodes": [
+          "versailles:Room:opera-royal",
+          "versailles:Room:petits-appartements-du-roi",
+          "versailles:Room:salles-des-croisades"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "rule": "isolated_starts",
+      "message": "Found 9 node(s) with no incoming edges",
+      "details": {
+        "isolated_nodes": [
+          "versailles:Room:opera-royal",
+          "versailles:Room:petits-appartements-du-roi",
+          "versailles:Room:salles-des-croisades",
+          "versailles:Trianon:belvedere",
+          "versailles:Trianon:grotte",
+          "versailles:Trianon:hameau-buildings",
+          "versailles:Trianon:maison-reine",
+          "versailles:Trianon:theatre-reine",
+          "versailles:Trianon:tour-marlborough"
+        ]
+      }
+    },
+    {
+      "severity": "warning",
+      "rule": "accessibility_connectivity",
+      "message": "Found 2 POI(s) unreachable with step_free filter but not marked accessibility_level='none'",
+      "details": {
+        "unreachable_pois": [
+          "versailles:Room:salles-des-croisades",
+          "versailles:Trianon:belvedere"
+        ],
+        "recommendation": "Update POI metadata or add step-free connections"
+      }
+    },
+    {
+      "severity": "info",
+      "rule": "accessibility_impact",
+      "message": "Accessibility filter 'step_free' reduces reachable POIs by 9",
+      "details": {
+        "lost_count": 9
+      }
+    }
+  ]
+}

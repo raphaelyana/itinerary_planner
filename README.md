@@ -41,15 +41,82 @@ Required services:
 
 ---
 
-## 3. Load & Refresh the Graph
+## 3. Validate Graph Data
 
-1. **Initial ingest**
+**Before loading data**, validate that your graph meets TSP algorithm requirements:
+
+```bash
+# Validate with default accessibility (any)
+python scripts/validate_graph.py
+
+# Validate step-free accessibility
+python scripts/validate_graph.py --accessibility step_free
+
+# Generate JSON report
+python scripts/validate_graph.py --output-json validation_report.json
+```
+
+The validator checks **8 critical rules**:
+
+1. **Orphaned POIs** – All POIs in `pois.csv` must have connections
+2. **Entrance Reachability** – Every POI reachable from main/Trianon entrances
+3. **Zone Bidirectionality** – Gardens/Trianon/Park have two-way paths (Castle tour is one-way)
+4. **Dead Ends** – No garden nodes with out-degree=0 (Castle tour end is allowed)
+5. **Path Length** – All paths ≤20 hops (APOC `maxLevel` limit)
+6. **Accessibility Connectivity** – Step-free/stroller graphs remain connected
+7. **Zone Bridges** – Connections exist: Castle→Gardens, Gardens↔Trianon, Gardens↔Park
+8. **Castle Tour Structure** – Directed path exists through all castle rooms
+
+### Understanding Validation Results
+
+**Example Output:**
+```
+✅ PASSED: All POIs have connections
+❌ FAILED: Found 3 POI(s) unreachable from main entrance
+  - versailles:Room:escalier-de-la-reine
+  - versailles:Room:escalier-des-princes
+  - versailles:Room:salles-louis-xiv
+⚠️  WARNING: 2 POIs lost connectivity with step_free filter
+```
+
+**Critical Issues** (errors) prevent TSP algorithms from working:
+- **Orphaned POIs**: Add connections to/from these nodes
+- **Unreachable nodes**: Add paths from entrance or mark as non-bookable
+- **Missing zone bridges**: Add connections between zones
+- **Dead ends in gardens**: Add return paths (Castle tour ends are OK)
+
+**Warnings** indicate data quality issues:
+- POIs unreachable with accessibility filter should have `accessibility_level="none"` metadata
+- Isolated starts (no incoming edges) may trap greedy solver
+
+### Data Requirements for TSP Algorithms
+
+The planner uses **three TSP solvers** with different requirements:
+
+| Solver | POI Count | Graph Requirement |
+|--------|-----------|-------------------|
+| **Permutation** | ≤7 | Complete graph (all N² paths exist) |
+| **Greedy** | 8-10 | Connected graph (no dead ends) |
+| **Held-Karp** | >10 | All POIs reachable from entrance |
+
+**Zone-Specific Rules:**
+- **Castle (Rooms)**: One-way tour path (directed graph) – visitors follow museum flow
+- **Gardens/Trianon/Park**: Free movement (undirected graph) – all paths should be bidirectional
+
+---
+
+## 4. Load & Refresh the Graph
+
+1. **Initial ingest** (includes automatic validation)
 
 ```bash
 python scripts/ingest.py
 # or programmatically
 from scripts.ingest import run_ingestion
-run_ingestion()
+run_ingestion()  # Validates before ingesting
+
+# Skip validation if needed
+run_ingestion(skip_validation=True)
 ```
 
 2. **Daily opening-time refresh**
@@ -65,7 +132,7 @@ The updater currently relies on a static fallback schedule that matches `data/ma
 
 ---
 
-## 4. Planner Usage
+## 5. Planner Usage
 
 ```python
 from datetime import datetime
@@ -121,7 +188,7 @@ curl -X POST http://localhost:8000/itinerary \
 
 ---
 
-## 5. Testing
+## 6. Testing
 
 Pytest suites cover itinerary selection logic and FastAPI response contracts.
 
@@ -133,7 +200,7 @@ pytest
 
 ---
 
-## 6. Next Steps
+## 7. Next Steps
 
 - Swap the static `StaticScheduleSource` with a BeautifulSoup scraper of the official Versailles site.
 - Extend `data/main_data/pois.csv` with Facility/Entrance entries (restrooms, ticketing) to enrich accessibility routing.

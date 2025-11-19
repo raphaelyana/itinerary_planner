@@ -4,7 +4,6 @@ versailles:Garden:cour-dhonneur,versailles:Garden:cour-dhonneur-sortie,2,3.0,4,T
 versailles:Garden:cour-dhonneur,versailles:Garden:cour-royale,1,1.5,2,True,True,outdoor,Passage Cour d'Honneur vers Cour Royale
 versailles:Garden:cour-royale,versailles:Room:galeries-de-lhistoire,3,4.5,6,True,True,mixed,Entrée Pavillon Dufour vers Galeries de l'Histoire
 versailles:Garden:cour-royale,versailles:Garden:cour-dhonneur,1,1.5,2,True,True,outdoor,Retour Cour Royale vers Cour d'Honneur
-versailles:Room:galeries-de-lhistoire,versailles:Room:chapelle-royale,2,3.0,4,True,True,indoor,Montée vers la chapelle
 versailles:Room:chapelle-royale,versailles:Room:salon-dhercule,1,1.5,2,True,True,indoor,Entrée Grand Appartement du Roi
 versailles:Room:salon-dhercule,versailles:Room:salon-de-labondance,1,1.5,2,True,True,indoor,Salon d'Hercule vers Salon de l'Abondance
 versailles:Room:salon-de-labondance,versailles:Room:salon-de-venus,1,1.5,2,True,True,indoor,Salon de l'Abondance vers Salon de Vénus
@@ -13,20 +12,18 @@ versailles:Room:salon-de-diane,versailles:Room:salon-de-mars,1,1.5,2,True,True,i
 versailles:Room:salon-de-mars,versailles:Room:salon-de-mercure,1,1.5,2,True,True,indoor,Salon de Mars vers Salon de Mercure
 versailles:Room:salon-de-mercure,versailles:Room:salon-dapollon,1,1.5,2,True,True,indoor,Salon de Mercure vers Salon d'Apollon
 versailles:Room:salon-dapollon,versailles:Room:salon-de-la-guerre,1,1.5,2,True,True,indoor,Salon d'Apollon vers Salon de la Guerre
-versailles:Room:salon-dapollon,versailles:Room:salle-des-gardes-du-roi,1,1.5,2,True,True,indoor,Salon d'Apollon vers Salle des Gardes du Roi
 versailles:Room:salon-de-la-guerre,versailles:Room:galerie-des-glaces,1,1.5,2,True,True,indoor,Salon de la Guerre vers Galerie des Glaces
 versailles:Room:galerie-des-glaces,versailles:Room:salon-de-la-paix,1,1.5,2,True,True,indoor,Galerie des Glaces vers Salon de la Paix
 versailles:Room:galerie-des-glaces,versailles:Room:cabinet-du-conseil,1,1.5,2,True,True,indoor,Galerie des Glaces vers Cabinet du Conseil
+versailles:Room:galerie-des-glaces,versailles:Room:chambre-du-roi,1,1.5,2,True,True,indoor,Galerie des Glaces vers Chambre du Roi
 versailles:Room:salon-de-la-paix,versailles:Room:chambre-de-la-reine,1,1.5,2,True,True,indoor,Salon de la Paix vers Chambre de la Reine
-versailles:Room:salle-des-gardes-du-roi,versailles:Room:premiere-antichambre,1,1.5,2,True,True,indoor,Salle des Gardes du Roi vers Première Antichambre
-versailles:Room:premiere-antichambre,versailles:Room:salon-de-loeil-de-boeuf,1,1.5,2,True,True,indoor,Première Antichambre vers Salon de l'Œil-de-Bœuf
-versailles:Room:salon-de-loeil-de-boeuf,versailles:Room:chambre-du-roi,1,1.5,2,True,True,indoor,Salon de l'Œil-de-Bœuf vers Chambre du Roi
+versailles:Room:cabinet-du-conseil,versailles:Room:chambre-du-roi,1,1.5,2,True,True,indoor,Cabinet du Conseil vers Chambre du Roi
 versailles:Room:chambre-du-roi,versailles:Room:cabinet-du-conseil,1,1.5,2,True,True,indoor,Chambre du Roi vers Cabinet du Conseil
-versailles:Room:cabinet-du-conseil,versailles:Room:salle-du-sacre,1,1.5,2,True,True,indoor,Cabinet du Conseil vers Salle du Sacre
-versailles:Room:galerie-des-batailles,versailles:Room:salles-des-croisades,2,3.0,4,False,False,indoor,Escalier depuis Galerie des Batailles vers Salles des Croisades
-versailles:Room:galerie-des-batailles,versailles:Room:galeries-de-lhistoire,1,1.5,2,True,True,indoor,Galerie des Batailles vers Galeries de l'Histoire
-versailles:Room:salles-des-croisades,versailles:Room:galerie-des-batailles,2,3.0,4,False,False,indoor,Escalier remontant vers Galerie des Batailles
-versailles:Room:galeries-de-lhistoire,versailles:Room:galerie-des-batailles,1,1.5,2,True,True,indoor,Galeries de l'Histoire vers Galerie des Batailles
+versailles:Room:galeries-de-lhistoire,versailles:Room:salles-des-croisades,0,0,0,True,True,indoor,Galeries de l'Histoire vers Salles des Croisades (adjacentes)
+versailles:Room:salles-des-croisades,versailles:Room:galeries-de-lhistoire,0,0,0,True,True,indoor,Retour Salles des Croisades vers Galeries de l'Histoire
+versailles:Room:galeries-de-lhistoire,versailles:Room:salles-louis-xiv,2,3.0,4,True,True,indoor,Galeries de l'Histoire vers Salles Louis XIV
+versailles:Room:salles-louis-xiv,versailles:Room:chapelle-royale,2,3.0,4,True,True,indoor,Salles Louis XIV vers Chapelle Royale
+versailles:Room:salles-louis-xiv,versailles:Room:salon-dhercule,1,1.5,2,True,True,indoor,Salles Louis XIV vers Salon d'Hercule
 versailles:Room:appartements-de-mesdames,versailles:Garden:acces-principal-jardins-parterres-deau,3,4.5,6,True,True,mixed,Sortie vers le parterre
 versailles:Garden:acces-principal-jardins-parterres-deau,versailles:Room:appartements-de-mesdames,3,4.5,6,True,True,mixed,Accès jardins vers Appartements de Mesdames
 versailles:Room:appartements-du-dauphin-et-de-la-dauphine,versailles:Garden:acces-principal-jardins-parterres-deau,3,4.5,6,True,True,mixed,Sortie aile Nord vers jardins
@@ -73,31 +70,18 @@ versailles:Trianon:hameau-main,versailles:Trianon:maison-reine,2,3.0,4,False,Fal
 versailles:Trianon:maison-reine,versailles:Trianon:hameau-main,2,3.0,4,False,False,outdoor,Retour Maison de la Reine
 versailles:Trianon:hameau-main,versailles:Trianon:ferme,3,4.0,5,True,True,outdoor,Chemin stabilisé vers Ferme
 versailles:Trianon:ferme,versailles:Trianon:hameau-main,3,4.0,5,True,True,outdoor,Retour Ferme vers Hameau
-versailles:Room:salle-du-sacre,versailles:Room:salles-de-lempire,1,1.5,2,True,True,indoor,Salle du Sacre vers Salles de l'Empire
 versailles:Room:salles-de-lempire,versailles:Garden:cour-royale,2,3.0,4,True,True,indoor,Salles de l'Empire vers Cour Royale
-versailles:Room:salon-des-nobles,versailles:Room:antichambre-du-grand-couvert-reine,1,1.5,2,True,True,indoor,Salon des Nobles vers Antichambre du Grand Couvert
 versailles:Room:chambre-de-la-reine,versailles:Room:salon-des-nobles,1,1.5,2,True,True,indoor,Chambre de la Reine vers Salon des Nobles
+versailles:Room:salon-des-nobles,versailles:Room:antichambre-du-grand-couvert-reine,1,1.5,2,True,True,indoor,Salon des Nobles vers Antichambre du Grand Couvert
 versailles:Room:antichambre-du-grand-couvert-reine,versailles:Room:salle-des-gardes-de-la-reine,1,1.5,2,True,True,indoor,Antichambre du Grand Couvert vers Salle des Gardes de la Reine
-versailles:Room:antichambre-du-grand-couvert-reine,versailles:Garden:cour-royale,2,3.0,4,True,True,indoor,Antichambre du Grand Couvert vers Cour Royale
 versailles:Room:salle-des-gardes-de-la-reine,versailles:Room:salle-du-sacre,1,1.5,2,True,True,indoor,Salle des Gardes de la Reine vers Salle du Sacre
-versailles:Room:salon-des-nobles,versailles:Room:grand-appartement-de-la-reine,1,1.5,2,True,True,indoor,Salon des Nobles vers Grand Appartement de la Reine
-versailles:Room:grand-appartement-de-la-reine,versailles:Room:salon-des-nobles,1,1.5,2,True,True,indoor,Grand Appartement de la Reine vers Salon des Nobles
-versailles:Room:galeries-de-lhistoire,versailles:Room:opera-royal,3,4.5,6,False,False,indoor,Escalier vers Opéra Royal (visite séparée)
-versailles:Room:opera-royal,versailles:Room:galeries-de-lhistoire,3,4.5,6,False,False,indoor,Retour Opéra vers circuit principal
-versailles:Room:salon-de-loeil-de-boeuf,versailles:Room:salon-de-la-pendule,1,1.5,2,True,True,indoor,Œil-de-Bœuf vers Salon de la Pendule
-versailles:Room:salon-de-la-pendule,versailles:Room:chambre-du-roi,1,1.5,2,True,True,indoor,Salon de la Pendule vers Chambre du Roi
-versailles:Room:chambre-du-roi,versailles:Room:petits-appartements-du-roi,2,3.0,4,False,False,indoor,Chambre du Roi vers Petits Appartements (visite guidée)
-versailles:Room:petits-appartements-du-roi,versailles:Room:cabinet-du-conseil,1,1.5,2,False,False,indoor,Petits Appartements vers Cabinet du Conseil (retour au circuit)
-versailles:Room:chambre-de-la-reine,versailles:Room:appartement-interieur-de-la-reine,1,1.5,2,True,True,indoor,Chambre de la Reine vers Appartement Intérieur
-versailles:Room:appartement-interieur-de-la-reine,versailles:Room:salon-des-nobles,1,1.5,2,True,True,indoor,Appartement Intérieur vers Salon des Nobles (retour au circuit)
-versailles:Room:salle-du-sacre,versailles:Room:salles-revolution-consulat,1,1.5,2,True,True,indoor,Salle du Sacre vers Salles Révolution
+versailles:Room:salle-du-sacre,versailles:Room:appartements-de-madame-de-maintenon,1,1.5,2,True,True,indoor,Salle du Sacre vers Appartements de Madame de Maintenon
+versailles:Room:appartements-de-madame-de-maintenon,versailles:Room:salle-du-sacre,1,1.5,2,True,True,indoor,Appartements de Madame de Maintenon vers Salle du Sacre
+versailles:Room:salle-du-sacre,versailles:Room:galerie-des-batailles,1,1.5,2,True,True,indoor,Salle du Sacre vers Galerie des Batailles
 versailles:Room:salles-revolution-consulat,versailles:Room:salles-1792,1,1.5,2,True,True,indoor,Salles Révolution vers Salles 1792
 versailles:Room:salles-1792,versailles:Room:salles-de-lempire,1,1.5,2,True,True,indoor,Salles 1792 vers Salles de l'Empire
 versailles:Room:salles-de-lempire,versailles:Room:salles-xixe-siecle,1,1.5,2,True,True,indoor,Salles de l'Empire vers Salles XIXe
 versailles:Room:salles-xixe-siecle,versailles:Room:galerie-des-batailles,2,3.0,4,True,True,indoor,Salles XIXe vers Galerie des Batailles
-versailles:Room:galeries-de-lhistoire,versailles:Room:galerie-basse,1,1.5,2,True,True,indoor,Galeries de l'Histoire vers Galerie Basse
-versailles:Room:galerie-basse,versailles:Room:galerie-de-pierre,1,1.5,2,True,True,indoor,Galerie Basse vers Galerie de Pierre
-versailles:Room:galerie-de-pierre,versailles:Room:galeries-de-lhistoire,2,3.0,4,True,True,indoor,Galerie de Pierre retour vers Galeries
 versailles:Garden:acces-principal-jardins-parterres-deau,versailles:Garden:parterres-deau,1,1.5,2,True,True,outdoor,Accès principal vers Parterres d'Eau
 versailles:Garden:parterres-deau,versailles:Garden:acces-principal-jardins-parterres-deau,1,1.5,2,True,True,outdoor,Retour Parterres d'Eau
 versailles:Garden:parterres-deau,versailles:Garden:parterre-du-nord,2,3.0,4,True,True,outdoor,Parterres d'Eau vers Parterre du Nord
@@ -156,3 +140,77 @@ versailles:Trianon:hameau-main,versailles:Trianon:hameau-buildings,1,1.5,2,False
 versailles:Trianon:hameau-buildings,versailles:Trianon:hameau-main,1,1.5,2,False,False,outdoor,Retour Bâtiments vers entrée
 versailles:Trianon:hameau-buildings,versailles:Trianon:jardin-anglais,4,6.0,8,False,False,outdoor,Hameau vers Jardin Anglais
 versailles:Trianon:jardin-anglais,versailles:Trianon:hameau-buildings,4,6.0,8,False,False,outdoor,Jardin Anglais vers Hameau
+versailles:Room:galerie-des-batailles,versailles:Room:salles-de-lempire,3,4.5,6,False,False,indoor,Escalier fin Galerie des Batailles vers Salles de l'Empire (rez-de-jardin)
+versailles:Room:salles-de-lempire,versailles:Room:galerie-des-batailles,3,4.5,6,False,False,indoor,Remontée vers Galerie des Batailles (rez-de-jardin)
+versailles:Room:salle-du-sacre,versailles:Room:salles-1792,1,1.5,2,True,True,indoor,Salle du Sacre vers Salles de 1792
+versailles:Room:salles-1792,versailles:Room:salle-du-sacre,1,1.5,2,True,True,indoor,Salles de 1792 vers Salle du Sacre
+versailles:Room:salles-1792,versailles:Room:salle-1796-1797,1,1.5,2,True,True,indoor,Pivot Grands Appartements vers parcours Napoléon
+versailles:Room:salle-1796-1797,versailles:Room:salles-1792,1,1.5,2,True,True,indoor,Retour parcours Napoléon vers Salles de 1792
+versailles:Room:salle-1796-1797,versailles:Room:salle-1797-1798,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1797-1798,versailles:Room:salle-1796-1797,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1797-1798,versailles:Room:salle-1798-1799,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1798-1799,versailles:Room:salle-1797-1798,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1798-1799,versailles:Room:salle-1802-1804,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1802-1804,versailles:Room:salle-1798-1799,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1802-1804,versailles:Room:salle-1804,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1804,versailles:Room:salle-1802-1804,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1804,versailles:Room:salle-1805-allemagne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-allemagne,versailles:Room:salle-1804,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-allemagne,versailles:Room:salles-de-lempire,1,1.5,2,True,True,indoor,Parcours Napoléon descente vers rez-de-jardin
+versailles:Room:salles-de-lempire,versailles:Room:salle-1805-allemagne,1,1.5,2,True,True,indoor,Parcours Napoléon montée depuis rez-de-jardin
+versailles:Room:salles-de-lempire,versailles:Room:salle-1805-autriche,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-autriche,versailles:Room:salles-de-lempire,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-autriche,versailles:Room:salle-1805-prusse-pologne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-prusse-pologne,versailles:Room:salle-1805-autriche,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-prusse-pologne,versailles:Room:salle-1805-1807-prusse,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-1807-prusse,versailles:Room:salle-1805-prusse-pologne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-1807-prusse,versailles:Room:salle-1807-espagne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1807-espagne,versailles:Room:salle-1805-1807-prusse,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1807-espagne,versailles:Room:salle-1807-1808,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1807-1808,versailles:Room:salle-1807-espagne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1807-1808,versailles:Room:salle-1809-1811,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1809-1811,versailles:Room:salle-1807-1808,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1809-1811,versailles:Room:salle-marengo,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-marengo,versailles:Room:salle-1809-1811,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-marengo,versailles:Room:galerie-basse,2,3.0,4,True,True,indoor,Rez-de-jardin vers Galerie Basse
+versailles:Room:galerie-basse,versailles:Room:salle-marengo,2,3.0,4,True,True,indoor,Rez-de-jardin depuis Galerie Basse vers Salle Marengo
+versailles:Room:salles-1792,versailles:Facility:pavillon-dufour-sortie,2,3.0,4,False,False,indoor,Escalier Salle 1792 vers sortie Pavillon Dufour
+versailles:Facility:pavillon-dufour-sortie,versailles:Room:salles-1792,2,3.0,4,False,False,indoor,Retour sortie Dufour vers Salle 1792
+versailles:Room:salles-de-lempire,versailles:Facility:pavillon-dufour-sortie,2,3.0,4,True,True,indoor,Sortie rez-de-jardin aile du Midi vers Pavillon Dufour
+versailles:Facility:pavillon-dufour-sortie,versailles:Room:salles-de-lempire,2,3.0,4,True,True,indoor,Entrée depuis Pavillon Dufour vers Salles de l'Empire
+versailles:Room:salle-marengo,versailles:Facility:pavillon-dufour-sortie,2,3.0,4,True,True,indoor,Salle Marengo vers sortie Dufour
+versailles:Facility:pavillon-dufour-sortie,versailles:Room:salle-marengo,2,3.0,4,True,True,indoor,Retour Dufour vers Salle Marengo
+versailles:Facility:pavillon-dufour-sortie,versailles:Garden:cour-dhonneur,3,4.5,6,True,True,outdoor,Pavillon Dufour vers Cour d'Honneur / Place d'Armes
+versailles:Garden:cour-dhonneur,versailles:Facility:pavillon-dufour-sortie,3,4.5,6,True,True,outdoor,Retour Cour d'Honneur vers Pavillon Dufour
+versailles:Room:salle-du-sacre,versailles:Room:salles-1792,1,1.5,2,True,True,indoor,Salle du Sacre vers Salles de 1792
+versailles:Room:salles-1792,versailles:Room:salle-du-sacre,1,1.5,2,True,True,indoor,Salles de 1792 vers Salle du Sacre
+versailles:Room:salles-1792,versailles:Room:salle-1796-1797,1,1.5,2,True,True,indoor,Pivot Grands Appartements vers parcours Napoléon
+versailles:Room:salle-1796-1797,versailles:Room:salles-1792,1,1.5,2,True,True,indoor,Retour parcours Napoléon vers Salles de 1792
+versailles:Room:salle-1796-1797,versailles:Room:salle-1797-1798,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1797-1798,versailles:Room:salle-1796-1797,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1797-1798,versailles:Room:salle-1798-1799,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1798-1799,versailles:Room:salle-1797-1798,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1798-1799,versailles:Room:salle-1802-1804,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1802-1804,versailles:Room:salle-1798-1799,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1802-1804,versailles:Room:salle-1804,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1804,versailles:Room:salle-1802-1804,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1804,versailles:Room:salle-1805-allemagne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-allemagne,versailles:Room:salle-1804,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-allemagne,versailles:Room:salles-de-lempire,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salles-de-lempire,versailles:Room:salle-1805-allemagne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salles-de-lempire,versailles:Room:salle-1805-autriche,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-autriche,versailles:Room:salles-de-lempire,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-autriche,versailles:Room:salle-1805-prusse-pologne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-prusse-pologne,versailles:Room:salle-1805-autriche,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-prusse-pologne,versailles:Room:salle-1805-1807-prusse,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-1807-prusse,versailles:Room:salle-1805-prusse-pologne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1805-1807-prusse,versailles:Room:salle-1807-espagne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1807-espagne,versailles:Room:salle-1805-1807-prusse,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1807-espagne,versailles:Room:salle-1807-1808,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1807-1808,versailles:Room:salle-1807-espagne,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1807-1808,versailles:Room:salle-1809-1811,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1809-1811,versailles:Room:salle-1807-1808,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-1809-1811,versailles:Room:salle-marengo,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-marengo,versailles:Room:salle-1809-1811,1,1.5,2,True,True,indoor,Parcours Napoléon
+versailles:Room:salle-marengo,versailles:Room:galerie-basse,2,3.0,4,True,True,indoor,Rez-de-jardin vers Galerie Basse
+versailles:Room:galerie-basse,versailles:Room:salle-marengo,2,3.0,4,True,True,indoor,Rez-de-jardin depuis Galerie Basse vers Salle Marengo
