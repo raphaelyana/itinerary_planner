@@ -2,6 +2,9 @@ from_id,to_id,base_walk_min,family_walk_min,elder_walk_min,is_step_free,stroller
 versailles:Castle:cour-dhonneur,versailles:Castle:acces-grands-appartements,1,1.5,2,True,True,outdoor,Passage Cour d'Honneur vers Cour Royale
 versailles:Facility:pavillon-dufour-sortie,versailles:Castle:cour-royale,1,1.5,2,True,True,outdoor,
 versailles:Castle:acces-grands-appartements,versailles:Room:galeries-de-lhistoire,3,4.5,6,True,True,mixed,Entrée Pavillon Dufour vers Galeries de l'Histoire
+versailles:Room:galeries-de-lhistoire,versailles:Room:salles-louis-xiv,2,3.0,4,True,True,indoor,Galeries de l'Histoire vers Salles Louis XIV
+versailles:Room:salles-louis-xiv,versailles:Room:chapelle-royale,2,3.0,4,True,True,indoor,Salles Louis XIV vers Chapelle Royale
+versailles:Room:salles-louis-xiv,versailles:Room:salon-dhercule,1,1.5,2,True,True,indoor,Salles Louis XIV vers Salon d'Hercule
 versailles:Room:chapelle-royale,versailles:Room:salon-dhercule,1,1.5,2,True,True,indoor,Entrée Grand Appartement du Roi
 versailles:Room:salon-dhercule,versailles:Room:salon-de-labondance,1,1.5,2,True,True,indoor,Salon d'Hercule vers Salon de l'Abondance
 versailles:Room:salon-de-labondance,versailles:Room:salon-de-venus,1,1.5,2,True,True,indoor,Salon de l'Abondance vers Salon de Vénus
@@ -21,16 +24,8 @@ versailles:Room:cabinet-du-conseil,versailles:Room:chambre-du-roi,1,1.5,2,True,T
 versailles:Room:chambre-du-roi,versailles:Room:cabinet-du-conseil,1,1.5,2,True,True,indoor,Chambre du Roi vers Cabinet du Conseil
 versailles:Room:galeries-de-lhistoire,versailles:Room:salles-des-croisades,0,0,0,True,True,indoor,Galeries de l'Histoire vers Salles des Croisades (adjacentes)
 versailles:Room:salles-des-croisades,versailles:Room:galeries-de-lhistoire,0,0,0,True,True,indoor,Retour Salles des Croisades vers Galeries de l'Histoire
-versailles:Room:galeries-de-lhistoire,versailles:Room:salles-louis-xiv,2,3.0,4,True,True,indoor,Galeries de l'Histoire vers Salles Louis XIV
-versailles:Room:salles-louis-xiv,versailles:Room:chapelle-royale,2,3.0,4,True,True,indoor,Salles Louis XIV vers Chapelle Royale
-versailles:Room:salles-louis-xiv,versailles:Room:salon-dhercule,1,1.5,2,True,True,indoor,Salles Louis XIV vers Salon d'Hercule
-versailles:Room:appartements-de-mesdames,versailles:Garden:acces-principal-jardins-parterres-deau,3,4.5,6,True,True,mixed,Sortie vers le parterre
-versailles:Garden:acces-principal-jardins-parterres-deau,versailles:Room:appartements-de-mesdames,3,4.5,6,True,True,mixed,Accès jardins vers Appartements de Mesdames
-versailles:Room:appartements-du-dauphin-et-de-la-dauphine,versailles:Garden:acces-principal-jardins-parterres-deau,3,4.5,6,True,True,mixed,Sortie aile Nord vers jardins
-versailles:Garden:acces-principal-jardins-parterres-deau,versailles:Room:appartements-du-dauphin-et-de-la-dauphine,3,4.5,6,True,True,mixed,Accès jardins vers Appartements du Dauphin
-versailles:Castle:cour-dhonneur,versailles:Garden:acces-principal-jardins-parterres-deau,4,6.0,8,True,True,outdoor,Allée latérale Cour d'Honneur connecté aux jardins
-versailles:Garden:acces-principal-jardins-parterres-deau,versailles:Castle:cour-dhonneur-sortie,4,6.0,8,True,True,outdoor,Connexion directe entrée château vers accès jardins
-versailles:Garden:acces-principal-jardins-parterres-deau,versailles:Trianon:petit-trianon,12,18.0,24,True,True,outdoor,Allée vers le Petit Trianon
+versailles:Castle:cour-dhonneur,versailles:Garden:acces-jardins-cour-des-princes,4,6.0,8,True,True,outdoor,Allée latérale Cour d'Honneur connecté aux jardins
+versailles:Garden:acces-jardins-cour-des-princes,versailles:Castle:cour-dhonneur-sortie,4,6.0,8,True,True,outdoor,Connexion directe entrée château vers accès jardins
 versailles:Room:chambre-de-la-reine,versailles:Room:salon-des-nobles,1,1.5,2,True,True,indoor,Chambre de la Reine vers Salon des Nobles
 versailles:Room:salon-des-nobles,versailles:Room:antichambre-du-grand-couvert-reine,1,1.5,2,True,True,indoor,Salon des Nobles vers Antichambre du Grand Couvert
 versailles:Room:antichambre-du-grand-couvert-reine,versailles:Room:salle-des-gardes-de-la-reine,1,1.5,2,True,True,indoor,Antichambre du Grand Couvert vers Salle des Gardes de la Reine
@@ -59,8 +54,8 @@ versailles:Room:salle-1809-1811,versailles:Room:salle-marengo,1,1.5,2,True,True,
 versailles:Room:salle-marengo,versailles:Room:galerie-basse,2,3.0,4,True,True,indoor,Rez-de-jardin vers Galerie Basse
 versailles:Room:galerie-basse,versailles:Room:vestibule-de-marbre,2,3.0,4,True,True,indoor,Rez-de-jardin depuis Galerie Basse vers Salle Marengo
 versailles:Room:vestibule-de-marbre,versailles:Room:cour-royale,2,3.0,4,True,True,indoor,Rez-de-jardin depuis Galerie Basse vers le Vestibule de Marbre
-versailles:Room:vestibule-de-marbre,versailles:Room:acces-principal-jardins-parterres-deau,3,4.5,6,True,True,indoor,Vestibule de Marbre vers Accès Jardins Parterres d'Eau
-versailles:Garden:acces-principal-jardins-parterres-deau,versailles:Garden:parterres-deau,1,1.5,2,True,True,outdoor,Accès principal vers Parterres d'Eau
+versailles:Room:vestibule-de-marbre,versailles:Room:acces-jardins-cour-des-princes,3,4.5,6,True,True,indoor,Vestibule de Marbre vers Accès Jardins Parterres d'Eau
+versailles:Garden:acces-jardins-cour-des-princes,versailles:Garden:parterre-deau,1,1.5,2,True,True,outdoor,Accès principal vers Parterres d'Eau
 versailles:Room:salle-du-sacre,versailles:Room:attique-chimay,2,3.0,4,False,False,indoor,Escalier Salle du Sacre vers Attique Chimay
 versailles:Room:attique-chimay,versailles:Room:salle-du-sacre,2,3.0,4,False,False,indoor,Escalier Attique Chimay vers Salle du Sacre
 versailles:Room:salle-du-sacre,versailles:Room:attique-midi,2,3.0,4,False,False,indoor,Escalier Salle du Sacre vers Attique Midi
@@ -76,29 +71,26 @@ versailles:Room:cabinet-interieur-adelaide,versailles:Room:chambre-adelaide,1,1.
 versailles:Room:chambre-adelaide,versailles:Room:grand-cabinet-adelaide,1,1.5,2,True,True,indoor,Chambre vers Grand Cabinet de Madame Adélaïde
 versailles:Room:grand-cabinet-adelaide,versailles:Room:salle-des-hoquetons,1,1.5,2,True,True,indoor,Grand Cabinet Adélaïde vers Salle des Hoquetons
 versailles:Room:salle-des-hoquetons,versailles:Facility:pavillon-dufour-sortie,1,1.5,2,True,True,indoor,Salle des Hoquetons vers Pavillon Dufour Sortie
-versailles:Garden:parterres-deau,versailles:Garden:acces-principal-jardins-parterres-deau,1,1.5,2,True,True,outdoor,Retour Parterres d'Eau
-versailles:Garden:parterres-deau,versailles:Garden:parterre-du-nord,2,3.0,4,True,True,outdoor,Parterres d'Eau vers Parterre du Nord
-versailles:Garden:parterre-du-nord,versailles:Garden:parterres-deau,2,3.0,4,True,True,outdoor,Retour Parterre du Nord
-versailles:Garden:parterres-deau,versailles:Garden:parterre-du-midi,2,3.0,4,True,True,outdoor,Parterres d'Eau vers Parterre du Midi
-versailles:Garden:parterre-du-midi,versailles:Garden:parterres-deau,2,3.0,4,True,True,outdoor,Retour Parterre du Midi
+versailles:Garden:acces-jardins-cour-des-princes,versailles:Garden:parterre-du-midi,1,1.5,3,False,False,outdoor,Accès principal vers Parterres d'Eau
+versailles:Garden:parterre-deau,versailles:Garden:acces-jardins-cour-des-princes,1,1.5,2,True,True,outdoor,Retour Parterres d'Eau
+versailles:Garden:parterre-deau,versailles:Garden:parterre-du-nord,2,3.0,4,True,True,outdoor,Parterres d'Eau vers Parterre du Nord
+versailles:Garden:parterre-du-nord,versailles:Garden:parterre-deau,2,3.0,4,True,True,outdoor,Retour Parterre du Nord
+versailles:Garden:parterre-deau,versailles:Garden:parterre-du-midi,2,3.0,4,True,True,outdoor,Parterre d'Eau vers Parterre du Midi
+versailles:Garden:parterre-du-midi,versailles:Garden:parterre-deau,2,3.0,4,True,True,outdoor,Retour Parterre du Midi
 versailles:Garden:parterre-du-nord,versailles:Garden:bassin-de-neptune,3,4.5,6,True,True,outdoor,Parterre du Nord vers Bassin de Neptune
 versailles:Garden:bassin-de-neptune,versailles:Garden:parterre-du-nord,3,4.5,6,True,True,outdoor,Retour Bassin de Neptune
 versailles:Garden:parterre-du-nord,versailles:Garden:bosquet-des-rocailles,4,6.0,8,True,True,outdoor,Parterre du Nord vers Bosquet des Rocailles
 versailles:Garden:bosquet-des-rocailles,versailles:Garden:parterre-du-nord,4,6.0,8,True,True,outdoor,Retour Bosquet des Rocailles
 versailles:Garden:parterre-du-midi,versailles:Garden:orangerie,3,4.5,6,False,False,outdoor,Parterre du Midi vers Orangerie (escaliers)
 versailles:Garden:orangerie,versailles:Garden:parterre-du-midi,3,4.5,6,False,False,outdoor,Orangerie vers Parterre du Midi (escaliers)
-versailles:Garden:parterre-du-midi,versailles:Garden:piece-deau-des-suisses,5,7.5,10,True,True,outdoor,Parterre du Midi vers Pièce d'Eau des Suisses
-versailles:Garden:piece-deau-des-suisses,versailles:Garden:parterre-du-midi,5,7.5,10,True,True,outdoor,Retour Pièce d'Eau des Suisses
-versailles:Garden:parterres-deau,versailles:Garden:bassin-de-latone,3,4.5,6,True,True,outdoor,Parterres d'Eau vers Bassin de Latone (axe principal)
-versailles:Garden:bassin-de-latone,versailles:Garden:parterres-deau,3,4.5,6,True,True,outdoor,Retour Bassin de Latone
+versailles:Garden:parterre-deau,versailles:Garden:bassin-de-latone,3,4.5,6,True,True,outdoor,Parterres d'Eau vers Bassin de Latone (axe principal)
+versailles:Garden:bassin-de-latone,versailles:Garden:parterre-deau,3,4.5,6,True,True,outdoor,Retour Bassin de Latone
 versailles:Garden:bassin-de-latone,versailles:Garden:bassin-dapollon,4,6.0,8,True,True,outdoor,Bassin de Latone vers Bassin d'Apollon (Tapis Vert)
 versailles:Garden:bassin-dapollon,versailles:Garden:bassin-de-latone,4,6.0,8,True,True,outdoor,Retour Bassin d'Apollon
 versailles:Garden:bassin-dapollon,versailles:Park:grand-canal,3,4.5,6,True,True,outdoor,Bassin d'Apollon vers Grand Canal
 versailles:Park:grand-canal,versailles:Garden:bassin-dapollon,3,4.5,6,True,True,outdoor,Grand Canal vers Bassin d'Apollon
 versailles:Garden:bassin-de-neptune,versailles:Garden:bosquet-des-rocailles,4,6.0,8,True,True,outdoor,Bassin de Neptune vers Bosquet des Rocailles
 versailles:Garden:bosquet-des-rocailles,versailles:Garden:bassin-de-neptune,4,6.0,8,True,True,outdoor,Retour Bosquet des Rocailles vers Neptune
-versailles:Garden:orangerie,versailles:Garden:piece-deau-des-suisses,2,3.0,4,True,True,outdoor,Orangerie vers Pièce d'Eau des Suisses
-versailles:Garden:piece-deau-des-suisses,versailles:Garden:orangerie,2,3.0,4,True,True,outdoor,Retour Pièce d'Eau des Suisses vers Orangerie
 versailles:Garden:bassin-de-latone,versailles:Garden:bosquet-de-la-colonnade,3,4.5,6,True,True,outdoor,Bassin de Latone vers Bosquet de la Colonnade
 versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bassin-de-latone,3,4.5,6,True,True,outdoor,Retour Bosquet de la Colonnade
 versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bosquet-de-la-reine,2,3.0,4,True,True,outdoor,Colonnade vers Bosquet de la Reine
@@ -109,7 +101,7 @@ versailles:Garden:bosquet-de-lencelade,versailles:Garden:bosquet-de-la-colonnade
 versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bosquet-de-lencelade,3,4.5,6,True,True,outdoor,Colonnade vers Encelade
 versailles:Garden:bosquet-de-la-reine,versailles:Park:queen-grove,3,4.5,6,True,True,outdoor,Bosquet de la Reine vers Queen's Grove
 versailles:Park:queen-grove,versailles:Garden:bosquet-de-la-reine,3,4.5,6,True,True,outdoor,Queen's Grove vers Bosquet de la Reine
-versailles:Trianon:petit-trianon,versailles:Garden:acces-principal-jardins-parterres-deau,12,18.0,24,True,True,outdoor,Retour vers Parterres d'Eau
+versailles:Trianon:petit-trianon,versailles:Garden:acces-jardins-cour-des-princes,12,18.0,24,True,True,outdoor,Retour vers Parterres d'Eau
 versailles:Trianon:petit-trianon,versailles:Trianon:grand-trianon,5,7.5,10,True,True,outdoor,Chemin Petit vers Grand Trianon
 versailles:Trianon:grand-trianon,versailles:Trianon:petit-trianon,5,7.5,10,True,True,outdoor,Chemin Grand vers Petit Trianon
 versailles:Trianon:grand-trianon,versailles:Park:grand-canal,10,15.0,20,True,True,outdoor,Allée Grand Trianon vers Grand Canal
