@@ -39,6 +39,15 @@ def load_connections(connections_path: Path) -> List[Dict]:
     return connections
 
 
+def build_slug_index(pois: Dict[str, Dict]) -> Dict[str, List[str]]:
+    """Map simple slugs (final token after colon) to full POI IDs."""
+    slug_index: Dict[str, List[str]] = defaultdict(list)
+    for poi_id in pois:
+        slug = poi_id.split(":")[-1].lower()
+        slug_index[slug].append(poi_id)
+    return slug_index
+
+
 def find_poi_by_partial_id(pois: Dict[str, Dict], search_term: str) -> List[str]:
     """Find POI IDs that match a partial search term."""
     matches = []
@@ -53,6 +62,39 @@ def find_poi_by_partial_id(pois: Dict[str, Dict], search_term: str) -> List[str]
             matches.append(poi_id)
 
     return sorted(matches)
+
+
+def resolve_poi_identifier(
+    raw: str,
+    pois: Dict[str, Dict],
+    slug_index: Dict[str, List[str]],
+) -> str:
+    """Resolve user input into a concrete POI ID."""
+    if raw in pois:
+        return raw
+
+    slug = raw.split(":")[-1].lower()
+    if slug in slug_index:
+        options = slug_index[slug]
+        if len(options) == 1:
+            return options[0]
+        print(f"❌ Ambiguous identifier '{raw}'. Possible matches:")
+        for opt in options:
+            print(f"  {opt}")
+        sys.exit(1)
+
+    matches = find_poi_by_partial_id(pois, raw)
+    if not matches:
+        print(f"❌ POI not found: {raw}")
+        print("Try searching with: --search <term>")
+        sys.exit(1)
+    if len(matches) > 1:
+        print(f"❌ Ambiguous identifier '{raw}'. Possible matches:")
+        for match in matches:
+            print(f"  {match}")
+        print("Please use a specific slug or full ID.")
+        sys.exit(1)
+    return matches[0]
 
 
 def get_connections_for_poi(
@@ -335,6 +377,7 @@ def main():
     # Load data
     pois = load_pois(pois_path)
     connections = load_connections(connections_path)
+    slug_index = build_slug_index(pois)
 
     # List mode
     if args.list:
@@ -378,28 +421,7 @@ def main():
         sys.exit(1)
 
     # Try to find POI (handle partial IDs)
-    poi_id = args.poi_id
-
-    if poi_id not in pois:
-        # Try to find by partial match
-        matches = find_poi_by_partial_id(pois, poi_id)
-
-        if not matches:
-            print(f"❌ POI not found: {poi_id}")
-            print()
-            print("Try searching with: --search <term>")
-            sys.exit(1)
-
-        if len(matches) > 1:
-            print(f"❌ Ambiguous POI ID '{poi_id}'. Multiple matches:")
-            print()
-            for match in matches:
-                print(f"  {match}")
-            print()
-            print("Please use the full ID or be more specific.")
-            sys.exit(1)
-
-        poi_id = matches[0]
+    poi_id = resolve_poi_identifier(args.poi_id, pois, slug_index)
 
     # Print details and connections
     if print_poi_details(poi_id, pois):
