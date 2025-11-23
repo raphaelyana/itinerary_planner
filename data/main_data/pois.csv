@@ -84,6 +84,7 @@ versailles:Garden:bosquet-du-dauphin,bosquet-du-dauphin,Bosquet du Dauphin,Garde
 versailles:Garden:le-mirroir,le-mirroir,Bassin Le Mirroir,Gardens,Garden,fountains;mythology;garden;scenic,10,full,,1.00,GARDENS_DEFAULT,,,,Grove,true,,,
 versailles:Garden:bassin-de-saturne,bassin-de-saturne,Bassin de Saturne,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,15,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,
 versailles:Garden:bassin-de-flore,bassin-de-flore,Bassin de Flore,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,15,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,
+versailles:Garden:bosquet-de-letoile,bosquet-de-letoile,Bosquet de l'Etoile,Gardens,Garden,architecture;art;garden;scenic,10,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,
 versailles:Garden:bosquet-de-la-colonnade,bosquet-de-la-colonnade,Bosquet de la Colonnade,Gardens,Garden,architecture;art;garden;scenic,10,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,
 versailles:Garden:bosquet-de-lencelade,bosquet-de-lencelade,Bosquet de l'Encelade,Gardens,Garden,fountains;mythology;garden;scenic,10,full,,1.00,GARDENS_DEFAULT,,,,Grove,true,,,
 versailles:Garden:bosquet-des-domes,bosquet-des-domes,Bosquet des Rocailles (Salle de Bal),Gardens,Garden,architecture;garden;scenic;history,12,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,
@@ -94,6 +95,7 @@ versailles:Garden:bassin-dapollon,bassin-dapollon,Bassin d'Apollon,Gardens,Garde
 versailles:Facility:entree-parc-bassin-apollon,entree-parc-bassin-apollon,Entrée Parc (Bassin d'Apollon),Gardens,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
 versailles:Facility:grille-de-neptune,grille-de-neptune,Entrée Parc (Grille-de-Neptune),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
 versailles:Facility:grille-des-matelots,grille-des-matelots,Entrée Parc (Grille-des-Matelots),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
+versailles:Facility:grille-de-ceres,grille-de-ceres,Entrée Parc (Grille-de-Cérès),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
 versailles:Park:grand-canal,grand-canal,Grand Canal,Park,Garden,must_see;water;scenic;photo_spot,30,full,,0.80,PARK_DEFAULT,,,,Other,false,,,
 versailles:Park:etoile-royale,etoile-royale,Etoile Royale,Park,Garden,must_see;water;scenic;photo_spot,30,full,,0.80,PARK_DEFAULT,,,,Other,false,,,
 versailles:Facility:entree-grand-trianon,entree-grand-trianon,Entrée Grand Trianon,Trianon,Facility,entrance;services,0,full,,1.00,TRIANON_DEFAULT,,,,,,,,entrance
@@ -158,3 +160,4 @@ versailles:Trianon:maison-du-garde-hameau,maison-du-garde-hameau,Maison du Garde
 versailles:Trianon:laiterie-propriete-hameau,laiterie-propriete-hameau,Laiterie de la Propriété du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,
 versailles:Trianon:tour-de-marlborough-hameau,tour-de-marlborough-hameau,Tour de Marlborough du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,1.00,TRIANON_DEFAULT,,,,,,,
 versailles:Trianon:ferme-hameau,ferme-hameau,La Ferme du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,
+versailles:Facility:acces-ferme-hameau,acces-ferme-hameau,Accès Ferme du Hameau,Trianon,Facility,entrance;services,0,full,Ouverte que en haute saison,1.00,HAMEAU_HIGH_ONLY,,,,,,,,entrance

@@ -252,6 +252,26 @@ DEFAULT_SCHEDULE: Dict[str, Dict[Season, Dict[Weekday, TimeWindow]]] = {
             "Sun": ("12:00", "17:30"),
         },
     },
+    "HAMEAU_HIGH_ONLY": {
+        "High": {
+            "Mon": None,
+            "Tue": ("12:00", "18:30"),
+            "Wed": ("12:00", "18:30"),
+            "Thu": ("12:00", "18:30"),
+            "Fri": ("12:00", "18:30"),
+            "Sat": ("12:00", "18:30"),
+            "Sun": ("12:00", "18:30"),
+        },
+        "Low": {
+            "Mon": None,
+            "Tue": None,
+            "Wed": None,
+            "Thu": None,
+            "Fri": None,
+            "Sat": None,
+            "Sun": None,
+        },
+    },
     "PARK_DEFAULT": {
         "High": {
             "Mon": ("07:00", "20:30"),

@@ -36,7 +36,7 @@ versailles:Room:salle-du-sacre,versailles:Room:galerie-des-batailles,1,1.5,2,Tru
 versailles:Room:galerie-des-batailles,versailles:Facility:pavillon-dufour-sortie,1,1.5,2,True,True,indoor,Salle du Sacre vers Galerie des Batailles
 versailles:Room:salle-1792,versailles:Facility:pavillon-dufour-sortie,2,3.0,4,False,False,indoor,Escalier Salle 1792 vers sortie Pavillon Dufour
 versailles:Facility:pavillon-dufour-sortie,versailles:Castle:cour-dhonneur-sortie,3,4.5,6,True,True,outdoor,Pavillon Dufour vers Cour d'Honneur / Place d'Armes
-versailles:Facility:pavillon-dufour-sortie,versailles:Garden:parterre-du-midi,0,0,0,True,True,outdoor,Pavillon Dufour vers Cour d'Honneur / Place d'Armes
+versailles:Facility:pavillon-dufour-sortie,versailles:Garden:pdv-parterre-du-midi-orangerie,0,0,0,True,True,outdoor,Pavillon Dufour vers Cour d'Honneur / Place d'Armes
 versailles:Room:salle-du-sacre,versailles:Room:salle-1792,1,1.5,2,True,True,indoor,Salle du Sacre vers Salles de 1792
 versailles:Room:salle-1792,versailles:Room:salle-1796-1797,1,1.5,2,True,True,indoor,Pivot Grands Appartements vers parcours Napoléon
 versailles:Room:salle-1796-1797,versailles:Room:salle-1797-1798,1,1.5,2,True,True,indoor,Parcours Napoléon
@@ -55,7 +55,6 @@ versailles:Room:salle-marengo,versailles:Room:galerie-basse,2,3.0,4,True,True,in
 versailles:Room:galerie-basse,versailles:Room:vestibule-de-marbre,2,3.0,4,True,True,indoor,Rez-de-jardin depuis Galerie Basse vers Salle Marengo
 versailles:Room:vestibule-de-marbre,versailles:Room:cour-royale,2,3.0,4,True,True,indoor,Rez-de-jardin depuis Galerie Basse vers le Vestibule de Marbre
 versailles:Room:vestibule-de-marbre,versailles:Room:acces-jardins-cour-des-princes,3,4.5,6,True,True,indoor,Vestibule de Marbre vers Accès Jardins Parterres d'Eau
-versailles:Garden:acces-jardins-cour-des-princes,versailles:Garden:parterre-deau,1,1.5,2,True,True,outdoor,Accès principal vers Parterres d'Eau
 versailles:Room:salle-du-sacre,versailles:Room:attique-chimay,2,3.0,4,False,False,indoor,Escalier Salle du Sacre vers Attique Chimay
 versailles:Room:attique-chimay,versailles:Room:salle-du-sacre,2,3.0,4,False,False,indoor,Escalier Attique Chimay vers Salle du Sacre
 versailles:Room:salle-du-sacre,versailles:Room:attique-midi,2,3.0,4,False,False,indoor,Escalier Salle du Sacre vers Attique Midi
@@ -71,94 +70,99 @@ versailles:Room:cabinet-interieur-adelaide,versailles:Room:chambre-adelaide,1,1.
 versailles:Room:chambre-adelaide,versailles:Room:grand-cabinet-adelaide,1,1.5,2,True,True,indoor,Chambre vers Grand Cabinet de Madame Adélaïde
 versailles:Room:grand-cabinet-adelaide,versailles:Room:salle-des-hoquetons,1,1.5,2,True,True,indoor,Grand Cabinet Adélaïde vers Salle des Hoquetons
 versailles:Room:salle-des-hoquetons,versailles:Facility:pavillon-dufour-sortie,1,1.5,2,True,True,indoor,Salle des Hoquetons vers Pavillon Dufour Sortie
-versailles:Garden:acces-jardins-cour-des-princes,versailles:Garden:parterre-du-midi,1,1.5,3,False,False,outdoor,Accès principal vers Parterres d'Eau
-versailles:Garden:parterre-deau,versailles:Garden:acces-jardins-cour-des-princes,1,1.5,2,True,True,outdoor,Retour Parterres d'Eau
-versailles:Garden:parterre-deau,versailles:Garden:parterre-du-nord,2,3.0,4,True,True,outdoor,Parterres d'Eau vers Parterre du Nord
-versailles:Garden:parterre-du-nord,versailles:Garden:parterre-deau,2,3.0,4,True,True,outdoor,Retour Parterre du Nord
-versailles:Garden:parterre-deau,versailles:Garden:parterre-du-midi,2,3.0,4,True,True,outdoor,Parterre d'Eau vers Parterre du Midi
-versailles:Garden:parterre-du-midi,versailles:Garden:parterre-deau,2,3.0,4,True,True,outdoor,Retour Parterre du Midi
-versailles:Garden:parterre-du-nord,versailles:Garden:bassin-de-neptune,3,4.5,6,True,True,outdoor,Parterre du Nord vers Bassin de Neptune
-versailles:Garden:bassin-de-neptune,versailles:Garden:parterre-du-nord,3,4.5,6,True,True,outdoor,Retour Bassin de Neptune
-versailles:Garden:parterre-du-nord,versailles:Garden:bosquet-des-rocailles,4,6.0,8,True,True,outdoor,Parterre du Nord vers Bosquet des Rocailles
-versailles:Garden:bosquet-des-rocailles,versailles:Garden:parterre-du-nord,4,6.0,8,True,True,outdoor,Retour Bosquet des Rocailles
+versailles:Garden:acces-jardins-cour-des-princes,versailles:Garden:pdv-parterre-du-midi-orangerie,0,0,0,True,True,outdoor,Accès principal vers Parterres d'Eau
+versailles:Garden:pdv-parterre-du-midi-orangerie,versailles:Garden:parterre-du-midi,1,1.5,3,False,False,outdoor,Point de Vue vers Parterre du Midi
+versailles:Garden:parterre-du-midi,versailles:Garden:pdv-parterre-du-midi-orangerie,1,1.5,3,False,False,outdoor,Point de Vue vers Parterre du Midi
 versailles:Garden:parterre-du-midi,versailles:Garden:orangerie,3,4.5,6,False,False,outdoor,Parterre du Midi vers Orangerie (escaliers)
 versailles:Garden:orangerie,versailles:Garden:parterre-du-midi,3,4.5,6,False,False,outdoor,Orangerie vers Parterre du Midi (escaliers)
-versailles:Garden:parterre-deau,versailles:Garden:bassin-de-latone,3,4.5,6,True,True,outdoor,Parterres d'Eau vers Bassin de Latone (axe principal)
-versailles:Garden:bassin-de-latone,versailles:Garden:parterre-deau,3,4.5,6,True,True,outdoor,Retour Bassin de Latone
-versailles:Garden:bassin-de-latone,versailles:Garden:bassin-dapollon,4,6.0,8,True,True,outdoor,Bassin de Latone vers Bassin d'Apollon (Tapis Vert)
-versailles:Garden:bassin-dapollon,versailles:Garden:bassin-de-latone,4,6.0,8,True,True,outdoor,Retour Bassin d'Apollon
-versailles:Garden:bassin-dapollon,versailles:Park:grand-canal,3,4.5,6,True,True,outdoor,Bassin d'Apollon vers Grand Canal
-versailles:Park:grand-canal,versailles:Garden:bassin-dapollon,3,4.5,6,True,True,outdoor,Grand Canal vers Bassin d'Apollon
-versailles:Garden:bassin-de-neptune,versailles:Garden:bosquet-des-rocailles,4,6.0,8,True,True,outdoor,Bassin de Neptune vers Bosquet des Rocailles
-versailles:Garden:bosquet-des-rocailles,versailles:Garden:bassin-de-neptune,4,6.0,8,True,True,outdoor,Retour Bosquet des Rocailles vers Neptune
-versailles:Garden:bassin-de-latone,versailles:Garden:bosquet-de-la-colonnade,3,4.5,6,True,True,outdoor,Bassin de Latone vers Bosquet de la Colonnade
-versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bassin-de-latone,3,4.5,6,True,True,outdoor,Retour Bosquet de la Colonnade
-versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bosquet-de-la-reine,2,3.0,4,True,True,outdoor,Colonnade vers Bosquet de la Reine
-versailles:Garden:bosquet-de-la-reine,versailles:Garden:bosquet-de-la-colonnade,2,3.0,4,True,True,outdoor,Retour Bosquet de la Reine vers Colonnade
-versailles:Garden:bassin-dapollon,versailles:Garden:bosquet-de-lencelade,4,6.0,8,True,True,outdoor,Bassin d'Apollon vers Bosquet de l'Encelade
-versailles:Garden:bosquet-de-lencelade,versailles:Garden:bassin-dapollon,4,6.0,8,True,True,outdoor,Retour Bosquet de l'Encelade
-versailles:Garden:bosquet-de-lencelade,versailles:Garden:bosquet-de-la-colonnade,3,4.5,6,True,True,outdoor,Encelade vers Colonnade
-versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bosquet-de-lencelade,3,4.5,6,True,True,outdoor,Colonnade vers Encelade
-versailles:Garden:bosquet-de-la-reine,versailles:Park:queen-grove,3,4.5,6,True,True,outdoor,Bosquet de la Reine vers Queen's Grove
-versailles:Park:queen-grove,versailles:Garden:bosquet-de-la-reine,3,4.5,6,True,True,outdoor,Queen's Grove vers Bosquet de la Reine
-versailles:Trianon:petit-trianon,versailles:Garden:acces-jardins-cour-des-princes,12,18.0,24,True,True,outdoor,Retour vers Parterres d'Eau
-versailles:Trianon:petit-trianon,versailles:Trianon:grand-trianon,5,7.5,10,True,True,outdoor,Chemin Petit vers Grand Trianon
-versailles:Trianon:grand-trianon,versailles:Trianon:petit-trianon,5,7.5,10,True,True,outdoor,Chemin Grand vers Petit Trianon
-versailles:Trianon:grand-trianon,versailles:Park:grand-canal,10,15.0,20,True,True,outdoor,Allée Grand Trianon vers Grand Canal
-versailles:Park:grand-canal,versailles:Trianon:grand-trianon,10,15.0,20,True,True,outdoor,Grand Canal vers Grand Trianon
-versailles:Park:grand-canal,versailles:Park:queen-grove,6,9.0,12,True,True,outdoor,Chemin du Grand Canal vers Bosquet
-versailles:Park:queen-grove,versailles:Park:grand-canal,6,9.0,12,True,True,outdoor,Bosquet vers Grand Canal
-versailles:Trianon:grand-trianon,versailles:Trianon:grand-trianon-entree,1,1.5,2,True,True,indoor,Accès principal vers péristyle
-versailles:Trianon:grand-trianon-entree,versailles:Trianon:grand-trianon,1,1.5,2,True,True,indoor,Retour péristyle vers Grand Trianon
-versailles:Trianon:grand-trianon-entree,versailles:Trianon:galerie-cotelle,2,3.0,4,True,True,indoor,Péristyle vers Galerie des Cotelle
-versailles:Trianon:galerie-cotelle,versailles:Trianon:grand-trianon-entree,2,3.0,4,True,True,indoor,Retour Galerie des Cotelle
-versailles:Trianon:galerie-cotelle,versailles:Trianon:chambre-imperatrice,1,1.5,2,True,False,indoor,Galerie vers Chambre de l’Impératrice
-versailles:Trianon:chambre-imperatrice,versailles:Trianon:galerie-cotelle,1,1.5,2,True,False,indoor,Chambre de l’Impératrice vers Galerie
-versailles:Trianon:chambre-imperatrice,versailles:Trianon:salon-glaces,1,1.5,2,True,False,indoor,Chambre de l’Impératrice vers Salon des Glaces
-versailles:Trianon:salon-glaces,versailles:Trianon:chambre-imperatrice,1,1.5,2,True,False,indoor,Salon des Glaces vers Chambre de l’Impératrice
-versailles:Trianon:salon-glaces,versailles:Trianon:salon-famille-louis-philippe,2,3.0,4,True,False,indoor,Salon des Glaces vers Salon de Famille
-versailles:Trianon:salon-famille-louis-philippe,versailles:Trianon:salon-glaces,2,3.0,4,True,False,indoor,Salon de Famille vers Salon des Glaces
-versailles:Trianon:salon-famille-louis-philippe,versailles:Trianon:salon-malachite,1,1.5,2,True,False,indoor,Salon de Famille vers Salon Malachite
-versailles:Trianon:salon-malachite,versailles:Trianon:salon-famille-louis-philippe,1,1.5,2,True,False,indoor,Salon Malachite vers Salon de Famille
-versailles:Trianon:salon-malachite,versailles:Trianon:salon-musique,1,1.5,2,True,False,indoor,Salon Malachite vers Salon de Musique
-versailles:Trianon:salon-musique,versailles:Trianon:salon-malachite,1,1.5,2,True,False,indoor,Salon de Musique vers Salon Malachite
-versailles:Trianon:grand-trianon-entree,versailles:Trianon:jardin-francais,7,9.0,12,True,True,outdoor,Péristyle vers Jardin Français
-versailles:Trianon:jardin-francais,versailles:Trianon:grand-trianon-entree,7,9.0,12,True,True,outdoor,Jardin Français vers Péristyle
-versailles:Trianon:jardin-francais,versailles:Trianon:theatre-reine,4,5.0,7,False,False,outdoor,Chemin vers Théâtre de la Reine
-versailles:Trianon:theatre-reine,versailles:Trianon:jardin-francais,4,5.0,7,False,False,outdoor,Retour Théâtre de la Reine
-versailles:Trianon:jardin-francais,versailles:Trianon:belvedere,5,7.0,9,False,False,outdoor,Chemin en pente vers Belvédère
-versailles:Trianon:belvedere,versailles:Trianon:jardin-francais,5,7.0,9,False,False,outdoor,Retour Belvédère
-versailles:Trianon:jardin-francais,versailles:Trianon:temple-amour,4,5.0,7,True,True,outdoor,Allée vers Temple de l’Amour
-versailles:Trianon:temple-amour,versailles:Trianon:jardin-francais,4,5.0,7,True,True,outdoor,Retour Temple de l’Amour
-versailles:Trianon:temple-amour,versailles:Trianon:hameau-main,8,10.0,12,True,True,outdoor,Chemin vers Hameau de la Reine
-versailles:Trianon:hameau-main,versailles:Trianon:temple-amour,8,10.0,12,True,True,outdoor,Retour Hameau vers Temple
-versailles:Trianon:hameau-main,versailles:Trianon:tour-marlborough,2,3.0,4,False,False,outdoor,Chemin irrégulier vers Tour Marlborough
-versailles:Trianon:tour-marlborough,versailles:Trianon:hameau-main,2,3.0,4,False,False,outdoor,Retour Tour Marlborough
-versailles:Trianon:hameau-main,versailles:Trianon:maison-reine,2,3.0,4,False,False,outdoor,Passerelles vers Maison de la Reine
-versailles:Trianon:maison-reine,versailles:Trianon:hameau-main,2,3.0,4,False,False,outdoor,Retour Maison de la Reine
-versailles:Trianon:hameau-main,versailles:Trianon:ferme,3,4.0,5,True,True,outdoor,Chemin stabilisé vers Ferme
-versailles:Trianon:ferme,versailles:Trianon:hameau-main,3,4.0,5,True,True,outdoor,Retour Ferme vers Hameau
-versailles:Trianon:petit-trianon,versailles:Trianon:jardin-anglais,2,3.0,4,True,True,outdoor,Petit Trianon vers Jardin Anglais
-versailles:Trianon:jardin-anglais,versailles:Trianon:petit-trianon,2,3.0,4,True,True,outdoor,Retour Jardin Anglais
-versailles:Trianon:jardin-anglais,versailles:Trianon:temple-amour,3,4.5,6,True,True,outdoor,Jardin Anglais vers Temple de l'Amour
-versailles:Trianon:temple-amour,versailles:Trianon:jardin-anglais,3,4.5,6,True,True,outdoor,Retour Temple de l'Amour
-versailles:Trianon:jardin-anglais,versailles:Trianon:grotte,2,3.0,4,False,False,outdoor,Jardin Anglais vers Grotte
-versailles:Trianon:grotte,versailles:Trianon:jardin-anglais,2,3.0,4,False,False,outdoor,Retour Grotte
-versailles:Trianon:jardin-francais,versailles:Trianon:pavillon-francais,2,3.0,4,True,True,outdoor,Jardin Français vers Pavillon Français
-versailles:Trianon:pavillon-francais,versailles:Trianon:jardin-francais,2,3.0,4,True,True,outdoor,Retour Pavillon Français
-versailles:Trianon:pavillon-francais,versailles:Trianon:petit-trianon,3,4.5,6,True,True,outdoor,Pavillon Français vers Petit Trianon
-versailles:Trianon:petit-trianon,versailles:Trianon:pavillon-francais,3,4.5,6,True,True,outdoor,Retour Petit Trianon vers Pavillon
-versailles:Trianon:belvedere,versailles:Trianon:jardin-anglais,3,4.5,6,False,False,outdoor,Belvédère vers Jardin Anglais
-versailles:Trianon:jardin-anglais,versailles:Trianon:belvedere,3,4.5,6,False,False,outdoor,Jardin Anglais vers Belvédère
-versailles:Trianon:belvedere,versailles:Trianon:grotte,2,3.0,4,False,False,outdoor,Belvédère vers Grotte
-versailles:Trianon:grotte,versailles:Trianon:belvedere,2,3.0,4,False,False,outdoor,Grotte vers Belvédère
-versailles:Trianon:grotte,versailles:Trianon:temple-amour,3,4.5,6,False,False,outdoor,Grotte vers Temple de l'Amour
-versailles:Trianon:temple-amour,versailles:Trianon:grotte,3,4.5,6,False,False,outdoor,Temple vers Grotte
-versailles:Trianon:grand-trianon,versailles:Trianon:jardin-du-roi,2,3.0,4,True,True,outdoor,Grand Trianon vers Jardin du Roi
-versailles:Trianon:jardin-du-roi,versailles:Trianon:grand-trianon,2,3.0,4,True,True,outdoor,Retour Jardin du Roi
-versailles:Trianon:jardin-du-roi,versailles:Trianon:petit-trianon,6,9.0,12,True,True,outdoor,Jardin du Roi vers Petit Trianon
-versailles:Trianon:petit-trianon,versailles:Trianon:jardin-du-roi,6,9.0,12,True,True,outdoor,Retour Petit Trianon vers Jardin du Roi
-versailles:Trianon:hameau-main,versailles:Trianon:hameau-buildings,1,1.5,2,False,False,outdoor,Entrée Hameau vers Bâtiments
-versailles:Trianon:hameau-buildings,versailles:Trianon:hameau-main,1,1.5,2,False,False,outdoor,Retour Bâtiments vers entrée
-versailles:Trianon:hameau-buildings,versailles:Trianon:jardin-anglais,4,6.0,8,False,False,outdoor,Hameau vers Jardin Anglais
-versailles:Trianon:jardin-anglais,versailles:Trianon:hameau-buildings,4,6.0,8,False,False,outdoor,Jardin Anglais vers Hameau
+versailles:Garden:pdv-parterre-du-midi-orangerie,versailles:Garden:parterre-deau,2,3.0,4,True,True,outdoor,Parterre du Midi vers Parterre d'Eau
+versailles:Garden:parterre-deau,versailles:Garden:pdv-parterre-du-midi-orangerie,2,3.0,4,True,True,outdoor,Retour Parterres d'Eau
+versailles:Garden:parterre-deau,versailles:Garden:parterre-du-midi,2,3.0,4,False,False,outdoor,Parterre d'Eau vers Parterre du Midi
+versailles:Garden:parterre-du-midi,versailles:Garden:parterre-deau,2,3.0,4,False,False,outdoor,Parterre d'Eau vers Parterre du Midi
+versailles:Garden:parterre-du-midi,versailles:Garden:bosquet-de-la-reine,2,3.0,4,False,False,outdoor,Parterre d'Eau vers Parterre du Midi
+versailles:Garden:bosquet-de-la-reine,versailles:Garden:parterre-du-midi,2,3.0,4,False,False,outdoor,Parterre d'Eau vers Parterre du Midi
+versailles:Garden:parterre-du-midi,versailles:Garden:bosquet-de-la-salle-de-bal,2,3.0,4,False,False,outdoor,Parterre d'Eau vers Parterre du Midi
+versailles:Garden:bosquet-de-la-salle-de-bal,versailles:Garden:parterre-du-midi,2,3.0,4,False,False,outdoor,Parterre d'Eau vers Parterre du Midi
+versailles:Garden:parterre-deau,versailles:Garden:parterre-du-nord,2,3.0,4,False,True,outdoor,Parterres d'Eau vers Parterre du Nord
+versailles:Garden:parterre-du-nord,versailles:Garden:parterre-deau,2,3.0,4,False,True,outdoor,Retour Parterre du Nord
+versailles:Garden:parterre-deau,versailles:Garden:bassin-des-sirenes,3,4.5,6,True,True,outdoor,Parterre d'Eau vers Bassin de Sirènes - Fontaine de la Pyramide - Bassin des Nymphes de Diane
+versailles:Garden:bassin-des-sirenes,versailles:Garden:parterre-deau,3,4.5,6,True,True,outdoor,Bassin de Sirènes - Fontaine de la Pyramide - Bassin des Nymphes de Diane vers Parterre d'Eau
+versailles:Garden:parterre-du-nord,versailles:Garden:bassin-des-sirenes,0.5,0.5,0.5,True,True,outdoor,Parterre du Nord vers Bassin des Sirènes
+versailles:Garden:bassin-des-sirenes,versailles:Garden:parterre-du-nord,0.5,0.5,0.5,True,True,outdoor,Parterre du Nord vers Bassin des Sirènes
+versailles:Garden:parterre-deau,versailles:Garden:bosquet-des-trois-fontaines,3,4.5,6,True,True,outdoor,Parterre d'Eau vers Bosquet des Trois Fontaines
+versailles:Garden:bosquet-des-trois-fontaines,versailles:Garden:parterre-deau,3,4.5,6,True,True,outdoor,Bosquet des Trois Fontaines vers Parterre d'Eau
+versailles:Garden:parterre-deau,versailles:Garden:bosquet-de-la-reine,6,8,10,False,False,outdoor,Parterre d'Eau vers Bosquet de la Reine
+versailles:Garden:parterre-deau,versailles:Garden:bosquet-de-la-salle-de-bal,6,8,10,False,False,outdoor,Parterre d'Eau vers Bosquet de la Salle de Bal
+versailles:Garden:bosquet-de-la-salle-de-bal,versailles:Garden:parterre-deau,6,8,10,False,False,outdoor,Bosquet de la Salle de Bal vers Parterre d'Eau
+versailles:Garden:parterre-deau,versailles:Garden:parterre-de-latone,3,4,6,True,True,outdoor,Parterre d'Eau vers Bassin de Latone
+versailles:Garden:parterre-de-latone,versailles:Garden:parterre-deau,3,4,6,True,True,outdoor,Bassin de Latone vers Parterre d'Eau
+versailles:Garden:parterre-deau,versailles:Garden:bosquet-des-bains-dapollon,1,2,2,True,True,outdoor,Parterre d'Eau vers Bosquet des Bains d'Apollon
+versailles:Garden:parterre-deau,versailles:Garden:bosquet-du-theatre-deau,4,5,6,True,True,outdoor,Parterre d'Eau vers Bosquet du Théâtre d'Eau
+versailles:Garden:bosquet-des-bains-dapollon,versailles:Garden:parterre-deau,1,2,2,True,True,outdoor,Bosquet des Bains d'Apollon vers Parterre d'Eau
+versailles:Garden:bosquet-du-theatre-deau,versailles:Garden:parterre-deau,4,5,6,True,True,outdoor,Bosquet du Théâtre d'Eau vers Parterre d'Eau
+versailles:Garden:parterre-deau,versailles:Facility:grille-de-neptune,4,5,6,True,True,outdoor,Parterre d'Eau vers Entrée Parc (Grille-de-Neptune)
+versailles:Facility:grille-de-neptune,versailles:Garden:parterre-deau,4,5,6,True,True,outdoor,Entrée Parc (Grille-de-Neptune) vers Parterre d'Eau
+versailles:Facility:grille-de-neptune,versailles:Garden:bassin-de-neptune,0,0,0,True,True,outdoor,Entrée Parc (Grille-de-Neptune) vers Bassin du Dragon et de Neptune
+versailles:Garden:bassin-de-neptune,versailles:Facility:grille-de-neptune,0,0,0,True,True,outdoor,Bassin du Dragon et de Neptune vers Entrée Parc (Grille-de-Neptune)
+versailles:Garden:bassin-des-sirenes,versailles:Garden:bassin-de-neptune,2,3.0,4,True,True,outdoor,Parterre du Nord vers Bassin des Sirènes
+versailles:Garden:parterre-deau,versailles:Garden:bassin-de-neptune,6,7,8,False,False,outdoor,Parterre d'Eau vers Bassin du Dragon et de Neptune
+versailles:Garden:bassin-de-neptune,versailles:Garden:bosquet-de-larc-triomphe,1,2,2,False,False,outdoor,Bassin du Dragon et de Neptune vers Bosquet de l'Arc de Triomphe
+versailles:Garden:bosquet-de-larc-triomphe,versailles:Garden:bassin-de-neptune,1,2,2,False,False,outdoor,Bosquet de l'Arc de Triomphe vers Bassin du Dragon et de Neptune
+versailles:Garden:bassin-de-neptune,versailles:Garden:bassin-des-sirenes,4,5,6,True,True,outdoor,Bassin du Dragon et de Neptune vers Bassin de Sirènes - Fontaine de la Pyramide - Bassin des Nymphes de Diane
+versailles:Garden:bassin-de-neptune,versailles:Garden:bosquet-des-trois-fontaines,1,2,2,True,True,outdoor,Bassin du Dragon et de Neptune vers Bosquet des Trois Fontaines
+versailles:Garden:bosquet-du-theatre-deau,versailles:Facility:grille-de-ceres,1,2,2,True,True,outdoor,Bosquet du Théâtre d'Eau vers Entrée Parc (Grille-de-Cérès)
+versailles:Facility:grille-de-neptune,versailles:Facility:grille-de-ceres,4,5,5,True,True,outdoor,Entrée Parc (Grille-de-Neptune) vers Entrée Parc (Grille-de-Cérès)
+versailles:Garden:bosquet-du-theatre-deau,versailles:Garden:bassin-de-ceres,1,2,2,True,True,outdoor,Bosquet du Théâtre d'Eau vers Bassin de Cérès
+versailles:Garden:bosquet-des-bains-dapollon,versailles:bassin-de-ceres,3,4,5,True,False,outdoor,Bosquet des Bains d'Apollon vers versailles:bassin-de-ceres
+versailles:Garden:bassin-de-ceres,versailles:Garden:parterre-de-latone,3,4,6,True,True,outdoor,Bassin de Cérès vers Bassin de Latone
+versailles:Garden:bassin-de-bacchus,versailles:Garden:parterre-de-latone,3,4,6,True,True,outdoor,Bassin de Bacchus vers Bassin de Latone
+versailles:Garden:parterre-de-latone,versailles:Garden:bassin-de-ceres,3,4,6,True,True,outdoor,Bassin de Latone vers Bassin de Cérès
+versailles:Garden:parterre-de-latone,versailles:Garden:bassin-de-bacchus,3,4,6,True,True,outdoor,Bassin de Latone vers Bassin de Bacchus
+versailles:Garden:bassin-de-bacchus,versailles:Garden:bosquet-de-la-salle-de-bal,2,3,3,True,True,outdoor,Bassin de Bacchus vers Bosquet de la Salle de Bal
+versailles:Garden:bosquet-de-la-salle-de-bal,versailles:Garden:bassin-de-bacchus,2,3,3,True,True,outdoor,Bosquet de la Salle de Bal vers Bassin de Bacchus
+versailles:Garden:bassin-de-bacchus,versailles:Garden:bosquet-de-la-reine,2,3,3,True,True,outdoor,Bassin de Bacchus vers Bosquet de la Reine
+versailles:Garden:bosquet-de-la-reine,versailles:Garden:bassin-de-bacchus,2,3,3,True,True,outdoor,Bosquet de la Reine vers Bassin de Bacchus
+versailles:Garden:bassin-de-bacchus,versailles:Garden:le-mirroir,4,5,5,True,True,outdoor,Bassin de Bacchus vers Bassin Le Mirroir
+versailles:Garden:le-mirroir,versailles:Garden:bassin-de-bacchus,4,5,5,True,True,outdoor,Bassin Le Mirroir vers Bassin de Bacchus
+versailles:Garden:bassin-de-bacchus,versailles:Garden:bassin-de-saturne,4,5,5,True,True,outdoor,Bassin de Bacchus vers Bassin de Saturne
+versailles:Garden:bassin-de-saturne,versailles:Garden:bassin-de-bacchus,4,5,5,True,True,outdoor,Bassin de Saturne vers Bassin de Bacchus
+versailles:Garden:parterre-de-latone,versailles:Garden:bosquet-de-la-girandolle,2,2,2,True,True,outdoor,Bassin de Latone vers Bosquet de la Girandolle
+versailles:Garden:parterre-de-latone,versailles:Garden:bosquet-du-dauphin,2,2,2,True,True,outdoor,Bassin de Latone vers Bosquet du Dauphin
+versailles:Garden:bosquet-de-la-girandolle,versailles:Garden:parterre-de-latone,2,2,2,True,True,outdoor,Bosquet de la Girandolle vers Bassin de Latone
+versailles:Garden:bosquet-du-dauphin,versailles:Garden:parterre-de-latone,2,2,2,True,True,outdoor,Bosquet du Dauphin vers Bassin de Latone
+versailles:Garden:bosquet-de-la-girandolle,versailles:Garden:bassin-de-saturne,2,2,2,True,True,outdoor,Bosquet de la Girandolle vers Bassin de Saturne
+versailles:Garden:bosquet-du-dauphin,versailles:Garden:bassin-de-ceres,2,2,2,True,True,outdoor,Bosquet du Dauphin vers Bassin de Cérès
+versailles:Garden:bassin-de-ceres,versailles:Garden:bosquet-du-dauphin,2,2,2,True,True,outdoor,Bassin de Cérès vers Bosquet du Dauphin
+versailles:Garden:parterre-de-latone,versailles:Garden:bosquet-des-bains-dapollon,4,5,6,True,True,outdoor,Bassin de Latone vers Bassin d'Apollon (Tapis Vert)
+versailles:Garden:bosquet-des-bains-dapollon,versailles:Garden:parterre-de-latone,4,5,6,True,True,outdoor,Retour Bassin d'Apollon
+versailles:Garden:bassin-de-ceres,versailles:Garden:bosquet-de-letoile,2,3.0,4,True,True,outdoor,Bassin de Ceres vers Bosquet de l'Étoile
+versailles:Garden:bosquet-de-letoile,versailles:Garden:bassin-de-ceres,2,3.0,4,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bosquet-de-letoile,versailles:Garden:bassin-de-flore,2,3.0,4,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bassin-de-flore,versailles:Garden:bosquet-de-letoile,2,3.0,4,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bassin-dapollon,versailles:Facility:entree-parc-bassin-apollon,2,2,2,True,True,outdoor,
+versailles:Garden:le-mirroir,versailles:Garden:jardin-du-roi,2,2,2,True,True,outdoor,
+versailles:Garden:bassin-de-saturne,versailles:Garden:jardin-du-roi,2,2,2,True,True,outdoor,
+versailles:Garden:le-mirroir,versailles:Garden:bassin-de-saturne,1,1,1,True,True,outdoor,
+versailles:Garden:le-mirroir,versailles:Garden:bassin-de-saturne,1,1,1,True,True,outdoor,
+versailles:Garden:bassin-de-saturne,versailles:Garden:bosquet-de-la-salle-des-empereurs,1,1,1,True,True,outdoor,
+versailles:Garden:bassin-de-saturne,versailles:Garden:bosquet-de-la-colonnade,1,1,1,True,True,outdoor,
+versailles:Garden:bosquet-de-la-salle-des-empereurs,versailles:Garden:bosquet-de-la-colonnade,1,1,1,True,True,outdoor,
+versailles:Garden:bosquet-de-la-salle-des-empereurs,versailles:Garden:bassin-dapollon,3,4,5,True,True,outdoor,
+versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bassin-dapollon,3,4,5,True,True,outdoor,
+versailles:Garden:bassin-de-flore,versailles:Garden:bosquet-des-domes,2,3,4,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bassin-de-flore,versailles:Garden:bosquet-de-lencelade,2,3,4,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bosquet-de-lencelade,versailles:Garden:bassin-dapollon,4,5,5,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bosquet-des-domes,versailles:Garden:bassin-dapollon,4,5,5,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bosquet-de-lencelade,versailles:Garden:bosquet-de-lobelisque,5,6,6,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bassin-de-flore,versailles:Garden:bosquet-de-lobelisque,5,6,6,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bassin-dapollon,versailles:Garden:bosquet-de-lobelisque,8,9,9,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Garden:bosquet-de-letoile,versailles:Garden:bosquet-de-lobelisque,6,7,7,True,True,outdoor,Retour Bosquet de l'Étoile vers Bassin de Cérès
+versailles:Facility:entree-parc-bassin-apollon,versailles:Park:grand-canal,0,0,0,True,True,outdoor,Bassin d'Apollon vers Grand Canal
+versailles:Park:grand-canal,versailles:Park:etoile-royale,35,40,45,False,True,outdoor,Marcher le long du Grand Canal vers l'Étoile Royale à travers le grand parc
+versailles:Park:etoile-royale,versailles:Park:grand-canal,35,40,45,False,True,outdoor,Retour de l'Étoile Royale vers le Grand Canal
+versailles:Park:etoile-royale,versailles:Facility:entree-grand-trianon,18,20,22.5,False,True,outdoor,Retour de l'Étoile Royale vers le Grand Canal
+versailles:Facility:entree-grand-trianon,versailles:Facility:entree-petit-trianon,6,7,8,True,True,outdoor,
+versailles:Park:grand-canal,versailles:Facility:entree-grand-trianon,18,20,22.5,True,True,outdoor,
+versailles:Park:grand-canal,versailles:Facility:entree-petit-trianon,22,24,26,True,True,outdoor,
+versailles:Facility:entree-grand-trianon,1,1,1,True,True,outdoor,,
+versailles:Facility:entree-petit-trianon,1,1,1,True,True,outdoor,,
