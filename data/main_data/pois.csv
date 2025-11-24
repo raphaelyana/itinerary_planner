@@ -54,8 +54,8 @@ versailles:Room:salle-1807-espagne,salle-1807-espagne,Salle 1807 : Guerre d'Espa
 versailles:Room:salle-1807-1808,salle-1807-1808,Salle 1807-1808 : Campagnes napoléoniennes,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,
 versailles:Room:salle-1809-1811,salle-1809-1811,Salle 1809-1811 : Campagnes napoléoniennes,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,
 versailles:Room:salle-marengo,salle-marengo,Salle Marengo,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,12,full,,1.10,PALACE_DEFAULT,,,,,,,,
-versailles:Room:attique-chimay,attique-chimay,Attique Chimay,Castle,Room,history;art;rain_safe:napoleon_i,20,none,Accessible uniquement par escaliers,1.20,PALACE_SPECIAL,,,,,,,,
-versailles:Room:attique-midi,attique-midi,Attique Midi,Castle,Room,history;art;rain_safe:napoleon_i,20,none,Accessible uniquement par escaliers,1.20,PALACE_SPECIAL,,,,,,,,
+versailles:Room:attique-chimay,attique-chimay,Attique Chimay,Castle,Room,history;art;rain_safe;napoleon_i,20,none,Accessible uniquement par escaliers,1.20,PALACE_SPECIAL,,,,,,,,
+versailles:Room:attique-midi,attique-midi,Attique Midi,Castle,Room,history;art;rain_safe;napoleon_i,20,none,Accessible uniquement par escaliers,1.20,PALACE_SPECIAL,,,,,,,,
 versailles:Castle:pavillon-dufour-sortie,pavillon-dufour-sortie,Sortie Pavillon Dufour,Castle,Facility,services;exit;restroom,0,full,,1.00,PALACE_DEFAULT,,,,,,,,exit
 versailles:Castle:cour-dhonneur-sortie,cour-dhonneur-sortie,Cour d'Honneur (Sortie),Castle,Room,exit;scenic;architecture_classique,5,full,Sortie de plein pied.,0,PALACE_DEFAULT,,,,Other,false,,,
 versailles:Castle:cour-dhonneur,cour-dhonneur,Cour d'Honneur,Castle,Room,entrance;scenic;architecture_classique,5,full,,0,PALACE_DEFAULT,,,,Other,false,,,
