@@ -18,7 +18,7 @@ versailles:Room:salon-de-la-paix,salon-de-la-paix,Salon de la Paix,Castle,Room,a
 versailles:Room:galerie-des-glaces,galerie-des-glaces,Galerie des Glaces,Castle,Room,must_see;art;history;photo_spot;rain_safe;louis_xiv;art_classique,20,full,,2.00,PALACE_DEFAULT,,,,,,,,
 versailles:Room:chambre-de-la-reine,chambre-de-la-reine,Chambre de la Reine,Castle,Room,must_see;art;history;rain_safe;marie_antoinette;art_rocaille,8,full,,1.80,PALACE_DEFAULT,,,,,,,,
 versailles:Room:galerie-des-batailles,galerie-des-batailles,Galerie des Batailles,Castle,Room,history;art;military;rain_safe;monarchy_july;art_militaire,20,full,,1.60,PALACE_DEFAULT,,,,,,,,
-versailles:Facility:entree-appartements-nieces,entree-appartements-nieces,Entrée Appartements des Nièces du Roi,Castle,Facility,entrance;services,0,full,,1.00,PALACE_SPECIAL,,,,,,,,entrance
+versailles:Castle:entree-appartements-nieces,entree-appartements-nieces,Entrée Appartements des Nièces du Roi,Castle,Facility,entrance;services,0,full,,1.00,PALACE_SPECIAL,,,,,,,,entrance
 versailles:Room:premiere-antichambre,premiere-antichambre,Première Antichambre de Madame Victoire,Castle,Room,history;lifestyle;rain_safe;louis_xiv,4,full,,1.20,PALACE_SPECIAL,,,,,,,,
 versailles:Room:deuxieme-antichambre,deuxieme-antichambre,Deuxième Antichambre de Madame Victoire,Castle,Room,history;lifestyle;rain_safe;louis_xiv,5,full,,1.20,PALACE_SPECIAL,,,,,,,,
 versailles:Room:grand-cabinet-victoire,grand-cabinet-victoire,Grand Cabinet de Madame Victoire,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,5,full,,1.20,PALACE_SPECIAL,,,,,,,,
@@ -33,14 +33,12 @@ versailles:Room:chambre-dauphine,chambre-dauphine,Chambre de Madame Dauphine,Cas
 versailles:Room:grand-cabinet-dauphine,grand-cabinet-dauphine,Grand Cabinet de Madame Dauphine,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,5,full,,1.20,PALACE_SPECIAL,,,,,,,,
 versailles:Room:deuxieme-antichambre-dauphine,deuxieme-antichambre-dauphine,Seconde Antichambre de la Dauphine,Castle,Room,history;lifestyle;rain_safe;louis_xiv,5,full,,1.20,PALACE_SPECIAL,,,,,,,,
 versailles:Room:premiere-antichambre-dauphine,premiere-antichambre-dauphine,Première Antichambre de la Dauphine,Castle,Room,history;lifestyle;rain_safe;louis_xiv,4,full,,1.20,PALACE_SPECIAL,,,,,,,,
-versailles:Facility:entree-appartements-dauphine,entree-appartements-dauphine,Entrée Appartements de la Dauphine,Castle,Facility,entrance;services,0,full,,1.00,PALACE_SPECIAL,,,,,,,,entrance
+versailles:Castle:entree-appartements-dauphine,entree-appartements-dauphine,Entrée Appartements de la Dauphine,Castle,Facility,entrance;services,0,full,,1.00,PALACE_SPECIAL,,,,,,,,entrance
 versailles:Room:chambre-du-roi,chambre-du-roi,Chambre du Roi,Castle,Room,must_see;history;rain_safe;louis_xiv,12,full,,2.00,PALACE_DEFAULT,,,,,,,,
 versailles:Room:cabinet-du-conseil,cabinet-du-conseil,Cabinet du Conseil,Castle,Room,history;politics;rain_safe;louis_xv,10,full,,1.80,PALACE_DEFAULT,,,,,,,,
 versailles:Room:salon-des-nobles,salon-des-nobles,Salon des Nobles,Castle,Room,history;art;rain_safe;marie_antoinette;art_rocaille,8,full,,1.60,PALACE_DEFAULT,,,,,,,,
 versailles:Room:antichambre-du-grand-couvert-reine,antichambre-du-grand-couvert-reine,Antichambre du Grand Couvert (Reine),Castle,Room,history;lifestyle;rain_safe;louis_xiv;marie_antoinette,7,full,,1.40,PALACE_DEFAULT,,,,,,,,
 versailles:Room:salle-des-gardes-de-la-reine,salle-des-gardes-de-la-reine,Salle des Gardes de la Reine,Castle,Room,history;rain_safe;protection;marie_antoinette,5,full,,1.20,PALACE_DEFAULT,,,,,,,,
-versailles:Room:appartements-de-mesdames,appartements-de-mesdames,Appartements de Mesdames,Castle,Room,history;family;rain_safe;louis_xv,25,full,,1.20,PALACE_DEFAULT,,,,,,,,
-versailles:Room:opera-royal,opera-royal,Opéra Royal,Castle,Room,must_see;architecture;art;music;rain_safe;louis_xv;louis_xvi;art_classique,20,none,Stairs to access; limited mobility access,1.80,PALACE_SPECIAL,,,,,,separate_ticket,
 versailles:Room:galerie-basse,galerie-basse,Galerie Basse,Castle,Room,art;history;rain_safe,15,full,,1.00,PALACE_DEFAULT,,,,,,,,
 versailles:Room:salle-1792,salles-1792,Salle de 1792,Castle,Room,history;art;rain_safe;revolution,20,full,,1.20,PALACE_DEFAULT,,,,,,,,
 versailles:Room:salle-1796-1797,salle-1796-1797,Salle 1796-1797 : Première campagne d'Italie,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,
@@ -58,7 +56,7 @@ versailles:Room:salle-1809-1811,salle-1809-1811,Salle 1809-1811 : Campagnes napo
 versailles:Room:salle-marengo,salle-marengo,Salle Marengo,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,12,full,,1.10,PALACE_DEFAULT,,,,,,,,
 versailles:Room:attique-chimay,attique-chimay,Attique Chimay,Castle,Room,history;art;rain_safe:napoleon_i,20,none,Accessible uniquement par escaliers,1.20,PALACE_SPECIAL,,,,,,,,
 versailles:Room:attique-midi,attique-midi,Attique Midi,Castle,Room,history;art;rain_safe:napoleon_i,20,none,Accessible uniquement par escaliers,1.20,PALACE_SPECIAL,,,,,,,,
-versailles:Facility:pavillon-dufour-sortie,pavillon-dufour-sortie,Sortie Pavillon Dufour,Castle,Facility,services;exit;restroom,0,full,,1.00,PALACE_DEFAULT,,,,,,,,exit
+versailles:Castle:pavillon-dufour-sortie,pavillon-dufour-sortie,Sortie Pavillon Dufour,Castle,Facility,services;exit;restroom,0,full,,1.00,PALACE_DEFAULT,,,,,,,,exit
 versailles:Castle:cour-dhonneur-sortie,cour-dhonneur-sortie,Cour d'Honneur (Sortie),Castle,Room,exit;scenic;architecture_classique,5,full,Sortie de plein pied.,0,PALACE_DEFAULT,,,,Other,false,,,
 versailles:Castle:cour-dhonneur,cour-dhonneur,Cour d'Honneur,Castle,Room,entrance;scenic;architecture_classique,5,full,,0,PALACE_DEFAULT,,,,Other,false,,,
 versailles:Castle:cour-royale,cour-royale,Cour Royale,Castle,Room,entrance;louis_xiv;architecture_classique,5,full,Pré-entrée avant contrôle Pavillon Dufour.,0,PALACE_DEFAULT,,,,Other,false,,,
@@ -92,13 +90,13 @@ versailles:Garden:bosquet-de-lobelisque,bosquet-de-lobelisque,Bosquet de l'Obél
 versailles:Garden:bosquet-de-la-salle-des-empereurs,bosquet-de-la-salle-des-empereurs,Bosquet de la Salle des Empereurs,Gardens,Garden,architecture;garden;scenic;history,12,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,
 versailles:Garden:jardin-du-roi,jardin-du-roi,Jardin du Roi,Gardens,Garden,architecture;garden;scenic;history,12,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,
 versailles:Garden:bassin-dapollon,bassin-dapollon,Bassin d'Apollon,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,10,full,,2.00,GARDENS_DEFAULT,,,,Other,true,,,
-versailles:Facility:entree-parc-bassin-apollon,entree-parc-bassin-apollon,Entrée Parc (Bassin d'Apollon),Gardens,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
-versailles:Facility:grille-de-neptune,grille-de-neptune,Entrée Parc (Grille-de-Neptune),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
-versailles:Facility:grille-des-matelots,grille-des-matelots,Entrée Parc (Grille-des-Matelots),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
-versailles:Facility:grille-de-ceres,grille-de-ceres,Entrée Parc (Grille-de-Cérès),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
+versailles:Garden:entree-parc-bassin-apollon,entree-parc-bassin-apollon,Entrée Parc (Bassin d'Apollon),Gardens,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
+versailles:Garden:grille-de-neptune,grille-de-neptune,Entrée Parc (Grille-de-Neptune),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
+versailles:Garden:grille-des-matelots,grille-des-matelots,Entrée Parc (Grille-des-Matelots),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
+versailles:Garden:grille-de-ceres,grille-de-ceres,Entrée Parc (Grille-de-Cérès),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance
 versailles:Park:grand-canal,grand-canal,Grand Canal,Park,Garden,must_see;water;scenic;photo_spot,30,full,,0.80,PARK_DEFAULT,,,,Other,false,,,
 versailles:Park:etoile-royale,etoile-royale,Etoile Royale,Park,Garden,must_see;water;scenic;photo_spot,30,full,,0.80,PARK_DEFAULT,,,,Other,false,,,
-versailles:Facility:entree-grand-trianon,entree-grand-trianon,Entrée Grand Trianon,Trianon,Facility,entrance;services,0,full,,1.00,TRIANON_DEFAULT,,,,,,,,entrance
+versailles:Trianon:entree-grand-trianon,entree-grand-trianon,Entrée Grand Trianon,Trianon,Facility,entrance;services,0,full,,1.00,TRIANON_DEFAULT,,,,,,,,entrance
 versailles:Trianon:boudoir-imperatrice-Marie-Louise,boudoir-imperatrice-Marie-Louise,Boudoir de l'Imperatrice Marie-Louise,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:salon-des-glaces,salon-des-glaces,Salon des Glaces,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:chambre-de-limperatrice,chambre-de-limperatrice,Chambre de l'Imperatrice,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
@@ -106,7 +104,7 @@ versailles:Trianon:salon-de-la-chapelle,salon-de-la-chapelle,Salon de la Chapell
 versailles:Trianon:salon-des-seigneurs,salon-des-seigneurs,Salon des Seigneurs,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:salon-rond,salon-rond,Salon Rond,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:salon-de-famille-de-lempereur,salon-de-famille-de-lempereur,Salon de Famille de l'Empereur,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
-versailles:Trianon:chambre-reine-des-belges,chambre-reine-des-belges,Chambre Reine des Belges,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
+versailles:Trianon:chambre-reine-des-belges,chambre-reine-des-belges,Chambre de la Reine des Belges,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:salon-de-musique,salon-de-musique,Salon de Musique,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:salon-famille-louis-philippe,salon-famille-louis-philippe,Salon de Famille de Louis-Philippe,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:salon-malachite,salon-malachite,Salon de Malachite,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
@@ -114,6 +112,7 @@ versailles:Trianon:cabinet-topographique,cabinet-topographique,Cabinet Topograph
 versailles:Trianon:salon-frais,salon-frais,Cabinet Topographique de l'Empereur,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:galerie-des-cotelle,galerie-des-cotelles,Cabinet Topographique de l'Empereur,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:salon-des-jardins,salon-des-jardins,Salon des Jardins,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
+versailles:Trianon:premier-salon,premier-salon,Premier Salon,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:parterre-haut,parterre-haut,Parterre Haut,Trianon,Garden,garden;scenic;flowers,20,full,,0.80,TRIANON_DEFAULT,,,,Formal,false,,,
 versailles:Trianon:parterre-bas,parterre-bas,Parterre Bas,Trianon,Garden,garden;scenic;flowers,20,full,,0.80,TRIANON_DEFAULT,,,,Formal,false,,,
 versailles:Trianon:bassin-du-fer-a-cheval,bassin-du-fer-a-cheval,Bassin du Fer à Cheval,Trianon,Garden,water;scenic;fountains,10,full,,1.00,TRIANON_DEFAULT,,,,Other,true,,,
@@ -135,7 +134,7 @@ versailles:Trianon:le-rocher,le-rocher,Le Rocher,Trianon,Garden,architecture;pho
 versailles:Trianon:belvedere,belvedere,Belvédère (Pavillon du Rocher),Trianon,Garden,architecture;photo_spot;scenic;marie_antoinette,10,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,
 versailles:Trianon:la-grotte,la-grotte,La Grotte,Trianon,Garden,architecture;scenic;marie_antoinette,5,none,Uneven surfaces,0.70,TRIANON_DEFAULT,,,,Garden,false,,,
 versailles:Trianon:temple-amour,temple-amour,Temple de l'Amour,Trianon,Garden,architecture;photo_spot;scenic,10,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,
-versailles:Facility:entree-petit-trianon,entree-petit-trianon,Entrée Petit Trianon,Trianon,Facility,entrance;services,0,full,,1.00,TRIANON_DEFAULT,,,,,,,,entrance
+versailles:Trianon:entree-petit-trianon,entree-petit-trianon,Entrée Petit Trianon,Trianon,Facility,entrance;services,0,full,,1.00,TRIANON_DEFAULT,,,,,,,,entrance
 versailles:Trianon:salle-des-gardes-petit-trianon,salle-des-gardes-petit-trianon,Salle des Gardes du Petit Trianon,Trianon,Room,history;lifestyle;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:salon-du-billard-petit-trianon,salon-du-billard-petit-trianon,Salon du Billard du Petit Trianon,Trianon,Room,history;lifestyle;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:piece-dargenterie-petit-trianon,piece-dargenterie-petit-trianon,Pièce d'Argenterie du Petit Trianon,Trianon,Room,history;lifestyle;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
@@ -148,9 +147,9 @@ versailles:Trianon:petite-salle-a-manger-petit-trianon,petite-salle-a-manger-pet
 versailles:Trianon:salon-de-compagnie-petit-trianon,salon-de-compagnie-petit-trianon,Salon de Compagnie du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:chambre-a-coucher-de-la-reine-petit-trianon,chambre-a-coucher-de-la-reine-petit-trianon,Chambre à Coucher de la Reine du Petit Trianon,Trianon,Room,history;art;marie_antoinette,8,full,,1.20,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:boudoir-des-glaces-mouvantes-petit-trianon,boudoir-des-glaces-mouvantes-petit-trianon,Boudoir des Glaces Mouvantes du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,
-versailles:cabinet-de-toilette-de-la-reine-petit-trianon,cabinet-de-toilette-de-la-reine-petit-trianon,Cabinet de Toilette de la Reine du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,
-versailles:Facility:interface-hameau-trianon,interface-hameau-trianon,Interface Hameau de la Reine et Trianon,Trianon,Facility,scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,
-versailles:Facility:entree-hameau-de-la-reine,entree-hameau-de-la-reine,Entrée Hameau de la Reine,Trianon,Facility,scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,
+versailles:Trianon:cabinet-de-toilette-de-la-reine-petit-trianon,cabinet-de-toilette-de-la-reine-petit-trianon,Cabinet de Toilette de la Reine du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,
+versailles:Trianon:interface-hameau-trianon,interface-hameau-trianon,Interface Hameau de la Reine et Trianon,Trianon,Facility,scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,
+versailles:Trianon:entree-hameau-de-la-reine,entree-hameau-de-la-reine,Entrée Hameau de la Reine (Accès à la Ferme du Hameau),Trianon,Facility,entrance;services,0,full,Ouverte que en haute saison,1.00,HAMEAU_HIGH_ONLY,,,,,,,,entrance
 versailles:Trianon:le-moulin-hameau,le-moulin-hameau,Le Moulin du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:maison-de-la-reine-hameau,maison-de-la-reine-hameau,Maison de la Reine du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,
 versailles:Trianon:maison-du-billard-hameau,maison-du-billard-hameau,Maison du Billard du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,
@@ -160,4 +159,3 @@ versailles:Trianon:maison-du-garde-hameau,maison-du-garde-hameau,Maison du Garde
 versailles:Trianon:laiterie-propriete-hameau,laiterie-propriete-hameau,Laiterie de la Propriété du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,
 versailles:Trianon:tour-de-marlborough-hameau,tour-de-marlborough-hameau,Tour de Marlborough du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,1.00,TRIANON_DEFAULT,,,,,,,
 versailles:Trianon:ferme-hameau,ferme-hameau,La Ferme du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,
-versailles:Facility:acces-ferme-hameau,acces-ferme-hameau,Accès Ferme du Hameau,Trianon,Facility,entrance;services,0,full,Ouverte que en haute saison,1.00,HAMEAU_HIGH_ONLY,,,,,,,,entrance

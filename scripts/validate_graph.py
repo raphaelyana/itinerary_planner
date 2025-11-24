@@ -40,9 +40,9 @@ from graph_analysis_utils import (
 
 
 # Constants
-DEFAULT_ENTRANCE = "versailles:Garden:cour-dhonneur"
-TRIANON_ENTRANCE = "versailles:Trianon:grand-trianon"
-EXIT_NODE = "versailles:Garden:cour-dhonneur-sortie"
+DEFAULT_ENTRANCE = "versailles:Castle:cour-dhonneur"
+TRIANON_ENTRANCE = "versailles:Trianon:entree-grand-trianon"
+EXIT_NODE = "versailles:Castle:cour-dhonneur-sortie"
 MAX_PATH_LENGTH = 20  # APOC maxLevel limit in planner_utils.py
 
 
@@ -75,20 +75,38 @@ class GraphValidator:
         self,
         pois_path: Path,
         connections_path: Path,
-        accessibility: str = "any"
+        accessibility: str = "any",
+        bidirectional_zones: Optional[Set[str]] = None,
+        allow_long_paths: bool = False,
     ):
         self.pois_path = pois_path
         self.connections_path = connections_path
         self.accessibility = accessibility
+        self.bidirectional_zones = bidirectional_zones or {"Garden", "Park", "Trianon"}
+        self.allow_long_paths = allow_long_paths
         self.issues: List[ValidationIssue] = []
 
         # Load data
         self.pois = load_pois_from_csv(pois_path)
         self.graph = load_graph_from_csv(connections_path, accessibility)
 
-        # Categorize POIs by zone
-        self.castle_pois = {pid for pid in self.pois if is_castle_zone(pid)}
-        self.garden_pois = {pid for pid in self.pois if is_garden_zone(pid)}
+        def normalize_zone(raw: Optional[str]) -> Optional[str]:
+            if not raw:
+                return None
+            raw_norm = raw.strip()
+            if raw_norm.lower() == "gardens":
+                return "Garden"
+            return raw_norm
+
+        # Categorize POIs by declared zone (not by ID prefix) to match CSV
+        self.castle_pois = {
+            pid for pid, poi in self.pois.items()
+            if normalize_zone(getattr(poi, "zone", None)) == "Castle"
+        }
+        self.bidirectional_pois = {
+            pid for pid, poi in self.pois.items()
+            if normalize_zone(getattr(poi, "zone", None)) in self.bidirectional_zones
+        }
 
     def add_issue(self, severity: str, rule: str, message: str, details: Optional[Dict] = None):
         """Add a validation issue."""
@@ -105,7 +123,7 @@ class GraphValidator:
         print(f"Total POIs: {len(self.pois)}")
         print(f"Total graph nodes: {len(self.graph.nodes)}")
         print(f"Castle POIs (directed): {len(self.castle_pois)}")
-        print(f"Garden POIs (bidirectional): {len(self.garden_pois)}")
+        print(f"Garden POIs (bidirectional): {len(self.bidirectional_pois)} (zones: {', '.join(sorted(self.bidirectional_zones))})")
         print()
 
         # Run all validation rules
@@ -205,14 +223,18 @@ class GraphValidator:
         """Check bidirectionality for garden zones (castle is allowed to be directed)."""
         print("[3/8] Checking zone-specific bidirectionality...")
 
-        # Only check garden/park/trianon zones for bidirectionality
-        missing_reverse = check_bidirectionality(self.graph, self.garden_pois, self.accessibility)
+        if not self.bidirectional_zones:
+            print("  ⏭️  SKIPPED: Bidirectionality check disabled (no zones configured)")
+            return
+
+        # Only check configured zones for bidirectionality
+        missing_reverse = check_bidirectionality(self.graph, self.bidirectional_pois, self.accessibility)
 
         if missing_reverse:
             self.add_issue(
                 severity="error",
                 rule="bidirectionality",
-                message=f"Found {len(missing_reverse)} one-way edge(s) in bidirectional zones (Gardens/Trianon/Park)",
+                message=f"Found {len(missing_reverse)} one-way edge(s) in bidirectional zones ({', '.join(sorted(self.bidirectional_zones))})",
                 details={
                     "missing_reverse_edges": [
                         {"from": from_id, "to": to_id}
@@ -283,6 +305,10 @@ class GraphValidator:
     def validate_path_lengths(self):
         """Check that all paths are within APOC maxLevel limit."""
         print("[5/8] Checking maximum path lengths...")
+
+        if self.allow_long_paths:
+            print("  ⏭️  SKIPPED: Path length check disabled (--allow-long-paths)")
+            return
 
         long_paths = []
         poi_ids = list(self.pois.keys())
@@ -426,22 +452,81 @@ class GraphValidator:
 
         # For large castle POI sets, just check basic connectivity
         if len(self.castle_pois) > 15:
-            # Check that a path exists from first to last
-            castle_list = sorted(list(self.castle_pois))
-            first_room = castle_list[0]
-            last_room = castle_list[-1]
+            castle_nodes = self.castle_pois
 
-            reachable = bfs_reachable(self.graph, first_room, self.accessibility)
-            if last_room not in reachable:
+            def castle_neighbors(node_id: str) -> List[str]:
+                neighbors = []
+                for edge in self.graph.adjacency.get(node_id, []):
+                    if edge.to_id not in castle_nodes:
+                        continue
+                    if self.accessibility == "step_free" and not edge.is_step_free:
+                        continue
+                    if self.accessibility == "stroller" and not (edge.is_step_free and edge.stroller_friendly):
+                        continue
+                    neighbors.append(edge.to_id)
+                return neighbors
+
+            def castle_in_degree(node_id: str) -> int:
+                count = 0
+                for edge in self.graph.reverse_adjacency.get(node_id, []):
+                    if edge.from_id not in castle_nodes:
+                        continue
+                    if self.accessibility == "step_free" and not edge.is_step_free:
+                        continue
+                    if self.accessibility == "stroller" and not (edge.is_step_free and edge.stroller_friendly):
+                        continue
+                    count += 1
+                return count
+
+            def castle_out_degree(node_id: str) -> int:
+                return len(castle_neighbors(node_id))
+
+            candidate_starts = [node for node in castle_nodes if castle_in_degree(node) == 0]
+            if not candidate_starts:
+                candidate_starts = list(castle_nodes)
+
+            def reachable_from(start: str) -> Set[str]:
+                visited = {start}
+                queue = [start]
+                while queue:
+                    current = queue.pop(0)
+                    for neighbor in castle_neighbors(current):
+                        if neighbor not in visited:
+                            visited.add(neighbor)
+                            queue.append(neighbor)
+                return visited
+
+            covering_start = None
+            coverage_map: Dict[str, Set[str]] = {}
+
+            for start in candidate_starts:
+                reach = reachable_from(start)
+                coverage_map[start] = reach
+                if castle_nodes.issubset(reach):
+                    covering_start = start
+                    break
+
+            if covering_start:
+                end_candidates = [node for node in castle_nodes if castle_out_degree(node) == 0]
+                print(f"  ✅ PASSED: Castle tour has a covering start node ({covering_start})")
+                if end_candidates:
+                    print(f"         Possible tour ends (out-degree 0): {', '.join(sorted(end_candidates)[:5])}")
+            else:
+                best_start, best_reach = None, set()
+                if coverage_map:
+                    best_start, best_reach = max(coverage_map.items(), key=lambda kv: len(kv[1]))
+                missing = sorted(list(castle_nodes - best_reach))
                 self.add_issue(
                     severity="error",
                     rule="castle_tour",
-                    message="Castle tour is disconnected (first room cannot reach last room)",
-                    details={"first": first_room, "last": last_room}
+                    message="Castle tour does not have a single-direction covering path from any start",
+                    details={
+                        "best_start": best_start,
+                        "reachable_from_best_start": len(best_reach),
+                        "missing_from_best_start": missing,
+                    }
                 )
-                print(f"  ❌ FAILED: Castle tour is disconnected")
-            else:
-                print(f"  ✅ PASSED: Castle tour is connected ({len(self.castle_pois)} rooms, too large for Hamiltonian path check)")
+                print(f"  ❌ FAILED: No start node reaches all castle rooms (best start '{best_start}' reaches {len(best_reach)}/{len(castle_nodes)})")
         else:
             # Small enough to verify Hamiltonian path
             has_path, path = verify_hamiltonian_path(self.graph, self.castle_pois, self.accessibility)
@@ -528,6 +613,17 @@ def main():
         help="Accessibility filter to validate"
     )
     parser.add_argument(
+        "--bidirectional-zones",
+        type=str,
+        default="Garden,Park,Trianon",
+        help="Comma-separated list of zones to enforce bidirectionality on (default: Garden,Park,Trianon)"
+    )
+    parser.add_argument(
+        "--allow-long-paths",
+        action="store_true",
+        help="Skip failing the check for paths longer than the APOC maxLevel (20 hops)."
+    )
+    parser.add_argument(
         "--output-json",
         type=Path,
         help="Output validation report as JSON to this file"
@@ -548,7 +644,22 @@ def main():
         sys.exit(1)
 
     # Run validation
-    validator = GraphValidator(pois_path, connections_path, args.accessibility)
+    bidir_zones = set()
+    for z in args.bidirectional_zones.split(","):
+        z = z.strip()
+        if not z:
+            continue
+        if z.lower() == "gardens":
+            z = "Garden"
+        bidir_zones.add(z)
+
+    validator = GraphValidator(
+        pois_path,
+        connections_path,
+        args.accessibility,
+        bidirectional_zones=bidir_zones,
+        allow_long_paths=args.allow_long_paths,
+    )
     report = validator.validate_all()
 
     # Print report

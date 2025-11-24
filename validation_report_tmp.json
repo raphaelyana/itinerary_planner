@@ -1,0 +1,121 @@
+{
+  "total_pois": 160,
+  "total_connections": 160,
+  "total_issues": 2,
+  "errors": 1,
+  "warnings": 0,
+  "accessibility_level": "any",
+  "zone_stats": {
+    "Castle": 61,
+    "Gardens": 31,
+    "Park": 5,
+    "Trianon": 63
+  },
+  "issues": [
+    {
+      "severity": "error",
+      "rule": "bidirectionality",
+      "message": "Found 22 one-way edge(s) in bidirectional zones (Garden, Park)",
+      "details": {
+        "missing_reverse_edges": [
+          {
+            "from": "versailles:Garden:bosquet-de-la-salle-des-empereurs",
+            "to": "versailles:Garden:bosquet-de-la-colonnade"
+          },
+          {
+            "from": "versailles:Garden:bosquet-de-la-salle-des-empereurs",
+            "to": "versailles:Garden:bassin-dapollon"
+          },
+          {
+            "from": "versailles:Garden:bassin-de-neptune",
+            "to": "versailles:Garden:bosquet-des-trois-fontaines"
+          },
+          {
+            "from": "versailles:Garden:bassin-dapollon",
+            "to": "versailles:Garden:entree-parc-bassin-apollon"
+          },
+          {
+            "from": "versailles:Garden:bosquet-des-bains-dapollon",
+            "to": "versailles:Garden:bassin-de-ceres"
+          },
+          {
+            "from": "versailles:Garden:bosquet-du-theatre-deau",
+            "to": "versailles:Garden:bassin-de-ceres"
+          },
+          {
+            "from": "versailles:Garden:bassin-de-flore",
+            "to": "versailles:Garden:bosquet-des-domes"
+          },
+          {
+            "from": "versailles:Garden:bassin-de-flore",
+            "to": "versailles:Garden:bosquet-de-lencelade"
+          },
+          {
+            "from": "versailles:Garden:entree-parc-bassin-apollon",
+            "to": "versailles:Park:grand-canal"
+          },
+          {
+            "from": "versailles:Garden:bosquet-des-domes",
+            "to": "versailles:Garden:bassin-dapollon"
+          },
+          {
+            "from": "versailles:Garden:parterre-deau",
+            "to": "versailles:Garden:bosquet-de-la-reine"
+          },
+          {
+            "from": "versailles:Garden:parterre-deau",
+            "to": "versailles:Garden:bassin-de-neptune"
+          },
+          {
+            "from": "versailles:Garden:bosquet-de-la-colonnade",
+            "to": "versailles:Garden:bassin-dapollon"
+          },
+          {
+            "from": "versailles:Garden:bosquet-de-la-girandolle",
+            "to": "versailles:Garden:bassin-de-saturne"
+          },
+          {
+            "from": "versailles:Garden:le-mirroir",
+            "to": "versailles:Garden:jardin-du-roi"
+          },
+          {
+            "from": "versailles:Garden:le-mirroir",
+            "to": "versailles:Garden:bassin-de-saturne"
+          },
+          {
+            "from": "versailles:Garden:le-mirroir",
+            "to": "versailles:Garden:bassin-de-saturne"
+          },
+          {
+            "from": "versailles:Garden:bassin-de-saturne",
+            "to": "versailles:Garden:jardin-du-roi"
+          },
+          {
+            "from": "versailles:Garden:bassin-de-saturne",
+            "to": "versailles:Garden:bosquet-de-la-salle-des-empereurs"
+          },
+          {
+            "from": "versailles:Garden:bassin-de-saturne",
+            "to": "versailles:Garden:bosquet-de-la-colonnade"
+          },
+          {
+            "from": "versailles:Garden:acces-jardins-cour-des-princes",
+            "to": "versailles:Garden:pdv-parterre-du-midi-orangerie"
+          },
+          {
+            "from": "versailles:Garden:bosquet-de-lencelade",
+            "to": "versailles:Garden:bassin-dapollon"
+          }
+        ]
+      }
+    },
+    {
+      "severity": "info",
+      "rule": "castle_directionality",
+      "message": "Castle has 57 one-way edges (expected for museum tour)",
+      "details": {
+        "one_way_count": 57
+      }
+    }
+  ]
+}
