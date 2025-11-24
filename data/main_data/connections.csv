@@ -182,3 +182,146 @@ versailles:Park:etoile-royale,versailles:Trianon:entree-grand-trianon,18,20,22.5
 versailles:Trianon:entree-grand-trianon,versailles:Trianon:entree-petit-trianon,6,7,8,True,True,outdoor,Entrée Grand Trianon vers Entrée Petit Trianon
 versailles:Park:grand-canal,versailles:Trianon:entree-grand-trianon,18,20,22.5,True,True,outdoor,Grand Canal vers Entrée Grand Trianon
 versailles:Park:grand-canal,versailles:Trianon:entree-petit-trianon,22,24,26,True,True,outdoor,Grand Canal vers Entrée Petit Trianon
+versailles:Trianon:entree-petit-trianon,versailles:Garden:entree-parc-bassin-apollon,22,24,26,True,True,outdoor,Grand Canal vers Entrée Petit Trianon
+versailles:Trianon:entree-petit-trianon,versailles:Garden:entree-parc-bassin-apollon,0,0,0,True,True,outdoor,Grand Canal vers Entrée Petit Trianon
+
+versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bosquet-de-la-salle-des-empereurs,1,1,1,True,True,outdoor,Bosquet de la Salle des Empereurs vers Bosquet de la Colonnade
+versailles:Garden:bassin-dapollon,versailles:Garden:bosquet-de-la-salle-des-empereurs,3,4,5,True,True,outdoor,Bosquet de la Salle des Empereurs vers Bassin d'Apollon
+versailles:Garden:bosquet-des-trois-fontaines,versailles:Garden:bassin-de-neptune,1,2,2,True,True,outdoor,Bassin de Neptune vers Bosquet des Trois Fontaines
+versailles:Garden:entree-parc-bassin-apollon,versailles:Garden:bassin-dapollon,2,2,2,True,True,outdoor,Bassin d'Apollon vers Entrée Parc Bassin d'Apollon
+versailles:Garden:bassin-de-ceres,versailles:Garden:bosquet-des-bains-dapollon,3,4,5,True,False,outdoor,Bosquet des Bains d'Apollon vers Bassin de Cérès
+versailles:Garden:bassin-de-ceres,versailles:Garden:bosquet-du-theatre-deau,1,2,2,True,True,outdoor,Bosquet du Théâtre d'Eau vers Bassin de Cérès
+versailles:Garden:bosquet-des-domes,versailles:Garden:bassin-de-flore,2,3,4,True,True,outdoor,Bassin de Flore vers Bosquet des Dômes
+versailles:Garden:bosquet-de-lencelade,versailles:Garden:bassin-de-flore,2,3,4,True,True,outdoor,Bassin de Flore vers Bosquet de l'Encelade
+versailles:Park:grand-canal,versailles:Garden:entree-parc-bassin-apollon,0,0,0,True,True,outdoor,Entrée Parc Bassin d'Apollon vers Grand Canal
+versailles:Garden:bassin-dapollon,versailles:Garden:bosquet-des-domes,4,5,5,True,True,outdoor,Bosquet des Dômes vers Bassin d'Apollon
+versailles:Garden:bosquet-de-la-reine,versailles:Garden:parterre-deau,6,8,10,False,False,outdoor,Parterre d'Eau vers Bosquet de la Reine
+versailles:Garden:bassin-de-neptune,versailles:Garden:parterre-deau,6,7,8,False,False,outdoor,Parterre d'Eau vers Bassin de Neptune
+versailles:Garden:bassin-dapollon,versailles:Garden:bosquet-de-la-colonnade,3,4,5,True,True,outdoor,Bosquet de la Colonnade vers Bassin d'Apollon
+versailles:Garden:bassin-de-saturne,versailles:Garden:bosquet-de-la-girandolle,2,2,2,True,True,outdoor,Bosquet de la Girandolle vers Bassin de Saturne
+versailles:Garden:jardin-du-roi,versailles:Garden:le-mirroir,2,2,2,True,True,outdoor,Le Mirroir vers Jardin du Roi
+versailles:Garden:bassin-de-saturne,versailles:Garden:le-mirroir,1,1,1,True,True,outdoor,Le Mirroir vers Bassin de Saturne
+versailles:Garden:jardin-du-roi,versailles:Garden:bassin-de-saturne,2,2,2,True,True,outdoor,Bassin de Saturne vers Jardin du Roi
+versailles:Garden:bosquet-de-la-salle-des-empereurs,versailles:Garden:bassin-de-saturne,1,1,1,True,True,outdoor,Bassin de Saturne vers Bosquet de la Salle des Empereurs
+versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bassin-de-saturne,1,1,1,True,True,outdoor,Bassin de Saturne vers Bosquet de la Colonnade
+versailles:Garden:pdv-parterre-du-midi-orangerie,versailles:Garden:acces-jardins-cour-des-princes,0,0,0,True,True,outdoor,Accès Jardins Cour des Princes vers PDV Parterre du Midi Orangerie
+versailles:Garden:bassin-dapollon,versailles:Garden:bosquet-de-lencelade,4,5,5,True,True,outdoor,Bosquet de l'Encelade vers Bassin d'Apollon
+
+versailles:Trianon:entree-grand-trianon,versailles:Trianon:boudoir-imperatrice-Marie-Louise,0,0,0,True,True,indoor,,
+versailles:Trianon:boudoir-imperatrice-Marie-Louise,versailles:Trianon:salon-des-glaces,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-des-glaces,versailles:Trianon:chambre-de-limperatrice,0,0,0,True,True,indoor,,
+versailles:Trianon:chambre-de-limperatrice,versailles:Trianon:salon-des-glaces,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-des-glaces,versailles:Trianon:salon-de-la-chapelle,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-de-la-chapelle,versailles:Trianon:salon-des-seigneurs,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-des-seigneurs,versailles:Trianon:salon-rond,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-rond,versailles:Trianon:salon-de-famille-de-lempereur,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-de-famille-de-lempereur,versailles:Trianon:chambre-reine-des-belges,0,0,0,True,True,indoor,,
+versailles:Trianon:chambre-reine-des-belges,versailles:Trianon:salon-de-musique,2,2,2,True,True,indoor,,
+versailles:Trianon:salon-de-musique,versailles:Trianon:salon-famille-louis-philippe,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-famille-louis-philippe,versailles:Trianon:salon-malachite,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-malachite,versailles:Trianon:cabinet-topographique,0,0,0,True,True,indoor,,
+versailles:Trianon:cabinet-topographique,versailles:Trianon:salon-frais,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-frais,versailles:Trianon:galerie-des-cotelle,0,0,0,True,True,indoor,,
+versailles:Trianon:galerie-des-cotelle,versailles:Trianon:salon-des-jardins,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-des-jardins,versailles:Trianon:premier-salon,4,4,4,True,True,indoor,,
+versailles:Trianon:premier-salon,versailles:Trianon:entree-grand-trianon,4,4,4,True,True,indoor,sortie du grand trianon,
+versailles:Trianon:premier-salon,versailles:Trianon:parterre-haut,1,1,1,True,True,outdoor,,
+versailles:Trianon:premier-salon,versailles:Trianon:jardin-du-roi-trianon,1,1,1,True,True,outdoor,,
+versailles:Trianon:parterre-bas,versailles:Trianon:parterre-haut,1,1,1,True,True,outdoor,,
+versailles:Trianon:parterre-haut,versailles:Trianon:parterre-bas,1,1,1,True,True,outdoor,,
+versailles:Trianon:aile-de-trianon-sous-bois,versailles:Trianon:parterre-haut,2,2,2,True,True,outdoor,,
+versailles:Trianon:parterre-haut,versailles:Trianon:aile-de-trianon-sous-bois,2,2,2,True,True,outdoor,,
+versailles:Trianon:aile-de-trianon-sous-bois,versailles:Trianon:salle-des-antiques,3,3,3,True,True,outdoor,,
+versailles:Trianon:salle-des-antiques,versailles:Trianon:aile-de-trianon-sous-bois,3,3,3,True,True,outdoor,,
+versailles:Trianon:aile-de-trianon-sous-bois,versailles:Trianon:jardin-du-roi-trianon,3,3,3,True,True,outdoor,,
+versailles:Trianon:jardin-du-roi-trianon,versailles:Trianon:aile-de-trianon-sous-bois,3,3,3,True,True,outdoor,,
+versailles:Trianon:aile-de-trianon-sous-bois,versailles:Trianon:buffet-deau,3,3,3,True,True,outdoor,,
+versailles:Trianon:buffet-deau,versailles:Trianon:aile-de-trianon-sous-bois,3,3,3,True,True,outdoor,,
+versailles:Trianon:salle-triangulaire,versailles:Trianon:buffet-deau,3,3,3,True,True,outdoor,,
+versailles:Trianon:buffet-deau,versailles:Trianon:salle-triangulaire,3,3,3,True,True,outdoor,,
+versailles:Trianon:bassin-du-plat-fond,versailles:Trianon:buffet-deau,3,3,3,True,True,outdoor,,
+versailles:Trianon:buffet-deau,versailles:Trianon:bassin-du-plat-fond,3,3,3,True,True,outdoor,,
+versailles:Trianon:bassin-du-plat-fond,versailles:Trianon:salle-triangulaire,3,3,3,True,True,outdoor,,
+versailles:Trianon:salle-triangulaire,versailles:Trianon:bassin-du-plat-fond,3,3,3,True,True,outdoor,,
+versailles:Trianon:bassin-du-plat-fond,versailles:Trianon:bassin-du-fer-a-cheval,3,3,3,True,True,outdoor,,
+versailles:Trianon:bassin-du-fer-a-cheval,versailles:Trianon:bassin-du-plat-fond,3,3,3,True,True,outdoor,,
+versailles:Trianon:parterre-bas,versailles:Trianon:bassin-du-fer-a-cheval,3,3,3,True,True,outdoor,,
+versailles:Trianon:bassin-du-fer-a-cheval,versailles:Trianon:parterre-bas,2,2,2,True,True,outdoor,,
+versailles:Trianon:interface-grand-petit-trianon,versailles:Trianon:jardin-du-roi-trianon,3,3,3,True,True,outdoor,,
+versailles:Trianon:jardin-du-roi-trianon,versailles:Trianon:interface-grand-petit-trianon,3,3,3,True,True,outdoor,,
+versailles:Trianon:entree-petit-trianon,versailles:Trianon:salle-des-gardes-petit-trianon,0,0,0,True,True,outdoor,,
+versailles:Trianon:salle-des-gardes-petit-trianon,versailles:Trianon:salon-du-billard-petit-trianon,0,0,0,True,True,indoor,,
+versailles:Trianon:salon-du-billard-petit-trianon,versailles:Trianon:piece-dargenterie-petit-trianon,0,0,0,True,True,indoor,,
+versailles:Trianon:piece-dargenterie-petit-trianon,versailles:Trianon:salle-glaces-mouvantes-petit-trianon,0,0,0,True,True,indoor,,
+versailles:Trianon:salle-glaces-mouvantes-petit-trianon,versailles:Trianon:les-deux-fruiteries,0,0,0,True,True,indoor,,
+versailles:Trianon:les-deux-fruiteries,versailles:Trianon:escalier-dhonneur-petit-trianon,0,0,0,True,True,indoor,On ne peut pas monter cet escalier en fauteuil roulant
+versailles:Trianon:escalier-dhonneur-petit-trianon,versailles:Trianon:antichambre-petit-trianon,1,1,0,False,False,indoor,,
+versailles:Trianon:antichambre-petit-trianon,versailles:Trianon:grande-salle-a-manger-petit-trianon,0,0,0,False,False,indoor,,
+versailles:Trianon:grande-salle-a-manger-petit-trianon,versailles:Trianon:petite-salle-a-manger-petit-trianon,0,0,0,False,False,indoor,,
+versailles:Trianon:petite-salle-a-manger-petit-trianon,versailles:Trianon:salon-de-compagnie-petit-trianon,0,0,0,False,False,indoor,,
+versailles:Trianon:salon-de-compagnie-petit-trianon,versailles:Trianon:chambre-a-coucher-de-la-reine-petit-trianon,0,0,0,False,False,indoor,,
+versailles:Trianon:chambre-a-coucher-de-la-reine-petit-trianon,versailles:Trianon:boudoir-des-glaces-mouvantes-petit-trianon,0,0,0,False,False,indoor,,
+versailles:Trianon:boudoir-des-glaces-mouvantes-petit-trianon,versailles:Trianon:cabinet-de-toilette-de-la-reine-petit-trianon,0,0,0,False,False,indoor,,
+versailles:Trianon:cabinet-de-toilette-de-la-reine-petit-trianon,versailles:Trianon:entree-petit-trianon,1.5,1.5,0,False,False,indoor,,
+versailles:Trianon:entree-petit-trianon,versailles:Trianon:jeu-de-bague,1,1,1,True,True,outdoor,,
+versailles:Trianon:entree-petit-trianon,versailles:Trianon:jardin-francais,2,2,2,True,True,outdoor,,
+versailles:Trianon:jeu-de-bague,versailles:Trianon:entree-petit-trianon,1,1,1,True,True,outdoor,,
+versailles:Trianon:jardin-francais,versailles:Trianon:entree-petit-trianon,2,2,2,True,True,outdoor,,
+versailles:Trianon:entree-petit-trianon,versailles:Trianon:chapelle,1,1,1,True,True,outdoor,,
+versailles:Trianon:chapelle,versailles:Trianon:entree-petit-trianon,1,1,1,True,True,outdoor,,
+versailles:Trianon:chapelle,versailles:Trianon:jardin-francais,1,1,1,True,True,outdoor,,
+versailles:Trianon:jardin-francais,versailles:Trianon:chapelle,1,1,1,True,True,outdoor,,
+versailles:Trianon:chapelle,versailles:Trianon:jeu-de-bague,1,1,1,True,True,outdoor,,
+versailles:Trianon:jeu-de-bague,versailles:Trianon:chapelle,1,1,1,True,True,outdoor,,
+versailles:Trianon:jardin-francais,versailles:Trianon:pavillon-francais,6,6,6,True,True,outdoor,,
+versailles:Trianon:pavillon-francais,versailles:Trianon:jardin-francais,6,6,6,True,True,outdoor,,
+versailles:Trianon:pavillon-francais,versailles:Trianon:pavillon-frais,1,1,1,True,True,outdoor,,
+versailles:Trianon:pavillon-frais,versailles:Trianon:pavillon-francais,1,1,1,True,True,outdoor,,
+versailles:Trianon:pavillon-francais,versailles:Trianon:interface-grand-petit-trianon,3,3,3,True,True,outdoor,,
+versailles:Trianon:interface-grand-petit-trianon,versailles:Trianon:pavillon-francais,3,3,3,True,True,outdoor,,
+versailles:Trianon:jardin-francais,versailles:Trianon:theatre-de-la-reine,2,2,2,True,True,outdoor,,
+versailles:Trianon:jeu-de-bague,versailles:Trianon:theatre-de-la-reine,2,2,2,True,True,outdoor,,
+versailles:Trianon:theatre-de-la-reine,versailles:Trianon:jardin-francais,2,2,2,True,True,outdoor,,
+versailles:Trianon:theatre-de-la-reine,versailles:Trianon:jeu-de-bague,2,2,2,True,True,outdoor,,
+versailles:Trianon:theatre-de-la-reine,versailles:Trianon:le-rocher,4,4,4,True,True,outdoor,,
+versailles:Trianon:le-rocher,versailles:Trianon:theatre-de-la-reine,4,4,4,True,True,outdoor,,
+versailles:Trianon:jeu-de-bague,versailles:Trianon:le-rocher,5,5,5,True,True,outdoor,,
+versailles:Trianon:le-rocher,versailles:Trianon:jeu-de-bague,5,5,5,True,True,outdoor,,
+versailles:Trianon:jeu-de-bague,versailles:Trianon:jardin-anglo-chinois,5,5,5,True,True,outdoor,,
+versailles:Trianon:jardin-anglo-chinois,versailles:Trianon:jeu-de-bague,5,5,5,True,True,outdoor,,
+versailles:Trianon:belvedere,versailles:Trianon:le-rocher,2,2,2,True,True,outdoor,,
+versailles:Trianon:le-rocher,versailles:Trianon:belvedere,2,2,2,True,True,outdoor,,
+versailles:Trianon:belvedere,versailles:Trianon:la-grotte,1,1,1,True,True,outdoor,,
+versailles:Trianon:la-grotte,versailles:Trianon:belvedere,1,1,1,True,True,outdoor,,
+versailles:Trianon:jardin-anglo-chinois,versailles:Trianon:la-grotte,4,4,4,True,True,outdoor,,
+versailles:Trianon:la-grotte,versailles:Trianon:jardin-anglo-chinois,4,4,4,True,True,outdoor,,
+versailles:Trianon:jardin-anglo-chinois,versailles:Trianon:temple-amour,7,7,7,True,True,outdoor,,
+versailles:Trianon:temple-amour,versailles:Trianon:jardin-anglo-chinois,7,7,7,True,True,outdoor,,
+versailles:Trianon:jeu-de-bague,versailles:Trianon:temple-amour,7,7,7,True,True,outdoor,,
+versailles:Trianon:temple-amour,versailles:Trianon:jeu-de-bague,7,7,7,True,True,outdoor,,
+versailles:Trianon:interface-hameau-trianon,versailles:Trianon:temple-amour,7,7,7,True,True,outdoor,,
+versailles:Trianon:temple-amour,versailles:Trianon:interface-hameau-trianon,7,7,7,True,True,outdoor,,
+versailles:Trianon:interface-hameau-trianon,versailles:Trianon:le-moulin-hameau,5,5,5,True,True,outdoor,,
+versailles:Trianon:le-moulin-hameau,versailles:Trianon:interface-hameau-trianon,5,5,5,True,True,outdoor,,
+versailles:Trianon:maison-de-la-reine-hameau,versailles:Trianon:le-moulin-hameau,2,2,2,True,True,outdoor,,
+versailles:Trianon:le-moulin-hameau,versailles:Trianon:maison-de-la-reine-hameau,2,2,2,True,True,outdoor,,
+versailles:Trianon:maison-de-la-reine-hameau,versailles:Trianon:maison-du-billard-hameau,0,0,0,True,True,outdoor,,
+versailles:Trianon:maison-du-billard-hameau,versailles:Trianon:maison-de-la-reine-hameau,0,0,0,True,True,outdoor,,
+versailles:Trianon:rechauffoir-hameau,versailles:Trianon:maison-du-billard-hameau,1,1,1,,True,True,outdoor,,
+versailles:Trianon:maison-du-billard-hameau,versailles:Trianon:rechauffoir-hameau,1,1,1,True,True,outdoor,,
+versailles:Trianon:rechauffoir-hameau,versailles:Trianon:maison-de-la-reine-hameau,1,1,1,,True,True,outdoor,,
+versailles:Trianon:maison-de-la-reine-hameau,versailles:Trianon:rechauffoir-hameau,1,1,1,True,True,outdoor,,
+versailles:Trianon:colombier-hameau,versailles:Trianon:maison-du-billard-hameau,2,2,2,True,True,outdoor,,
+versailles:Trianon:maison-du-billard-hameau,versailles:Trianon:colombier-hameau,2,2,2,True,True,outdoor,,
+versailles:Trianon:colombier-hameau,versailles:Trianon:maison-du-garde-hameau,2,2,2,True,True,outdoor,,
+versailles:Trianon:maison-du-garde-hameau,versailles:Trianon:colombier-hameau,2,2,2,True,True,outdoor,,
+versailles:Trianon:colombier-hameau,versailles:Trianon:tour-de-marlborough-hameau,2,2,2,True,True,outdoor,,
+versailles:Trianon:tour-de-marlborough-hameau,versailles:Trianon:colombier-hameau,2,2,2,True,True,outdoor,,
+versailles:Trianon:laiterie-propriete-hameau,versailles:Trianon:tour-de-marlborough-hameau,0,0,0,True,True,outdoor,,
+versailles:Trianon:tour-de-marlborough-hameau,versailles:Trianon:laiterie-propriete-hameau,0,0,0,True,True,outdoor,,
+versailles:Trianon:ferme-hameau,versailles:Trianon:maison-du-garde-hameau,4,4,4,True,True,outdoor,,
+versailles:Trianon:maison-du-garde-hameau,versailles:Trianon:ferme-hameau,4,4,4,True,True,outdoor,,
+versailles:Trianon:ferme-hameau,versailles:Trianon:tour-de-marlborough-hameau,4,4,4,True,True,outdoor,,
+versailles:Trianon:tour-de-marlborough-hameau,versailles:Trianon:ferme-hameau,4,4,4,True,True,outdoor,,
+versailles:Trianon:entree-hameau-de-la-reine,versailles:Trianon:ferme-hameau,0,0,0,True,True,outdoor,,
+versailles:Trianon:ferme-hameau,versailles:Trianon:entree-hameau-de-la-reine,0,0,0,True,True,outdoor,,

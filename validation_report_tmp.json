@@ -1,8 +1,8 @@
 {
   "total_pois": 160,
-  "total_connections": 160,
-  "total_issues": 2,
-  "errors": 1,
+  "total_connections": 98,
+  "total_issues": 4,
+  "errors": 3,
   "warnings": 0,
   "accessibility_level": "any",
   "zone_stats": {
@@ -14,98 +14,142 @@
   "issues": [
     {
       "severity": "error",
-      "rule": "bidirectionality",
-      "message": "Found 22 one-way edge(s) in bidirectional zones (Garden, Park)",
+      "rule": "orphaned_pois",
+      "message": "Found 61 POI(s) with no connections",
       "details": {
-        "missing_reverse_edges": [
-          {
-            "from": "versailles:Garden:bosquet-de-la-salle-des-empereurs",
-            "to": "versailles:Garden:bosquet-de-la-colonnade"
-          },
-          {
-            "from": "versailles:Garden:bosquet-de-la-salle-des-empereurs",
-            "to": "versailles:Garden:bassin-dapollon"
-          },
-          {
-            "from": "versailles:Garden:bassin-de-neptune",
-            "to": "versailles:Garden:bosquet-des-trois-fontaines"
-          },
-          {
-            "from": "versailles:Garden:bassin-dapollon",
-            "to": "versailles:Garden:entree-parc-bassin-apollon"
-          },
-          {
-            "from": "versailles:Garden:bosquet-des-bains-dapollon",
-            "to": "versailles:Garden:bassin-de-ceres"
-          },
-          {
-            "from": "versailles:Garden:bosquet-du-theatre-deau",
-            "to": "versailles:Garden:bassin-de-ceres"
-          },
-          {
-            "from": "versailles:Garden:bassin-de-flore",
-            "to": "versailles:Garden:bosquet-des-domes"
-          },
-          {
-            "from": "versailles:Garden:bassin-de-flore",
-            "to": "versailles:Garden:bosquet-de-lencelade"
-          },
-          {
-            "from": "versailles:Garden:entree-parc-bassin-apollon",
-            "to": "versailles:Park:grand-canal"
-          },
-          {
-            "from": "versailles:Garden:bosquet-des-domes",
-            "to": "versailles:Garden:bassin-dapollon"
-          },
-          {
-            "from": "versailles:Garden:parterre-deau",
-            "to": "versailles:Garden:bosquet-de-la-reine"
-          },
-          {
-            "from": "versailles:Garden:parterre-deau",
-            "to": "versailles:Garden:bassin-de-neptune"
-          },
-          {
-            "from": "versailles:Garden:bosquet-de-la-colonnade",
-            "to": "versailles:Garden:bassin-dapollon"
-          },
-          {
-            "from": "versailles:Garden:bosquet-de-la-girandolle",
-            "to": "versailles:Garden:bassin-de-saturne"
-          },
-          {
-            "from": "versailles:Garden:le-mirroir",
-            "to": "versailles:Garden:jardin-du-roi"
-          },
-          {
-            "from": "versailles:Garden:le-mirroir",
-            "to": "versailles:Garden:bassin-de-saturne"
-          },
-          {
-            "from": "versailles:Garden:le-mirroir",
-            "to": "versailles:Garden:bassin-de-saturne"
-          },
-          {
-            "from": "versailles:Garden:bassin-de-saturne",
-            "to": "versailles:Garden:jardin-du-roi"
-          },
-          {
-            "from": "versailles:Garden:bassin-de-saturne",
-            "to": "versailles:Garden:bosquet-de-la-salle-des-empereurs"
-          },
-          {
-            "from": "versailles:Garden:bassin-de-saturne",
-            "to": "versailles:Garden:bosquet-de-la-colonnade"
-          },
-          {
-            "from": "versailles:Garden:acces-jardins-cour-des-princes",
-            "to": "versailles:Garden:pdv-parterre-du-midi-orangerie"
-          },
-          {
-            "from": "versailles:Garden:bosquet-de-lencelade",
-            "to": "versailles:Garden:bassin-dapollon"
-          }
+        "orphaned_pois": [
+          "versailles:Trianon:aile-de-trianon-sous-bois",
+          "versailles:Trianon:antichambre-petit-trianon",
+          "versailles:Trianon:bassin-du-fer-a-cheval",
+          "versailles:Trianon:bassin-du-plat-fond",
+          "versailles:Trianon:belvedere",
+          "versailles:Trianon:boudoir-des-glaces-mouvantes-petit-trianon",
+          "versailles:Trianon:boudoir-imperatrice-Marie-Louise",
+          "versailles:Trianon:buffet-deau",
+          "versailles:Trianon:cabinet-de-toilette-de-la-reine-petit-trianon",
+          "versailles:Trianon:cabinet-topographique",
+          "versailles:Trianon:chambre-a-coucher-de-la-reine-petit-trianon",
+          "versailles:Trianon:chambre-de-limperatrice",
+          "versailles:Trianon:chambre-reine-des-belges",
+          "versailles:Trianon:chapelle",
+          "versailles:Trianon:colombier-hameau",
+          "versailles:Trianon:entree-hameau-de-la-reine",
+          "versailles:Trianon:escalier-dhonneur-petit-trianon",
+          "versailles:Trianon:ferme-hameau",
+          "versailles:Trianon:galerie-des-cotelle",
+          "versailles:Trianon:grande-salle-a-manger-petit-trianon",
+          "versailles:Trianon:interface-grand-petit-trianon",
+          "versailles:Trianon:interface-hameau-trianon",
+          "versailles:Trianon:jardin-anglo-chinois",
+          "versailles:Trianon:jardin-du-roi-trianon",
+          "versailles:Trianon:jardin-francais",
+          "versailles:Trianon:jeu-de-bague",
+          "versailles:Trianon:la-grotte",
+          "versailles:Trianon:laiterie-propriete-hameau",
+          "versailles:Trianon:le-moulin-hameau",
+          "versailles:Trianon:le-rocher",
+          "versailles:Trianon:les-deux-fruiteries",
+          "versailles:Trianon:maison-de-la-reine-hameau",
+          "versailles:Trianon:maison-du-billard-hameau",
+          "versailles:Trianon:maison-du-garde-hameau",
+          "versailles:Trianon:parterre-bas",
+          "versailles:Trianon:parterre-haut",
+          "versailles:Trianon:pavillon-frais",
+          "versailles:Trianon:pavillon-francais",
+          "versailles:Trianon:petite-salle-a-manger-petit-trianon",
+          "versailles:Trianon:piece-dargenterie-petit-trianon",
+          "versailles:Trianon:premier-salon",
+          "versailles:Trianon:rechauffoir-hameau",
+          "versailles:Trianon:salle-des-antiques",
+          "versailles:Trianon:salle-des-gardes-petit-trianon",
+          "versailles:Trianon:salle-glaces-mouvantes-petit-trianon",
+          "versailles:Trianon:salle-triangulaire",
+          "versailles:Trianon:salon-de-compagnie-petit-trianon",
+          "versailles:Trianon:salon-de-famille-de-lempereur",
+          "versailles:Trianon:salon-de-la-chapelle",
+          "versailles:Trianon:salon-de-musique",
+          "versailles:Trianon:salon-des-glaces",
+          "versailles:Trianon:salon-des-jardins",
+          "versailles:Trianon:salon-des-seigneurs",
+          "versailles:Trianon:salon-du-billard-petit-trianon",
+          "versailles:Trianon:salon-famille-louis-philippe",
+          "versailles:Trianon:salon-frais",
+          "versailles:Trianon:salon-malachite",
+          "versailles:Trianon:salon-rond",
+          "versailles:Trianon:temple-amour",
+          "versailles:Trianon:theatre-de-la-reine",
+          "versailles:Trianon:tour-de-marlborough-hameau"
+        ]
+      }
+    },
+    {
+      "severity": "error",
+      "rule": "entrance_reachability",
+      "message": "Found 61 Trianon POI(s) unreachable from Trianon entrance",
+      "details": {
+        "entrance": "versailles:Trianon:entree-grand-trianon",
+        "unreachable_pois": [
+          "versailles:Trianon:aile-de-trianon-sous-bois",
+          "versailles:Trianon:antichambre-petit-trianon",
+          "versailles:Trianon:bassin-du-fer-a-cheval",
+          "versailles:Trianon:bassin-du-plat-fond",
+          "versailles:Trianon:belvedere",
+          "versailles:Trianon:boudoir-des-glaces-mouvantes-petit-trianon",
+          "versailles:Trianon:boudoir-imperatrice-Marie-Louise",
+          "versailles:Trianon:buffet-deau",
+          "versailles:Trianon:cabinet-de-toilette-de-la-reine-petit-trianon",
+          "versailles:Trianon:cabinet-topographique",
+          "versailles:Trianon:chambre-a-coucher-de-la-reine-petit-trianon",
+          "versailles:Trianon:chambre-de-limperatrice",
+          "versailles:Trianon:chambre-reine-des-belges",
+          "versailles:Trianon:chapelle",
+          "versailles:Trianon:colombier-hameau",
+          "versailles:Trianon:entree-hameau-de-la-reine",
+          "versailles:Trianon:escalier-dhonneur-petit-trianon",
+          "versailles:Trianon:ferme-hameau",
+          "versailles:Trianon:galerie-des-cotelle",
+          "versailles:Trianon:grande-salle-a-manger-petit-trianon",
+          "versailles:Trianon:interface-grand-petit-trianon",
+          "versailles:Trianon:interface-hameau-trianon",
+          "versailles:Trianon:jardin-anglo-chinois",
+          "versailles:Trianon:jardin-du-roi-trianon",
+          "versailles:Trianon:jardin-francais",
+          "versailles:Trianon:jeu-de-bague",
+          "versailles:Trianon:la-grotte",
+          "versailles:Trianon:laiterie-propriete-hameau",
+          "versailles:Trianon:le-moulin-hameau",
+          "versailles:Trianon:le-rocher",
+          "versailles:Trianon:les-deux-fruiteries",
+          "versailles:Trianon:maison-de-la-reine-hameau",
+          "versailles:Trianon:maison-du-billard-hameau",
+          "versailles:Trianon:maison-du-garde-hameau",
+          "versailles:Trianon:parterre-bas",
+          "versailles:Trianon:parterre-haut",
+          "versailles:Trianon:pavillon-frais",
+          "versailles:Trianon:pavillon-francais",
+          "versailles:Trianon:petite-salle-a-manger-petit-trianon",
+          "versailles:Trianon:piece-dargenterie-petit-trianon",
+          "versailles:Trianon:premier-salon",
+          "versailles:Trianon:rechauffoir-hameau",
+          "versailles:Trianon:salle-des-antiques",
+          "versailles:Trianon:salle-des-gardes-petit-trianon",
+          "versailles:Trianon:salle-glaces-mouvantes-petit-trianon",
+          "versailles:Trianon:salle-triangulaire",
+          "versailles:Trianon:salon-de-compagnie-petit-trianon",
+          "versailles:Trianon:salon-de-famille-de-lempereur",
+          "versailles:Trianon:salon-de-la-chapelle",
+          "versailles:Trianon:salon-de-musique",
+          "versailles:Trianon:salon-des-glaces",
+          "versailles:Trianon:salon-des-jardins",
+          "versailles:Trianon:salon-des-seigneurs",
+          "versailles:Trianon:salon-du-billard-petit-trianon",
+          "versailles:Trianon:salon-famille-louis-philippe",
+          "versailles:Trianon:salon-frais",
+          "versailles:Trianon:salon-malachite",
+          "versailles:Trianon:salon-rond",
+          "versailles:Trianon:temple-amour",
+          "versailles:Trianon:theatre-de-la-reine",
+          "versailles:Trianon:tour-de-marlborough-hameau"
         ]
       }
     },
@@ -115,6 +159,16 @@
       "message": "Castle has 57 one-way edges (expected for museum tour)",
       "details": {
         "one_way_count": 57
+      }
+    },
+    {
+      "severity": "error",
+      "rule": "dead_ends",
+      "message": "Found 1 dead-end node(s) in garden zones",
+      "details": {
+        "dead_end_nodes": [
+          "versailles:Trianon:entree-petit-trianon"
+        ]
       }
     }
   ]
