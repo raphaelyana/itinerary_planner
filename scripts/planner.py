@@ -713,12 +713,31 @@ def determine_route(
     # Reorder Castle POIs to follow directed tour path
     poi_ids = _reorder_castle_pois_if_needed(poi_ids, constraints)
 
-    # If all POIs are Castle rooms, use the pre-ordered sequence directly
-    # (Castle has a directed one-way tour, so TSP/Held-Karp doesn't apply)
-    all_castle = all(pid.startswith("versailles:Room:") for pid in poi_ids)
-    if all_castle and len(poi_ids) > 1:
-        logger.info("Planner: all %d POIs are Castle rooms, using pre-ordered tour sequence", len(poi_ids))
-        # Build sequential path through the ordered Castle rooms
+    # If all POIs are museum interior rooms (Castle or Trianon), use the pre-ordered sequence directly
+    # (Museum interiors have directed one-way tours, so TSP/Held-Karp doesn't apply)
+    all_museum_rooms = all(
+        pid.startswith("versailles:Room:") or
+        (pid.startswith("versailles:Trianon:") and any(
+            room_name in pid for room_name in [
+                "boudoir-imperatrice", "salon-des-glaces", "chambre-de-limperatrice",
+                "salon-de-la-chapelle", "salon-des-seigneurs", "salon-rond",
+                "salon-de-famille-de-lempereur", "chambre-reine-des-belges",
+                "salon-de-musique", "salon-famille-louis-philippe", "salon-malachite",
+                "cabinet-topographique", "salon-frais", "galerie-des-cotelle",
+                "salon-des-jardins", "premier-salon", "salle-des-gardes-petit-trianon",
+                "salon-du-billard-petit-trianon", "piece-dargenterie-petit-trianon",
+                "salle-glaces-mouvantes-petit-trianon", "les-deux-fruiteries",
+                "escalier-dhonneur-petit-trianon", "antichambre-petit-trianon",
+                "grande-salle-a-manger-petit-trianon", "petite-salle-a-manger-petit-trianon",
+                "salon-de-compagnie-petit-trianon", "chambre-a-coucher-de-la-reine-petit-trianon",
+                "boudoir-des-glaces-mouvantes-petit-trianon", "cabinet-de-toilette-de-la-reine-petit-trianon",
+            ]
+        ))
+        for pid in poi_ids
+    )
+    if all_museum_rooms and len(poi_ids) > 1:
+        logger.info("Planner: all %d POIs are museum interior rooms, using pre-ordered tour sequence", len(poi_ids))
+        # Build sequential path through the ordered rooms
         pair_paths: List[ShortestPathResult] = []
         for i in range(len(poi_ids) - 1):
             path = get_shortest_path(
