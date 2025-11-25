@@ -1,7 +1,7 @@
 FROM neo4j:5.23
 
 # Set environment variables for Neo4j configuration
-ENV NEO4J_AUTH=neo4j/versailles2024
+# Note: NEO4J_AUTH should be set via environment variables at runtime for security
 ENV NEO4J_server_memory_heap_initial__size=512m
 ENV NEO4J_server_memory_heap_max__size=1G
 ENV NEO4J_server_memory_pagecache_size=512m
