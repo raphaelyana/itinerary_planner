@@ -162,7 +162,7 @@ def run_ingestion(
     database: Optional[str] = None,
     pois_path: Optional[Path] = None,
     connections_path: Optional[Path] = None,
-    skip_validation: bool = False,
+    skip_validation: bool = True,
 ) -> Tuple[int, int]:
     """
     Run the ingestion pipeline without relying on CLI flags.
@@ -179,7 +179,8 @@ def run_ingestion(
     pois_path, connections_path:
         Override CSV paths if desired. Defaults to the repository main-data files.
     skip_validation:
-        If True, skip pre-ingestion graph validation. Default is False.
+        If True, skip pre-ingestion graph validation. Default is True (skipped by default).
+        Set to False to enable validation locally.
 
     Returns
     -------
