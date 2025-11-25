@@ -1,0 +1,16 @@
+FROM neo4j:5.23
+
+# Set environment variables for Neo4j configuration
+ENV NEO4J_AUTH=neo4j/versailles2024
+ENV NEO4J_server_memory_heap_initial__size=512m
+ENV NEO4J_server_memory_heap_max__size=2G
+ENV NEO4J_server_memory_pagecache_size=512m
+
+# Enable APOC plugin
+ENV NEO4J_PLUGINS='["apoc"]'
+
+# Expose Neo4j ports
+EXPOSE 7474 7687
+
+# Use the default Neo4j entrypoint
+CMD ["neo4j"]

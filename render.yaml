@@ -1,22 +1,65 @@
 services:
+  # Neo4j Graph Database
+  - type: pserv
+    name: versailles-neo4j
+    env: docker
+    plan: standard  # Neo4j requires persistent storage (not available on free tier)
+    dockerfilePath: ./Dockerfile.neo4j
+    dockerContext: .
+    disk:
+      name: neo4j-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NEO4J_AUTH
+        value: neo4j/versailles2024
+      - key: NEO4J_server_memory_heap_initial__size
+        value: 512m
+      - key: NEO4J_server_memory_heap_max__size
+        value: 2G
+      - key: NEO4J_server_memory_pagecache_size
+        value: 512m
+
   # FastAPI backend for itinerary planning
   - type: web
     name: versailles-planner-api
-    env: python
+    runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn scripts.api:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: NEO4J_URI
-        value: neo4j+s://41e180bf.databases.neo4j.io
+        fromService:
+          type: pserv
+          name: versailles-neo4j
+          property: hostport  # Gets internal hostname:port
       - key: NEO4J_USERNAME
         value: neo4j
       - key: NEO4J_PASSWORD
-        sync: false  # Manually set in Render dashboard for security
+        value: versailles2024
       - key: NEO4J_DATABASE
         value: neo4j
       - key: PLANNER_LOG_LEVEL
         value: INFO
-      - key: PYTHON_VERSION
-        value: 3.11.0
     healthCheckPath: /health
+
+  # Data ingestion cron job (runs after deployment)
+  - type: cron
+    name: versailles-neo4j-ingest
+    runtime: python
+    plan: free
+    schedule: "@reboot"  # Run once on deployment
+    buildCommand: pip install -r requirements.txt
+    startCommand: python3 -c "import sys; sys.path.insert(0, 'scripts'); from ingest import run_ingestion; run_ingestion(skip_validation=True)"
+    envVars:
+      - key: NEO4J_URI
+        fromService:
+          type: pserv
+          name: versailles-neo4j
+          property: hostport
+      - key: NEO4J_USERNAME
+        value: neo4j
+      - key: NEO4J_PASSWORD
+        value: versailles2024
+      - key: NEO4J_DATABASE
+        value: neo4j
