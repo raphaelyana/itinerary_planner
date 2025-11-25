@@ -1,12 +1,19 @@
 """
 Versailles pricing configuration.
 Based on official pricing from https://www.chateauversailles.fr/preparer-ma-visite/billets-tarifs
+
+Environment variables:
+- VERSAILLES_USE_LIVE_PRICING: Set to "true" to fetch current pricing from website (default: false)
 """
 
+import os
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List, Optional, Set
 from enum import Enum
+
+# Check if live pricing should be used (from environment variable)
+USE_LIVE_PRICING = os.getenv("VERSAILLES_USE_LIVE_PRICING", "false").lower() == "true"
 
 
 class Season(Enum):
@@ -143,7 +150,8 @@ def is_free_access(visitor: Visitor) -> bool:
 def get_ticket_price(
     visitor: Visitor,
     ticket_type: TicketType,
-    date: datetime
+    date: datetime,
+    use_live_pricing: bool = False
 ) -> float:
     """
     Calculate ticket price for a visitor.
@@ -152,6 +160,7 @@ def get_ticket_price(
         visitor: Visitor information
         ticket_type: Type of ticket
         date: Visit date
+        use_live_pricing: If True, attempts to fetch current pricing from website
 
     Returns:
         Price in euros
@@ -165,6 +174,17 @@ def get_ticket_price(
         return 0.0
 
     season = get_season(date)
+
+    # Try to fetch live pricing if requested or enabled via environment variable
+    if use_live_pricing or USE_LIVE_PRICING:
+        try:
+            live_price = _fetch_live_price(visitor, ticket_type, date)
+            if live_price is not None:
+                return live_price
+        except Exception:
+            pass  # Fall back to static pricing
+
+    # Use static pricing from table
     pricing = PRICING_TABLE.get((ticket_type, season))
 
     if not pricing:
@@ -175,6 +195,47 @@ def get_ticket_price(
         return pricing.reduced_price
 
     return pricing.full_price
+
+
+def _fetch_live_price(
+    visitor: Visitor,
+    ticket_type: TicketType,
+    date: datetime
+) -> Optional[float]:
+    """
+    Fetch live pricing from Versailles website.
+
+    Args:
+        visitor: Visitor information
+        ticket_type: Type of ticket
+        date: Visit date
+
+    Returns:
+        Price in euros, or None if fetch fails
+    """
+    try:
+        from scripts.fetch_pricing import VersaillesPricingScraper
+
+        scraper = VersaillesPricingScraper()
+        pricing = scraper.fetch_pricing(date)
+
+        if not pricing:
+            return None
+
+        # Select appropriate price based on ticket type and visitor
+        is_reduced = visitor.has_reduced_rate_card
+
+        if ticket_type == TicketType.PASSEPORT:
+            return pricing.passeport_reduced if is_reduced else pricing.passeport_full
+        elif ticket_type == TicketType.CHATEAU:
+            return pricing.chateau_reduced if is_reduced else pricing.chateau_full
+        elif ticket_type == TicketType.TRIANON:
+            return pricing.trianon_reduced if is_reduced else pricing.trianon_full
+
+        return None
+
+    except Exception:
+        return None  # Fall back to static pricing
 
 
 def calculate_group_cost(
