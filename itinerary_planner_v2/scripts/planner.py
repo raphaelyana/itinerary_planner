@@ -17,14 +17,19 @@ from scripts.planner_utils import (
     get_shortest_path,
 )
 from scripts.path_cache import PathCache
+from configs.network_config import (
+    get_entrance_for_pois,
+    get_exit_for_pois,
+    DEFAULT_ENTRANCE,
+    DEFAULT_EXIT,
+    get_all_entrances,
+)
 
 logger = logging.getLogger(__name__)
 if not logger.handlers:
     logging.basicConfig(level=os.environ.get("PLANNER_LOG_LEVEL", "INFO"))
 
 DUMMY_START_ID = "__dummy_start__"
-DEFAULT_ENTRANCE = "versailles:Garden:cour-dhonneur"
-TRIANON_ENTRANCE = "versailles:Trianon:grand-trianon"
 CACHE_FILE = os.getenv("PLANNER_DISTANCE_CACHE", "cache/full_path_cache.json")
 PATH_CACHE = PathCache(CACHE_FILE, auto_save=False)
 _CACHE_DIRTY = False
@@ -62,6 +67,8 @@ class PlannerConstraints:
     exclude_ids: Sequence[str] = ()
     lunch_break: Optional[bool] = None
     hard_time_limits: bool = False
+    start_poi: Optional[str] = None  # Optional: specific entrance to use
+    finish_poi: Optional[str] = None  # Optional: specific exit to use
 
 
 @dataclass
@@ -98,7 +105,16 @@ def _connect(uri: Optional[str], user: Optional[str], password: Optional[str]):
     uri = uri or os.getenv("NEO4J_URI", "neo4j://localhost:7687")
     user = user or os.getenv("NEO4J_USERNAME", "neo4j")
     password = password or os.getenv("NEO4J_PASSWORD", "neo4j")
-    return GraphDatabase.driver(uri, auth=(user, password))
+    # Configure connection pool for AuraDB stability
+    # Note: neo4j+s:// URI already includes encryption
+    return GraphDatabase.driver(
+        uri,
+        auth=(user, password),
+        max_connection_pool_size=50,
+        connection_timeout=30.0,
+        max_connection_lifetime=3600,
+        connection_acquisition_timeout=60.0,
+    )
 
 
 FILTER_QUERY = """
@@ -492,10 +508,18 @@ def _solve_route_via_held_karp(
         zero_path = ShortestPathResult(node_ids=[base_ids[0]], total_minutes=0.0, segments=[])
         return [base_ids[0]], [], zero_path
 
-    includes_trianon = any(poi.startswith("versailles:Trianon") for poi in base_ids)
-    start_candidates: List[str] = [DEFAULT_ENTRANCE]
-    if includes_trianon:
-        start_candidates.append(TRIANON_ENTRANCE)
+    # Determine entrance to use
+    if constraints.start_poi:
+        # Use explicitly specified entrance
+        start_candidates: List[str] = [constraints.start_poi]
+    else:
+        # Auto-detect best entrance based on POI zones
+        best_entrance = get_entrance_for_pois(base_ids)
+        start_candidates: List[str] = [best_entrance]
+
+        # Also try default entrance if different
+        if best_entrance != DEFAULT_ENTRANCE:
+            start_candidates.append(DEFAULT_ENTRANCE)
 
     candidate_results: List[Tuple[float, List[str], List[ShortestPathResult]]] = []
 

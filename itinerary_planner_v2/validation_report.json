@@ -1,0 +1,219 @@
+{
+  "total_pois": 160,
+  "total_connections": 160,
+  "total_issues": 3,
+  "errors": 2,
+  "warnings": 0,
+  "accessibility_level": "any",
+  "zone_stats": {
+    "Castle": 61,
+    "Gardens": 31,
+    "Park": 5,
+    "Trianon": 63
+  },
+  "issues": [
+    {
+      "severity": "error",
+      "rule": "bidirectionality",
+      "message": "Found 38 one-way edge(s) in bidirectional zones (Garden, Park, Trianon)",
+      "details": {
+        "missing_reverse_edges": [
+          {
+            "from": "versailles:Trianon:salon-de-compagnie-petit-trianon",
+            "to": "versailles:Trianon:chambre-a-coucher-de-la-reine-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:galerie-des-cotelle",
+            "to": "versailles:Trianon:salon-des-jardins"
+          },
+          {
+            "from": "versailles:Trianon:antichambre-petit-trianon",
+            "to": "versailles:Trianon:grande-salle-a-manger-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:grande-salle-a-manger-petit-trianon",
+            "to": "versailles:Trianon:petite-salle-a-manger-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:salle-des-gardes-petit-trianon",
+            "to": "versailles:Trianon:salon-du-billard-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:piece-dargenterie-petit-trianon",
+            "to": "versailles:Trianon:salle-glaces-mouvantes-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:boudoir-imperatrice-Marie-Louise",
+            "to": "versailles:Trianon:salon-des-glaces"
+          },
+          {
+            "from": "versailles:Trianon:salon-rond",
+            "to": "versailles:Trianon:salon-de-famille-de-lempereur"
+          },
+          {
+            "from": "versailles:Trianon:salon-des-jardins",
+            "to": "versailles:Trianon:premier-salon"
+          },
+          {
+            "from": "versailles:Trianon:salon-frais",
+            "to": "versailles:Trianon:galerie-des-cotelle"
+          },
+          {
+            "from": "versailles:Trianon:salle-glaces-mouvantes-petit-trianon",
+            "to": "versailles:Trianon:les-deux-fruiteries"
+          },
+          {
+            "from": "versailles:Trianon:premier-salon",
+            "to": "versailles:Trianon:entree-grand-trianon"
+          },
+          {
+            "from": "versailles:Trianon:premier-salon",
+            "to": "versailles:Trianon:parterre-haut"
+          },
+          {
+            "from": "versailles:Trianon:premier-salon",
+            "to": "versailles:Trianon:jardin-du-roi-trianon"
+          },
+          {
+            "from": "versailles:Trianon:salon-de-la-chapelle",
+            "to": "versailles:Trianon:salon-des-seigneurs"
+          },
+          {
+            "from": "versailles:Trianon:entree-grand-trianon",
+            "to": "versailles:Trianon:entree-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:entree-grand-trianon",
+            "to": "versailles:Trianon:boudoir-imperatrice-Marie-Louise"
+          },
+          {
+            "from": "versailles:Trianon:salon-des-seigneurs",
+            "to": "versailles:Trianon:salon-rond"
+          },
+          {
+            "from": "versailles:Trianon:petite-salle-a-manger-petit-trianon",
+            "to": "versailles:Trianon:salon-de-compagnie-petit-trianon"
+          },
+          {
+            "from": "versailles:Park:grand-canal",
+            "to": "versailles:Trianon:entree-grand-trianon"
+          },
+          {
+            "from": "versailles:Park:grand-canal",
+            "to": "versailles:Trianon:entree-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:salon-de-musique",
+            "to": "versailles:Trianon:salon-famille-louis-philippe"
+          },
+          {
+            "from": "versailles:Trianon:salon-malachite",
+            "to": "versailles:Trianon:cabinet-topographique"
+          },
+          {
+            "from": "versailles:Park:etoile-royale",
+            "to": "versailles:Trianon:entree-grand-trianon"
+          },
+          {
+            "from": "versailles:Trianon:cabinet-de-toilette-de-la-reine-petit-trianon",
+            "to": "versailles:Trianon:entree-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:chambre-reine-des-belges",
+            "to": "versailles:Trianon:salon-de-musique"
+          },
+          {
+            "from": "versailles:Trianon:salon-famille-louis-philippe",
+            "to": "versailles:Trianon:salon-malachite"
+          },
+          {
+            "from": "versailles:Trianon:salon-des-glaces",
+            "to": "versailles:Trianon:salon-de-la-chapelle"
+          },
+          {
+            "from": "versailles:Trianon:entree-petit-trianon",
+            "to": "versailles:Garden:entree-parc-bassin-apollon"
+          },
+          {
+            "from": "versailles:Trianon:entree-petit-trianon",
+            "to": "versailles:Garden:entree-parc-bassin-apollon"
+          },
+          {
+            "from": "versailles:Trianon:entree-petit-trianon",
+            "to": "versailles:Trianon:salle-des-gardes-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:les-deux-fruiteries",
+            "to": "versailles:Trianon:escalier-dhonneur-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:boudoir-des-glaces-mouvantes-petit-trianon",
+            "to": "versailles:Trianon:cabinet-de-toilette-de-la-reine-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:cabinet-topographique",
+            "to": "versailles:Trianon:salon-frais"
+          },
+          {
+            "from": "versailles:Trianon:salon-de-famille-de-lempereur",
+            "to": "versailles:Trianon:chambre-reine-des-belges"
+          },
+          {
+            "from": "versailles:Trianon:escalier-dhonneur-petit-trianon",
+            "to": "versailles:Trianon:antichambre-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:salon-du-billard-petit-trianon",
+            "to": "versailles:Trianon:piece-dargenterie-petit-trianon"
+          },
+          {
+            "from": "versailles:Trianon:chambre-a-coucher-de-la-reine-petit-trianon",
+            "to": "versailles:Trianon:boudoir-des-glaces-mouvantes-petit-trianon"
+          }
+        ]
+      }
+    },
+    {
+      "severity": "info",
+      "rule": "castle_directionality",
+      "message": "Castle has 57 one-way edges (expected for museum tour)",
+      "details": {
+        "one_way_count": 57
+      }
+    },
+    {
+      "severity": "error",
+      "rule": "path_length",
+      "message": "Found 5 path(s) exceeding APOC limit of 20 hops",
+      "details": {
+        "long_paths": [
+          {
+            "from": "versailles:Castle:cour-dhonneur",
+            "to": "versailles:Room:salle-1797-1798",
+            "length": 21
+          },
+          {
+            "from": "versailles:Castle:cour-dhonneur",
+            "to": "versailles:Castle:cour-royale",
+            "length": 21
+          },
+          {
+            "from": "versailles:Castle:cour-dhonneur",
+            "to": "versailles:Trianon:salon-malachite",
+            "length": 21
+          },
+          {
+            "from": "versailles:Castle:cour-dhonneur",
+            "to": "versailles:Trianon:salon-de-compagnie-petit-trianon",
+            "length": 21
+          },
+          {
+            "from": "versailles:Castle:cour-dhonneur",
+            "to": "versailles:Trianon:entree-hameau-de-la-reine",
+            "length": 21
+          }
+        ]
+      }
+    }
+  ]
+}

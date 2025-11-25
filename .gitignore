@@ -18,3 +18,7 @@ benchmarks_offline.json
 
 data/main_data/connections_2.csv
 data/main_data/pois_copie.csv
+
+# Documentation (personal notes, not for repo)
+*.md
+!itinerary_planner_v2/README.md

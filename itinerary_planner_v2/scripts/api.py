@@ -27,6 +27,8 @@ class ConstraintsModel(BaseModel):
     exclude_ids: List[str] = Field(default_factory=list)
     lunch_break: Optional[bool] = None
     hard_time_limits: bool = False
+    start_poi: Optional[str] = Field(None, description="Specific entrance POI ID to start from")
+    finish_poi: Optional[str] = Field(None, description="Specific exit POI ID to finish at")
 
     @validator("interests", "must_include", "exclude_ids", each_item=True)
     def no_empty_strings(cls, value: str) -> str:
@@ -130,6 +132,8 @@ def create_itinerary(request: ItineraryRequest) -> ItineraryResponse:
         exclude_ids=request.constraints.exclude_ids,
         lunch_break=request.constraints.lunch_break,
         hard_time_limits=request.constraints.hard_time_limits,
+        start_poi=request.constraints.start_poi,
+        finish_poi=request.constraints.finish_poi,
     )
 
     try:

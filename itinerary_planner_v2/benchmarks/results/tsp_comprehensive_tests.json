@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Standard Tourist - 4 hours",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Family with Stroller - 3 hours",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Elder Step-Free - 2 hours",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Must Include Hall of Mirrors",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Exclude Specific POIs",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Lunch Break Required",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Hard Time Limits (Strict Schedule)",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Quick Visit - 90 minutes",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Full Day - 6 hours",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  },
+  {
+    "name": "Art Lovers - Paintings Focus",
+    "status": "ERROR",
+    "error": "No POIs match the specified constraints.",
+    "itinerary": null,
+    "validations": {}
+  }
+]

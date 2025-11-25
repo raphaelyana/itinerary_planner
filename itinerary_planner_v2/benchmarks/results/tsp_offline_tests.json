@@ -1,0 +1,42 @@
+{
+  "test_results": [
+    {
+      "name": "POI Selection",
+      "passed": true
+    },
+    {
+      "name": "Permutation Solver",
+      "passed": false
+    },
+    {
+      "name": "Greedy Solver 8 POIs",
+      "passed": false
+    },
+    {
+      "name": "Greedy Solver 10 POIs",
+      "passed": false
+    },
+    {
+      "name": "User Profiles",
+      "passed": false
+    },
+    {
+      "name": "Accessibility Modes",
+      "passed": false
+    },
+    {
+      "name": "Single POI",
+      "passed": true
+    },
+    {
+      "name": "Two POIs",
+      "passed": false
+    }
+  ],
+  "summary": {
+    "total": 8,
+    "passed": 2,
+    "failed": 6,
+    "success_rate": 25.0
+  }
+}

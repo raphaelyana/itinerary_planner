@@ -1,0 +1,37 @@
+{
+  "runs": [
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 0,
+      "poi_count": 8,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 63.0,
+      "greedy_time_sec": 0.00012504200094554108,
+      "brute_cost": 53.0,
+      "brute_time_sec": 0.22685004199956893
+    },
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 1,
+      "poi_count": 8,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 58.0,
+      "greedy_time_sec": 0.00013700000090466347,
+      "brute_cost": 53.0,
+      "brute_time_sec": 0.2516148329996213
+    },
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 2,
+      "poi_count": 8,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 60.0,
+      "greedy_time_sec": 0.00011695899956976064,
+      "brute_cost": 53.0,
+      "brute_time_sec": 0.23094770799980324
+    }
+  ]
+}

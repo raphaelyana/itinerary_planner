@@ -1,0 +1,70 @@
+{
+  "runs": [
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 0,
+      "poi_count": 8,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 48.0,
+      "greedy_time_sec": 0.00013783299982605968,
+      "brute_cost": 43.0,
+      "brute_time_sec": 0.23173216599934676
+    },
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 1,
+      "poi_count": 8,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 43.0,
+      "greedy_time_sec": 0.00013591599963547196,
+      "brute_cost": 43.0,
+      "brute_time_sec": 0.23559766699872853
+    },
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 2,
+      "poi_count": 8,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 48.0,
+      "greedy_time_sec": 0.00018283300050825346,
+      "brute_cost": 43.0,
+      "brute_time_sec": 0.2634440000001632
+    },
+    {
+      "scenario": "extended_mixed",
+      "trial": 0,
+      "poi_count": 9,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 60.0,
+      "greedy_time_sec": 0.00015729100050521083,
+      "brute_cost": 50.0,
+      "brute_time_sec": 2.454599958000472
+    },
+    {
+      "scenario": "extended_mixed",
+      "trial": 1,
+      "poi_count": 9,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 60.0,
+      "greedy_time_sec": 0.00011662499855447095,
+      "brute_cost": 50.0,
+      "brute_time_sec": 2.279827959000613
+    },
+    {
+      "scenario": "extended_mixed",
+      "trial": 2,
+      "poi_count": 9,
+      "solver": "greedy",
+      "offline": true,
+      "greedy_cost": 55.0,
+      "greedy_time_sec": 0.00015958299991325475,
+      "brute_cost": 50.0,
+      "brute_time_sec": 2.2125736250000045
+    }
+  ]
+}

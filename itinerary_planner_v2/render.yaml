@@ -1,0 +1,22 @@
+services:
+  # FastAPI backend for itinerary planning
+  - type: web
+    name: versailles-planner-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn scripts.api:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: NEO4J_URI
+        value: neo4j+s://41e180bf.databases.neo4j.io
+      - key: NEO4J_USERNAME
+        value: neo4j
+      - key: NEO4J_PASSWORD
+        sync: false  # Manually set in Render dashboard for security
+      - key: NEO4J_DATABASE
+        value: neo4j
+      - key: PLANNER_LOG_LEVEL
+        value: INFO
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    healthCheckPath: /health

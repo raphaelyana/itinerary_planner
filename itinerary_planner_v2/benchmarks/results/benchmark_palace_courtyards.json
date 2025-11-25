@@ -1,0 +1,15 @@
+{
+  "runs": [
+    {
+      "scenario": "palace_plus_courtyards",
+      "trial": 0,
+      "poi_count": 8,
+      "solver": "default",
+      "offline": true,
+      "greedy_cost": 44.0,
+      "greedy_time_sec": 9.829199916566722e-05,
+      "brute_cost": 41.0,
+      "brute_time_sec": 0.20946745900073438
+    }
+  ]
+}
