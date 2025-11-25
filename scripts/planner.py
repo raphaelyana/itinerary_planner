@@ -35,8 +35,8 @@ CACHE_FILE = os.getenv("PLANNER_DISTANCE_CACHE", "cache/full_path_cache.json")
 PATH_CACHE = PathCache(CACHE_FILE, auto_save=False)
 _CACHE_DIRTY = False
 LUNCH_BREAK_ID = "__lunch_break__"
-GREEDY_THRESHOLD = 10
-PERM_THRESHOLD = 7
+GREEDY_THRESHOLD = 6  # Lowered to prefer greedy for better disconnected path handling
+PERM_THRESHOLD = 4    # Lowered to avoid Held-Karp on potentially disconnected museum branches
 MIN_TRAVEL_PER_HOP = 5.0
 
 # Zone interface nodes for cross-zone transitions
