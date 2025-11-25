@@ -6,6 +6,9 @@ import sys
 from pathlib import Path
 from typing import Dict, Iterable, List, Tuple, Literal, Optional
 
+# Add parent directory to path for imports when run as script
+sys.path.insert(0, str(Path(__file__).parent.parent))
+
 from neo4j import GraphDatabase, Session
 from scripts.planner_utils import normalize_neo4j_uri
 
