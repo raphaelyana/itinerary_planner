@@ -7,7 +7,7 @@ from typing import List, Literal, Optional
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, validator
 
-from scripts.planner import Itinerary, ItineraryStep, PlannerConstraints, plan_versailles_itinerary
+from scripts.planner import Itinerary, ItineraryStep, PlannerConstraints, BudgetConstraint, plan_versailles_itinerary
 from scripts.planner_utils import ShortestPathResult
 
 app = FastAPI(title="Versailles Itinerary Planner")
@@ -17,6 +17,16 @@ logger = logging.getLogger(__name__)
 
 UserProfileLiteral = Literal["standard", "family", "elder"]
 AccessibilityLiteral = Literal["any", "step_free", "stroller"]
+
+
+class BudgetModel(BaseModel):
+    """Budget information for ticket pricing."""
+    total_budget: float = Field(..., gt=0, description="Total budget in euros")
+    num_adults: int = Field(1, ge=0, description="Number of adults (26+ years)")
+    num_children_under_18: int = Field(0, ge=0, description="Number of children under 18 (free)")
+    num_youth_18_25_eu: int = Field(0, ge=0, description="Number of EU residents aged 18-25 (free)")
+    all_eu_residents: bool = Field(True, description="Whether all adults are EU residents")
+    has_reduced_rate_cards: int = Field(0, ge=0, description="Number of adults with reduced rate cards")
 
 
 class ConstraintsModel(BaseModel):
@@ -29,6 +39,7 @@ class ConstraintsModel(BaseModel):
     hard_time_limits: bool = False
     start_poi: Optional[str] = Field(None, description="Specific entrance POI ID to start from")
     finish_poi: Optional[str] = Field(None, description="Specific exit POI ID to finish at")
+    budget: Optional[BudgetModel] = Field(None, description="Budget constraints for ticket pricing")
 
     @validator("interests", "must_include", "exclude_ids", each_item=True)
     def no_empty_strings(cls, value: str) -> str:
@@ -124,6 +135,18 @@ def health() -> dict:
 
 @app.post("/itinerary", response_model=ItineraryResponse)
 def create_itinerary(request: ItineraryRequest) -> ItineraryResponse:
+    # Convert budget model to budget constraint
+    budget_constraint = None
+    if request.constraints.budget:
+        budget_constraint = BudgetConstraint(
+            total_budget=request.constraints.budget.total_budget,
+            num_adults=request.constraints.budget.num_adults,
+            num_children_under_18=request.constraints.budget.num_children_under_18,
+            num_youth_18_25_eu=request.constraints.budget.num_youth_18_25_eu,
+            all_eu_residents=request.constraints.budget.all_eu_residents,
+            has_reduced_rate_cards=request.constraints.budget.has_reduced_rate_cards,
+        )
+
     constraints = PlannerConstraints(
         interests=request.constraints.interests,
         user_profile=request.constraints.user_profile,
@@ -134,6 +157,7 @@ def create_itinerary(request: ItineraryRequest) -> ItineraryResponse:
         hard_time_limits=request.constraints.hard_time_limits,
         start_poi=request.constraints.start_poi,
         finish_poi=request.constraints.finish_poi,
+        budget=budget_constraint,
     )
 
     try:

@@ -59,6 +59,17 @@ def _parse_time(value: str) -> time:
 
 
 @dataclass
+class BudgetConstraint:
+    """Budget information for ticket pricing."""
+    total_budget: float  # Total budget in euros
+    num_adults: int = 1
+    num_children_under_18: int = 0
+    num_youth_18_25_eu: int = 0
+    all_eu_residents: bool = True
+    has_reduced_rate_cards: int = 0
+
+
+@dataclass
 class PlannerConstraints:
     interests: Sequence[str]
     user_profile: UserProfile
@@ -69,6 +80,7 @@ class PlannerConstraints:
     hard_time_limits: bool = False
     start_poi: Optional[str] = None  # Optional: specific entrance to use
     finish_poi: Optional[str] = None  # Optional: specific exit to use
+    budget: Optional[BudgetConstraint] = None  # Optional: budget constraints
 
 
 @dataclass
@@ -152,7 +164,21 @@ def fetch_candidate_pois(
     interests: Sequence[str],
     accessibility: AccessibilityRequirement,
     exclude_ids: Sequence[str],
+    accessible_zones: Optional[Set[str]] = None,
 ) -> List[CandidatePOI]:
+    """
+    Fetch candidate POIs with optional zone filtering based on budget.
+
+    Args:
+        session: Neo4j session
+        interests: Interest tags to filter by
+        accessibility: Accessibility requirements
+        exclude_ids: POI IDs to exclude
+        accessible_zones: If provided, only return POIs from these zones
+
+    Returns:
+        List of candidate POIs
+    """
     excluded = set(exclude_ids)
     raw_result = session.run(
         FILTER_QUERY,
@@ -171,7 +197,22 @@ def fetch_candidate_pois(
         )
         for record in raw_result
     ]
-    return [candidate for candidate in candidates if candidate.poi_id not in excluded]
+
+    # Filter by exclusions
+    candidates = [c for c in candidates if c.poi_id not in excluded]
+
+    # Filter by accessible zones (budget-based)
+    if accessible_zones:
+        def poi_in_accessible_zone(poi_id: str) -> bool:
+            """Check if POI is in an accessible zone."""
+            for zone in accessible_zones:
+                if zone in poi_id:
+                    return True
+            return False
+
+        candidates = [c for c in candidates if poi_in_accessible_zone(c.poi_id)]
+
+    return candidates
 
 
 def _auto_max_poi_cap(constraints: PlannerConstraints, total_duration_minutes: int) -> Optional[int]:
@@ -850,6 +891,37 @@ def plan_versailles_itinerary(
     user: Optional[str] = None,
     password: Optional[str] = None,
 ) -> Itinerary:
+    # Budget validation (if budget constraints provided)
+    accessible_zones = None
+    if constraints.budget:
+        from configs.pricing_config import (
+            create_visitor_group,
+            get_accessible_zones,
+            validate_budget_for_interests,
+        )
+
+        # Create visitor group from budget constraint
+        visitors = create_visitor_group(
+            num_adults=constraints.budget.num_adults,
+            num_children_under_18=constraints.budget.num_children_under_18,
+            num_youth_18_25_eu=constraints.budget.num_youth_18_25_eu,
+            all_eu_residents=constraints.budget.all_eu_residents,
+            has_reduced_rate_cards=constraints.budget.has_reduced_rate_cards,
+        )
+
+        # Determine accessible zones based on budget
+        accessible_zones = get_accessible_zones(
+            visitors,
+            constraints.budget.total_budget,
+            start_time
+        )
+
+        logger.info(
+            "Planner: budget constraint active (€%.2f). Accessible zones: %s",
+            constraints.budget.total_budget,
+            accessible_zones
+        )
+
     driver = _connect(uri, user, password)
     try:
         with driver.session() as session:
@@ -858,6 +930,7 @@ def plan_versailles_itinerary(
                 interests=constraints.interests,
                 accessibility=constraints.accessibility,
                 exclude_ids=constraints.exclude_ids,
+                accessible_zones=accessible_zones,
             )
     finally:
         driver.close()
