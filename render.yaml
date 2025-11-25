@@ -2,7 +2,7 @@ services:
   # Neo4j Graph Database
   - type: pserv
     name: versailles-neo4j
-    env: docker
+    runtime: docker
     plan: standard  # Neo4j requires persistent storage (not available on free tier)
     dockerfilePath: ./Dockerfile.neo4j
     dockerContext: .
@@ -42,24 +42,3 @@ services:
       - key: PLANNER_LOG_LEVEL
         value: INFO
     healthCheckPath: /health
-
-  # Data ingestion cron job (runs after deployment)
-  - type: cron
-    name: versailles-neo4j-ingest
-    runtime: python
-    plan: free
-    schedule: "@reboot"  # Run once on deployment
-    buildCommand: pip install -r requirements.txt
-    startCommand: python3 -c "import sys; sys.path.insert(0, 'scripts'); from ingest import run_ingestion; run_ingestion(skip_validation=True)"
-    envVars:
-      - key: NEO4J_URI
-        fromService:
-          type: pserv
-          name: versailles-neo4j
-          property: hostport
-      - key: NEO4J_USERNAME
-        value: neo4j
-      - key: NEO4J_PASSWORD
-        value: versailles2024
-      - key: NEO4J_DATABASE
-        value: neo4j
