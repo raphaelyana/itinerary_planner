@@ -325,3 +325,15 @@ versailles:Trianon:ferme-hameau,versailles:Trianon:tour-de-marlborough-hameau,4,
 versailles:Trianon:tour-de-marlborough-hameau,versailles:Trianon:ferme-hameau,4,4,4,True,True,outdoor,,
 versailles:Trianon:entree-hameau-de-la-reine,versailles:Trianon:ferme-hameau,0,0,0,True,True,outdoor,,
 versailles:Trianon:ferme-hameau,versailles:Trianon:entree-hameau-de-la-reine,0,0,0,True,True,outdoor,,
+versailles:Castle:acces-grands-appartements,versailles:Castle:cour-dhonneur,1,1.5,2,True,True,outdoor,Cour d'Honneur vers Accès Grands Appartements (reverse)
+versailles:Castle:cour-royale,versailles:Castle:pavillon-dufour-sortie,1,1.5,2,True,True,outdoor,Pavillon Dufour Sortie vers Cour Royale (reverse)
+versailles:Garden:acces-jardins-cour-des-princes,versailles:Castle:cour-dhonneur,4,6.0,8,True,True,outdoor,Cour d'Honneur vers Accès Jardins Cour des Princes (reverse)
+versailles:Castle:cour-dhonneur-sortie,versailles:Garden:acces-jardins-cour-des-princes,4,6.0,8,True,True,outdoor,Accès Jardins Cour des Princes vers Cour d'Honneur Sortie (reverse)
+versailles:Castle:cour-dhonneur-sortie,versailles:Castle:pavillon-dufour-sortie,3,4.5,6,True,True,outdoor,Pavillon Dufour Sortie vers Cour d'Honneur Sortie (reverse)
+versailles:Garden:pdv-parterre-du-midi-orangerie,versailles:Castle:pavillon-dufour-sortie,0,0,0,True,True,outdoor,Pavillon Dufour Sortie vers PDV Parterre du Midi Orangerie (reverse)
+versailles:Castle:entree-appartements-nieces,versailles:Castle:cour-royale,1,1.5,2,True,True,indoor,Cour Royale vers Entree Appartements Nieces (reverse)
+versailles:Trianon:entree-grand-trianon,versailles:Park:etoile-royale,18,20,22.5,False,True,outdoor,Étoile Royale vers Entrée Grand Trianon (reverse)
+versailles:Trianon:entree-petit-trianon,versailles:Trianon:entree-grand-trianon,6,7,8,True,True,outdoor,Entrée Grand Trianon vers Entrée Petit Trianon (reverse)
+versailles:Trianon:entree-grand-trianon,versailles:Park:grand-canal,18,20,22.5,True,True,outdoor,Grand Canal vers Entrée Grand Trianon (reverse)
+versailles:Trianon:entree-petit-trianon,versailles:Park:grand-canal,22,24,26,True,True,outdoor,Grand Canal vers Entrée Petit Trianon (reverse)
+versailles:Garden:entree-parc-bassin-apollon,versailles:Trianon:entree-petit-trianon,22,24,26,True,True,outdoor,Grand Canal vers Entrée Petit Trianon (reverse)
