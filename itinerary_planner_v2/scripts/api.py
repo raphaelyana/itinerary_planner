@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import List, Literal, Optional
 
 from fastapi import FastAPI, HTTPException
@@ -49,9 +49,17 @@ class ConstraintsModel(BaseModel):
 
 
 class ItineraryRequest(BaseModel):
-    start_time: datetime
+    start_time: Optional[datetime] = Field(None, description="Visit start time (default: tomorrow 9am)")
     total_duration_minutes: int = Field(..., gt=0, le=12 * 60)
     constraints: ConstraintsModel
+
+    @validator('start_time', pre=True, always=True)
+    def default_start_time(cls, v):
+        """Default to tomorrow at 9am if not provided."""
+        if v is None:
+            tomorrow = datetime.now() + timedelta(days=1)
+            return datetime.combine(tomorrow.date(), datetime.min.time().replace(hour=9))
+        return v
 
 
 class ItineraryStepResponse(BaseModel):

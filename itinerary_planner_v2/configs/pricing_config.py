@@ -13,7 +13,8 @@ from typing import List, Optional, Set
 from enum import Enum
 
 # Check if live pricing should be used (from environment variable)
-USE_LIVE_PRICING = os.getenv("VERSAILLES_USE_LIVE_PRICING", "false").lower() == "true"
+# Default: true (fetch live pricing, fallback to static if fails)
+USE_LIVE_PRICING = os.getenv("VERSAILLES_USE_LIVE_PRICING", "true").lower() == "true"
 
 
 class Season(Enum):
