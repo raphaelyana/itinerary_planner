@@ -8,11 +8,22 @@ import json
 from datetime import datetime
 from pathlib import Path
 
-# Set environment variables
-os.environ['NEO4J_URI'] = 'neo4j+s://41e180bf.databases.neo4j.io'
-os.environ['NEO4J_USERNAME'] = 'neo4j'
-os.environ['NEO4J_PASSWORD'] = '***REMOVED***'
-os.environ['NEO4J_DATABASE'] = 'neo4j'
+# Require Neo4j credentials to be provided via environment (no defaults here).
+NEO4J_URI = os.environ.get('NEO4J_URI')
+NEO4J_USERNAME = os.environ.get('NEO4J_USERNAME')
+NEO4J_PASSWORD = os.environ.get('NEO4J_PASSWORD')
+NEO4J_DATABASE = os.environ.get('NEO4J_DATABASE')
+
+if not all([NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD, NEO4J_DATABASE]):
+    raise RuntimeError(
+        "Set NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD, and NEO4J_DATABASE "
+        "in the environment before running test_tsp_comprehensive.py"
+    )
+
+os.environ['NEO4J_URI'] = NEO4J_URI
+os.environ['NEO4J_USERNAME'] = NEO4J_USERNAME
+os.environ['NEO4J_PASSWORD'] = NEO4J_PASSWORD
+os.environ['NEO4J_DATABASE'] = NEO4J_DATABASE
 
 from scripts.planner import PlannerConstraints, plan_versailles_itinerary
 

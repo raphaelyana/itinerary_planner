@@ -12,16 +12,20 @@ TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 OUTPUT_DIR="benchmarks/results"
 mkdir -p "${OUTPUT_DIR}"
 
-# Export Neo4j credentials (optional - falls back to offline mode on failure)
+# Export Neo4j credentials (no defaults for secrets)
 export NEO4J_URI="${NEO4J_URI:-neo4j+s://41e180bf.databases.neo4j.io}"
 export NEO4J_USERNAME="${NEO4J_USERNAME:-neo4j}"
-export NEO4J_PASSWORD="${NEO4J_PASSWORD:-***REMOVED***}"
+export NEO4J_PASSWORD="${NEO4J_PASSWORD:-}"
 export NEO4J_DATABASE="${NEO4J_DATABASE:-neo4j}"
 
 # Mode selection
 MODE="${1:-offline}"
 if [[ "${MODE}" == "online" ]]; then
     echo "Running in ONLINE mode (requires Neo4j AuraDB connection)"
+    if [[ -z "${NEO4J_PASSWORD}" ]]; then
+        echo "Error: set NEO4J_PASSWORD before running in online mode." >&2
+        exit 1
+    fi
     OFFLINE_FLAG=""
 else
     echo "Running in OFFLINE mode (using mock distance solver)"

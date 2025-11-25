@@ -216,14 +216,11 @@ def fetch_candidate_pois(
 
 
 def _auto_max_poi_cap(constraints: PlannerConstraints, total_duration_minutes: int) -> Optional[int]:
-    """Limit POI count for light requests so routing stays tractable."""
+    """Limit POI count so routing stays tractable."""
     if constraints.must_include:
         return None
-    if len(constraints.interests) <= 1 and total_duration_minutes <= 360:
-        return 8
-    if len(constraints.interests) <= 1 and total_duration_minutes <= 480:
-        return 10
-    return None
+    # Conservative cap keeps pairwise path computation reasonable.
+    return 8
 
 
 def _should_schedule_lunch(start_time: datetime, total_duration_minutes: int, preference: Optional[bool]) -> bool:
@@ -388,6 +385,12 @@ def select_pois(
                 delay_minutes = (opening_dt - start_time).total_seconds() / 60.0
                 penalty = min(delay_minutes / 30.0, base)
                 base -= penalty
+        # Morning bias: prioritize castle highlights when user did not opt out.
+        if start_time and start_time.hour < 12:
+            if ("must_see" in candidate.interest_tags or "history" in candidate.interest_tags) and (
+                candidate.poi_id.startswith("versailles:Room") or candidate.poi_id.startswith("versailles:Castle")
+            ):
+                base += 1.0
         return max(base, 0.0)
 
     def _sort_key(candidate: CandidatePOI) -> Tuple[float, float, int]:
@@ -646,11 +649,16 @@ def determine_route(
         return [poi_ids[0]], [], zero_path
 
     n = len(poi_ids)
+    # Route solver selection:
+    # - > GREEDY_THRESHOLD: use greedy heuristic (fast for large sets)
+    # - > PERM_THRESHOLD: use Held-Karp DP
+    # - otherwise: exact permutation
     if n > GREEDY_THRESHOLD:
-        return _solve_route_via_held_karp(poi_ids, constraints=constraints)
-    if n > PERM_THRESHOLD:
         logger.info("Planner: using greedy solver (%d POIs)", n)
         return determine_route_greedy(poi_ids, constraints=constraints)
+    if n > PERM_THRESHOLD:
+        logger.info("Planner: using Held-Karp solver (%d POIs)", n)
+        return _solve_route_via_held_karp(poi_ids, constraints=constraints)
 
     try:
         raw_pair_paths = _compute_pairwise_paths(poi_ids, constraints=constraints)

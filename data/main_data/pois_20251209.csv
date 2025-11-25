@@ -1,0 +1,161 @@
+id,id_num,name,zone,category,interest_tags,estimated_visit_minutes,accessibility_level,accessibility_notes,priority_score,opening_ruleset_id,exception_calendar_id,floor,wing,garden_type,is_fountain_area,facility_type,cost_category,entrance_type,opening_time,closing_time
+versailles:Castle:acces-grands-appartements,acces-grands-appartements,Accès Grands Appartements,Castle,Room,entrance;scenic;architecture_classique,5,full,Accès de plein pied depuis la Cour d'Honneur.,0,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:galeries-de-lhistoire,galeries-de-lhistoire,Galeries de l'Histoire,Castle,Room,history;art;rain_safe;monarchy_july;art_militaire;art_portrait,75,full,,1.60,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:chapelle-royale,chapelle-royale,Chapelle Royale,Castle,Room,must_see;architecture;art;rain_safe;louis_xiv;art_baroque;art_religieux,12,none,Balcony viewing; some thresholds; not fully step-free,1.60,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-du-sacre,salle-du-sacre,Salle du Sacre,Castle,Room,history;art;rain_safe;napoleon_i;pape_pie_vii,15,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:appartements-de-madame-de-maintenon,appartements-de-madame-de-maintenon,Appartements de Madame de Maintenon,Castle,Room,history;art;rain_safe;louis_xiv,30,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salles-des-croisades,salles-des-croisades,Salles des Croisades,Castle,Room,history;art;rain_safe;monarchy_july;art_militaire,20,full,,1.20,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-dhercule,salon-dhercule,Salon d'Hercule,Castle,Room,must_see;art;architecture;rain_safe;louis_xv;art_baroque,10,full,,1.60,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-de-labondance,salon-de-labondance,Salon de l'Abondance,Castle,Room,art;rain_safe;louis_xiv;art_baroque,6,full,,1.20,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-de-venus,salon-de-venus,Salon de Vénus,Castle,Room,art;rain_safe;louis_xiv;art_baroque,7,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-de-diane,salon-de-diane,Salon de Diane,Castle,Room,art;rain_safe;louis_xiv;art_baroque,7,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-de-mars,salon-de-mars,Salon de Mars,Castle,Room,art;music;rain_safe;louis_xiv;art_baroque,7,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-de-mercure,salon-de-mercure,Salon de Mercure,Castle,Room,art;rain_safe;louis_xiv;art_baroque,7,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-dapollon,salon-dapollon,Salon d'Apollon (Salle du Trône),Castle,Room,must_see;art;rain_safe;louis_xiv;art_classique,10,full,,1.80,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salles-louis-xiv,salles-louis-xiv,Salles Louis XIV,Castle,Room,history;art_portrait;rain_safe;louis_xiv;art_portrait,60,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-de-la-guerre,salon-de-la-guerre,Salon de la Guerre,Castle,Room,art;transition;rain_safe;louis_xiv;art_classique,6,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-de-la-paix,salon-de-la-paix,Salon de la Paix,Castle,Room,art;transition;rain_safe;louis_xiv;art_classique,6,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:galerie-des-glaces,galerie-des-glaces,Galerie des Glaces,Castle,Room,must_see;art;history;photo_spot;rain_safe;louis_xiv;art_classique,20,full,,2.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:chambre-de-la-reine,chambre-de-la-reine,Chambre de la Reine,Castle,Room,must_see;art;history;rain_safe;marie_antoinette;art_rocaille,8,full,,1.80,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:galerie-des-batailles,galerie-des-batailles,Galerie des Batailles,Castle,Room,history;art;military;rain_safe;monarchy_july;art_militaire,20,full,,1.60,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Castle:entree-appartements-nieces,entree-appartements-nieces,Entrée Appartements des Nièces du Roi,Castle,Facility,entrance;services,0,full,,1.00,PALACE_SPECIAL,,,,,,,,entrance,09:00,17:30
+versailles:Room:premiere-antichambre,premiere-antichambre,Première Antichambre de Madame Victoire,Castle,Room,history;lifestyle;rain_safe;louis_xiv,4,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:deuxieme-antichambre,deuxieme-antichambre,Deuxième Antichambre de Madame Victoire,Castle,Room,history;lifestyle;rain_safe;louis_xiv,5,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:grand-cabinet-victoire,grand-cabinet-victoire,Grand Cabinet de Madame Victoire,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,5,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:chambre-victoire,grand-chambre-victoire,Chambre de Madame Victoire,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,5,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:cabinet-interieur-victoire,cabinet-interieur-victoire,Cabinet Interieur de Madame Victoire,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,3,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:cabinet-interieur-adelaide,cabinet-interieur-adelaide,Cabinet Interieur de Madame Adelaide,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,3,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:chambre-adelaide,chambre-adelaide,Chambre de Madame Adelaide,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,3,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:grand-cabinet-adelaide,grand-cabinet-adelaide,Grand Cabinet de Madame Adelaide,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,5,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:salle-des-hoquetons,salle-des-hoquetons,Salle des Hoquetons,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,5,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:cabinet-interieur-dauphine,cabinet-interieur-dauphine,Cabinet Interieur de Madame Dauphine,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,3,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:chambre-dauphine,chambre-dauphine,Chambre de Madame Dauphine,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,3,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:grand-cabinet-dauphine,grand-cabinet-dauphine,Grand Cabinet de Madame Dauphine,Castle,Room,history;art;rain_safe;louis_xiv;art_rocaille,5,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:deuxieme-antichambre-dauphine,deuxieme-antichambre-dauphine,Seconde Antichambre de la Dauphine,Castle,Room,history;lifestyle;rain_safe;louis_xiv,5,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:premiere-antichambre-dauphine,premiere-antichambre-dauphine,Première Antichambre de la Dauphine,Castle,Room,history;lifestyle;rain_safe;louis_xiv,4,full,,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Castle:entree-appartements-dauphine,entree-appartements-dauphine,Entrée Appartements de la Dauphine,Castle,Facility,entrance;services,0,full,,1.00,PALACE_SPECIAL,,,,,,,,entrance,09:00,17:30
+versailles:Room:chambre-du-roi,chambre-du-roi,Chambre du Roi,Castle,Room,must_see;history;rain_safe;louis_xiv,12,full,,2.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:cabinet-du-conseil,cabinet-du-conseil,Cabinet du Conseil,Castle,Room,history;politics;rain_safe;louis_xv,10,full,,1.80,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salon-des-nobles,salon-des-nobles,Salon des Nobles,Castle,Room,history;art;rain_safe;marie_antoinette;art_rocaille,8,full,,1.60,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:antichambre-du-grand-couvert-reine,antichambre-du-grand-couvert-reine,Antichambre du Grand Couvert (Reine),Castle,Room,history;lifestyle;rain_safe;louis_xiv;marie_antoinette,7,full,,1.40,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-des-gardes-de-la-reine,salle-des-gardes-de-la-reine,Salle des Gardes de la Reine,Castle,Room,history;rain_safe;protection;marie_antoinette,5,full,,1.20,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:galerie-basse,galerie-basse,Galerie Basse,Castle,Room,art;history;rain_safe,15,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1792,salles-1792,Salle de 1792,Castle,Room,history;art;rain_safe;revolution,20,full,,1.20,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1796-1797,salle-1796-1797,Salle 1796-1797 : Première campagne d'Italie,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1797-1798,salle-1797-1798,Salle 1797-1798 : Campagne d'Italie et d'Égypte,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1798-1799,salle-1798-1799,Salle 1798-1799 : Expédition d'Égypte,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1802-1804,salle-1802-1804,Salle 1802-1804 : Consulat,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1804,salle-1804,Salle 1804 : Proclamation de l'Empire,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1805-allemagne,salle-1805-allemagne,Salle 1805 : Campagne d'Allemagne,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1805-autriche,salle-1805-autriche,Salle 1805 : Campagne d'Autriche,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1805-prusse-pologne,salle-1805-prusse-pologne,Salle 1805 : Campagne de Prusse et de Pologne,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1805-1807-prusse,salle-1805-1807-prusse,Salle 1805-1807 : Campagne de Prusse,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1807-espagne,salle-1807-espagne,Salle 1807 : Guerre d'Espagne,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1807-1808,salle-1807-1808,Salle 1807-1808 : Campagnes napoléoniennes,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-1809-1811,salle-1809-1811,Salle 1809-1811 : Campagnes napoléoniennes,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,10,full,,1.00,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:salle-marengo,salle-marengo,Salle Marengo,Castle,Room,history;art;rain_safe;napoleon_i;art_militaire,12,full,,1.10,PALACE_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Room:attique-chimay,attique-chimay,Attique Chimay,Castle,Room,history;art;rain_safe;napoleon_i,20,none,Accessible uniquement par escaliers,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Room:attique-midi,attique-midi,Attique Midi,Castle,Room,history;art;rain_safe;napoleon_i,20,none,Accessible uniquement par escaliers,1.20,PALACE_SPECIAL,,,,,,,,,09:00,17:30
+versailles:Castle:pavillon-dufour-sortie,pavillon-dufour-sortie,Sortie Pavillon Dufour,Castle,Facility,services;exit;restroom,0,full,,1.00,PALACE_DEFAULT,,,,,,,,exit,09:00,17:30
+versailles:Castle:cour-dhonneur-sortie,cour-dhonneur-sortie,Cour d'Honneur (Sortie),Castle,Room,exit;scenic;architecture_classique,5,full,Sortie de plein pied.,0,PALACE_DEFAULT,,,,Other,false,,,,09:00,17:30
+versailles:Castle:cour-dhonneur,cour-dhonneur,Cour d'Honneur,Castle,Room,entrance;scenic;architecture_classique,5,full,,0,PALACE_DEFAULT,,,,Other,false,,,,09:00,17:30
+versailles:Castle:cour-royale,cour-royale,Cour Royale,Castle,Room,entrance;louis_xiv;architecture_classique,5,full,Pré-entrée avant contrôle Pavillon Dufour.,0,PALACE_DEFAULT,,,,Other,false,,,,09:00,17:30
+versailles:Garden:acces-jardins-cour-des-princes,acces-jardins-cour-des-princes,Accès Principal Jardins (Cour des Princes),Gardens,Garden,entrance;garden;point_of_view;fountains,5,none,Accès principal vers les Parterres d'Eau; non totalement de plain-pied.,0.60,GARDENS_DEFAULT,,,,Other,false,,,,08:00,18:00
+versailles:Garden:pdv-parterre-du-midi-orangerie,pdv-parterre-du-midi-orangerie,Point de Vue Parterre du Midi et Orangerie,Gardens,Garden,garden;scenic;flowers;photo_spot,15,full,,1.60,GARDENS_DEFAULT,,,,Formal,false,,,,08:00,18:00
+versailles:Garden:parterre-du-midi,parterre-du-midi,Parterre du Midi,Gardens,Garden,garden;scenic;flowers;photo_spot,15,none,,1.40,GARDENS_DEFAULT,,,,Formal,false,,,,08:00,18:00
+versailles:Garden:orangerie,orangerie,Orangerie,Gardens,Garden,must_see;architecture;garden;scenic;photo_spot,20,none,Stairs to access; not wheelchair accessible,1.60,GARDENS_DEFAULT,,,,Formal,false,,,,08:00,18:00
+versailles:Garden:parterre-deau,parterre-deau,Parterre d'Eau,Gardens,Garden,must_see;water;photo_spot;scenic;fountains,10,full,,1.60,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:parterre-du-nord,parterre-du-nord,Parterre du Nord,Gardens,Garden,garden;scenic;flowers;photo_spot,15,full,,1.40,GARDENS_DEFAULT,,,,Formal,false,,,,08:00,18:00
+versailles:Garden:bassin-des-sirenes,bassin-des-sirenes,Bassin de Sirènes - Fontaine de la Pyramide - Bassin des Nymphes de Diane,Gardens,Garden,water;fountains;photo_spot;scenic;mythology,10,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:bosquet-de-larc-triomphe,bosquet-de-larc-triomphe,Bosquet de l'Arc de Triomphe,Gardens,Garden,fountains;mythology;garden;scenic,10,full,,1.00,GARDENS_DEFAULT,,,,Grove,true,,,,08:00,18:00
+versailles:Garden:bassin-de-neptune,bassin-de-neptune,Bassin du Dragon et de Neptune,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,15,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:bosquet-des-trois-fontaines,bosquet-des-trois-fontaines,Bosquet des Trois Fontaines,Gardens,Garden,architecture;art;garden;scenic,10,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bosquet-du-theatre-deau,bosquet-du-theatre-deau,Bosquet du Théâtre d'Eau,Gardens,Garden,architecture;art;garden;scenic,10,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bosquet-des-bains-dapollon,bosquet-des-bains-dapollon,Bosquet des Bains d'Apollon,Gardens,Garden,architecture;art;garden;scenic,10,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bassin-de-ceres,bassin-de-ceres,Bassin de Cérès,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,15,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:parterre-de-latone,parterre-de-latone,Bassin de Latone,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,10,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:bosquet-de-la-salle-de-bal,bosquet-de-la-salle-de-bal,Bosquet de la Salle de Bal,Gardens,Garden,garden;scenic;walk;marie_antoinette,10,full,,0.80,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bosquet-de-la-reine,bosquet-de-la-reine,Bosquet de la Reine,Gardens,Garden,garden;scenic;walk;marie_antoinette,10,full,,0.80,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bassin-de-bacchus,bassin-de-bacchus,Bassin de Bacchus,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,15,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:bosquet-de-la-girandolle,bosquet-de-la-girandolle,Bosquet de la Girandolle,Gardens,Garden,fountains;mythology;garden;scenic,10,full,,1.00,GARDENS_DEFAULT,,,,Grove,true,,,,08:00,18:00
+versailles:Garden:bosquet-du-dauphin,bosquet-du-dauphin,Bosquet du Dauphin,Gardens,Garden,fountains;mythology;garden;scenic,10,full,,1.00,GARDENS_DEFAULT,,,,Grove,true,,,,08:00,18:00
+versailles:Garden:le-mirroir,le-mirroir,Bassin Le Mirroir,Gardens,Garden,fountains;mythology;garden;scenic,10,full,,1.00,GARDENS_DEFAULT,,,,Grove,true,,,,08:00,18:00
+versailles:Garden:bassin-de-saturne,bassin-de-saturne,Bassin de Saturne,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,15,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:bassin-de-flore,bassin-de-flore,Bassin de Flore,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,15,full,,1.80,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:bosquet-de-letoile,bosquet-de-letoile,Bosquet de l'Etoile,Gardens,Garden,architecture;art;garden;scenic,10,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bosquet-de-la-colonnade,bosquet-de-la-colonnade,Bosquet de la Colonnade,Gardens,Garden,architecture;art;garden;scenic,10,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bosquet-de-lencelade,bosquet-de-lencelade,Bosquet de l'Encelade,Gardens,Garden,fountains;mythology;garden;scenic,10,full,,1.00,GARDENS_DEFAULT,,,,Grove,true,,,,08:00,18:00
+versailles:Garden:bosquet-des-domes,bosquet-des-domes,Bosquet des Rocailles (Salle de Bal),Gardens,Garden,architecture;garden;scenic;history,12,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bosquet-de-lobelisque,bosquet-de-lobelisque,Bosquet de l'Obélisque,Gardens,Garden,architecture;garden;scenic;history,12,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bosquet-de-la-salle-des-empereurs,bosquet-de-la-salle-des-empereurs,Bosquet de la Salle des Empereurs,Gardens,Garden,architecture;garden;scenic;history,12,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:jardin-du-roi,jardin-du-roi,Jardin du Roi,Gardens,Garden,architecture;garden;scenic;history,12,full,,1.20,GARDENS_DEFAULT,,,,Grove,false,,,,08:00,18:00
+versailles:Garden:bassin-dapollon,bassin-dapollon,Bassin d'Apollon,Gardens,Garden,must_see;water;fountains;photo_spot;scenic;mythology,10,full,,2.00,GARDENS_DEFAULT,,,,Other,true,,,,08:00,18:00
+versailles:Garden:entree-parc-bassin-apollon,entree-parc-bassin-apollon,Entrée Parc (Bassin d'Apollon),Gardens,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance,08:00,18:00
+versailles:Garden:grille-de-neptune,grille-de-neptune,Entrée Parc (Grille-de-Neptune),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance,08:00,18:00
+versailles:Garden:grille-des-matelots,grille-des-matelots,Entrée Parc (Grille-des-Matelots),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance,08:00,18:00
+versailles:Garden:grille-de-ceres,grille-de-ceres,Entrée Parc (Grille-de-Cérès),Park,Facility,entrance;services,0,full,,1.00,GARDENS_DEFAULT,,,,,,,,entrance,08:00,18:00
+versailles:Park:grand-canal,grand-canal,Grand Canal,Park,Garden,must_see;water;scenic;photo_spot,30,full,,0.80,PARK_DEFAULT,,,,Other,false,,,,08:00,18:00
+versailles:Park:etoile-royale,etoile-royale,Etoile Royale,Park,Garden,must_see;water;scenic;photo_spot,30,full,,0.80,PARK_DEFAULT,,,,Other,false,,,,08:00,18:00
+versailles:Trianon:entree-grand-trianon,entree-grand-trianon,Entrée Grand Trianon,Trianon,Facility,entrance;services,0,full,,1.00,TRIANON_DEFAULT,,,,,,,,entrance,12:00,17:30
+versailles:Trianon:boudoir-imperatrice-Marie-Louise,boudoir-imperatrice-Marie-Louise,Boudoir de l'Imperatrice Marie-Louise,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-des-glaces,salon-des-glaces,Salon des Glaces,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:chambre-de-limperatrice,chambre-de-limperatrice,Chambre de l'Imperatrice,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-de-la-chapelle,salon-de-la-chapelle,Salon de la Chapelle,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-des-seigneurs,salon-des-seigneurs,Salon des Seigneurs,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-rond,salon-rond,Salon Rond,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-de-famille-de-lempereur,salon-de-famille-de-lempereur,Salon de Famille de l'Empereur,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:chambre-reine-des-belges,chambre-reine-des-belges,Chambre de la Reine des Belges,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-de-musique,salon-de-musique,Salon de Musique,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-famille-louis-philippe,salon-famille-louis-philippe,Salon de Famille de Louis-Philippe,Trianon,Room,history;lifestyle,8,none,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-malachite,salon-malachite,Salon de Malachite,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:cabinet-topographique,cabinet-topographique,Cabinet Topographique de l'Empereur,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-frais,salon-frais,Cabinet Topographique de l'Empereur,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:galerie-des-cotelle,galerie-des-cotelles,Cabinet Topographique de l'Empereur,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-des-jardins,salon-des-jardins,Salon des Jardins,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:premier-salon,premier-salon,Premier Salon,Trianon,Room,art;history,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:parterre-haut,parterre-haut,Parterre Haut,Trianon,Garden,garden;scenic;flowers,20,full,,0.80,TRIANON_DEFAULT,,,,Formal,false,,,,12:00,17:30
+versailles:Trianon:parterre-bas,parterre-bas,Parterre Bas,Trianon,Garden,garden;scenic;flowers,20,full,,0.80,TRIANON_DEFAULT,,,,Formal,false,,,,12:00,17:30
+versailles:Trianon:bassin-du-fer-a-cheval,bassin-du-fer-a-cheval,Bassin du Fer à Cheval,Trianon,Garden,water;scenic;fountains,10,full,,1.00,TRIANON_DEFAULT,,,,Other,true,,,,12:00,17:30
+versailles:Trianon:aile-de-trianon-sous-bois,aile-de-trianon-sous-bois,Aile de Trianon sous Bois,Trianon,Garden,architecture;history;garden,30,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:salle-des-antiques,salle-des-antiques,Salle des Antiques,Trianon,Garden,architecture;history;garden,30,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:jardin-du-roi-trianon,jardin-du-roi-trianon,Jardin du Roi du Grand Trianon,Trianon,Garden,architecture;history;garden,20,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:buffet-deau,buffet-deau,Buffet d'Eau,Trianon,Garden,architecture;history;garden;water,15,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:bassin-du-plat-fond,bassin-du-plat-fond,Bassin du Plat Fond,Trianon,Garden,architecture;history;garden;water,15,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:salle-triangulaire,salle-triangulaire,Salle Triangulaire,Trianon,Garden,architecture;history;garden,20,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:interface-grand-petit-trianon,interface-grand-petit-trianon,Interface Grand et Petit Trianon,Trianon,Garden,architecture;history;garden,5,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:pavillon-francais,pavillon-francais,Pavillon Français,Trianon,Garden,architecture;photo_spot;scenic,8,full,,0.90,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:pavillon-frais,pavillon-frais,Pavillon Frais,Trianon,Garden,garden;walk;scenic,10,full,,0.80,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:jardin-francais,jardin-francais,Jardin Français,Trianon,Garden,garden;walk;scenic,10,full,,0.80,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:chapelle,chapelle,Chapelle,Trianon,Garden,architecture;history;scenic,5,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:theatre-de-la-reine,theatre-de-la-reine,Théâtre de la Reine,Trianon,Garden,architecture;history;scenic;marie_antoinette,10,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:jeu-de-bague,jeu-de-bague,Jeu de Bague,Trianon,Garden,architecture;history;scenic,5,full,,0.40,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:jardin-anglo-chinois,jardin-anglo-chinois,Jardin Anglo-Chinois,Trianon,Garden,garden;walk;scenic;marie_antoinette,15,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:le-rocher,le-rocher,Le Rocher,Trianon,Garden,architecture;photo_spot;scenic,8,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:belvedere,belvedere,Belvédère (Pavillon du Rocher),Trianon,Garden,architecture;photo_spot;scenic;marie_antoinette,10,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:la-grotte,la-grotte,La Grotte,Trianon,Garden,architecture;scenic;marie_antoinette,5,none,Uneven surfaces,0.70,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:temple-amour,temple-amour,Temple de l'Amour,Trianon,Garden,architecture;photo_spot;scenic,10,full,,1.00,TRIANON_DEFAULT,,,,Garden,false,,,,12:00,17:30
+versailles:Trianon:entree-petit-trianon,entree-petit-trianon,Entrée Petit Trianon,Trianon,Facility,entrance;services,0,full,,1.00,TRIANON_DEFAULT,,,,,,,,entrance,12:00,17:30
+versailles:Trianon:salle-des-gardes-petit-trianon,salle-des-gardes-petit-trianon,Salle des Gardes du Petit Trianon,Trianon,Room,history;lifestyle;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-du-billard-petit-trianon,salon-du-billard-petit-trianon,Salon du Billard du Petit Trianon,Trianon,Room,history;lifestyle;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:piece-dargenterie-petit-trianon,piece-dargenterie-petit-trianon,Pièce d'Argenterie du Petit Trianon,Trianon,Room,history;lifestyle;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salle-glaces-mouvantes-petit-trianon,salle-glaces-mouvantes-petit-trianon,Salle du mécanisme des Glaces Mouvantes,Trianon,Room,history;lifestyle;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:les-deux-fruiteries,les-deux-fruiteries,Les Deux Fruiteries,Trianon,Room,history;lifestyle;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:escalier-dhonneur-petit-trianon,escalier-dhonneur-petit-trianon,Escalier d'Honneur du Petit Trianon,Trianon,Room,history;architecture;marie_antoinette,5,full,,1.50,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:antichambre-petit-trianon,antichambre-petit-trianon,Antichambre du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:grande-salle-a-manger-petit-trianon,grande-salle-a-manger-petit-trianon,Grande Salle à Manger du Petit Trianon,Trianon,Room,history;art;marie_antoinette,7,full,,1.20,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:petite-salle-a-manger-petit-trianon,petite-salle-a-manger-petit-trianon,Petite Salle à Manger du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,0.70,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:salon-de-compagnie-petit-trianon,salon-de-compagnie-petit-trianon,Salon de Compagnie du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:chambre-a-coucher-de-la-reine-petit-trianon,chambre-a-coucher-de-la-reine-petit-trianon,Chambre à Coucher de la Reine du Petit Trianon,Trianon,Room,history;art;marie_antoinette,8,full,,1.20,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:boudoir-des-glaces-mouvantes-petit-trianon,boudoir-des-glaces-mouvantes-petit-trianon,Boudoir des Glaces Mouvantes du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:cabinet-de-toilette-de-la-reine-petit-trianon,cabinet-de-toilette-de-la-reine-petit-trianon,Cabinet de Toilette de la Reine du Petit Trianon,Trianon,Room,history;art;marie_antoinette,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,09:00,17:30
+versailles:Trianon:interface-hameau-trianon,interface-hameau-trianon,Interface Hameau de la Reine et Trianon,Trianon,Facility,scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:entree-hameau-de-la-reine,entree-hameau-de-la-reine,Entrée Hameau de la Reine (Accès à la Ferme du Hameau),Trianon,Facility,entrance;services,0,full,Ouverte que en haute saison,1.00,HAMEAU_HIGH_ONLY,,,,,,,,entrance,12:00,17:30
+versailles:Trianon:le-moulin-hameau,le-moulin-hameau,Le Moulin du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:maison-de-la-reine-hameau,maison-de-la-reine-hameau,Maison de la Reine du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:maison-du-billard-hameau,maison-du-billard-hameau,Maison du Billard du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:rechauffoir-hameau,rechauffoir-hameau,Le Réchauffoir du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:colombier-hameau,colombier-hameau,Le Colombier du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:maison-du-garde-hameau,maison-du-garde-hameau,Maison du Garde du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:laiterie-propriete-hameau,laiterie-propriete-hameau,Laiterie de la Propriété du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:tour-de-marlborough-hameau,tour-de-marlborough-hameau,Tour de Marlborough du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,1.00,TRIANON_DEFAULT,,,,,,,,,12:00,17:30
+versailles:Trianon:ferme-hameau,ferme-hameau,La Ferme du Hameau,Trianon,Garden,architecture;scenic;photo_spot,5,full,,0.80,TRIANON_DEFAULT,,,,,,,,,12:00,17:30

@@ -8,6 +8,15 @@ from typing import Dict, Iterable, List, Tuple, Literal, Optional
 
 from neo4j import GraphDatabase, Session
 
+# Override a few overlong visit durations to keep the “main castle track” in the
+# 2h–2h30 range while retaining generous dwell times for highlights.
+VISIT_TIME_OVERRIDES: Dict[str, int] = {
+    "versailles:Room:galeries-de-lhistoire": 45,
+    "versailles:Room:salles-louis-xiv": 35,
+    "versailles:Room:galerie-des-batailles": 15,
+    "versailles:Room:salle-1792": 15,
+}
+
 # Import validation utilities
 try:
     from validate_graph import GraphValidator
@@ -50,6 +59,10 @@ def split_tags(raw: str) -> List[str]:
 def prepare_poi(row: Dict[str, str]) -> Tuple[str, str, Dict[str, object]]:
     poi_id = row["id"]
     category = row["category"]
+    est_minutes = parse_int(row.get("estimated_visit_minutes", ""))
+    if poi_id in VISIT_TIME_OVERRIDES:
+        est_minutes = VISIT_TIME_OVERRIDES[poi_id]
+
     props: Dict[str, object] = {
         "id": poi_id,
         "id_num": row.get("id_num"),
@@ -57,7 +70,7 @@ def prepare_poi(row: Dict[str, str]) -> Tuple[str, str, Dict[str, object]]:
         "zone": row.get("zone"),
         "category": category,
         "interest_tags": split_tags(row.get("interest_tags", "")),
-        "estimated_visit_minutes": parse_int(row.get("estimated_visit_minutes", "")),
+        "estimated_visit_minutes": est_minutes,
         "accessibility_level": row.get("accessibility_level"),
         "priority_score": float(row["priority_score"]) if row.get("priority_score") else 0.0,
     }
@@ -72,6 +85,9 @@ def prepare_poi(row: Dict[str, str]) -> Tuple[str, str, Dict[str, object]]:
         "facility_type": row.get("facility_type"),
         "cost_category": row.get("cost_category"),
         "entrance_type": row.get("entrance_type"),
+        # Date-specific opening hours (needed for planner filters)
+        "opening_time": row.get("opening_time"),
+        "closing_time": row.get("closing_time"),
     }
 
     for key, value in optional_fields.items():
