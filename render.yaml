@@ -16,7 +16,7 @@ services:
       - key: NEO4J_server_memory_heap_initial__size
         value: 512m
       - key: NEO4J_server_memory_heap_max__size
-        value: 2G
+        value: 1G
       - key: NEO4J_server_memory_pagecache_size
         value: 512m
 
