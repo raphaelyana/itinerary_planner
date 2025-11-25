@@ -713,6 +713,24 @@ def determine_route(
     # Reorder Castle POIs to follow directed tour path
     poi_ids = _reorder_castle_pois_if_needed(poi_ids, constraints)
 
+    # If all POIs are Castle rooms, use the pre-ordered sequence directly
+    # (Castle has a directed one-way tour, so TSP/Held-Karp doesn't apply)
+    all_castle = all(pid.startswith("versailles:Room:") for pid in poi_ids)
+    if all_castle and len(poi_ids) > 1:
+        logger.info("Planner: all %d POIs are Castle rooms, using pre-ordered tour sequence", len(poi_ids))
+        # Build sequential path through the ordered Castle rooms
+        pair_paths: List[ShortestPathResult] = []
+        for i in range(len(poi_ids) - 1):
+            path = get_shortest_path(
+                poi_ids[i],
+                poi_ids[i + 1],
+                user_profile=constraints.user_profile,
+                accessibility=constraints.accessibility,
+            )
+            pair_paths.append(path)
+        merged = _merge_paths(pair_paths)
+        return poi_ids, pair_paths, merged
+
     n = len(poi_ids)
     # Route solver selection:
     # - > GREEDY_THRESHOLD: use greedy heuristic (fast for large sets)
