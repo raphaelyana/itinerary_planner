@@ -39,3 +39,20 @@ services:
       - key: PLANNER_LOG_LEVEL
         value: INFO
     healthCheckPath: /health
+
+  # One-time data ingestion job
+  - type: worker
+    name: versailles-ingest
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python scripts/ingest.py
+    envVars:
+      - key: NEO4J_URI
+        value: neo4j://versailles-neo4j:7687
+      - key: NEO4J_USERNAME
+        value: neo4j
+      - key: NEO4J_PASSWORD
+        value: versailles2024
+      - key: NEO4J_DATABASE
+        value: neo4j
