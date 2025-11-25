@@ -178,7 +178,7 @@ def get_shortest_path(
                         CALL apoc.path.expandConfig(start, {{
                             relationshipFilter: "CONNECTS_TO>",
                             minLevel: 1,
-                            maxLevel: 20,
+                            maxLevel: 30,
                             uniqueness: "RELATIONSHIP_PATH",
                             endNodes: [end],
                             terminatorNodes: [end]
