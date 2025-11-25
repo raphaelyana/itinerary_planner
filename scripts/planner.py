@@ -131,30 +131,21 @@ def _connect(uri: Optional[str], user: Optional[str], password: Optional[str]):
 
 FILTER_QUERY = """
 MATCH (poi:POI)
-WHERE poi.opening_time IS NOT NULL
-  AND poi.closing_time IS NOT NULL
-  AND poi.estimated_visit_minutes IS NOT NULL
+WHERE poi.estimated_visit_minutes IS NOT NULL
   AND poi.id IS NOT NULL
   AND poi.priority_score IS NOT NULL
   AND ($interests IS NULL OR size($interests) = 0 OR any(tag IN poi.interest_tags WHERE tag IN $interests))
   AND (
         $accessibility = 'any'
-        OR (
-            poi.accessibility_level = 'full'
-            AND EXISTS {
-                MATCH (poi)-[r:CONNECTS_TO]->(:POI)
-                WHERE ($accessibility = 'step_free' AND r.is_step_free = true)
-                   OR ($accessibility = 'stroller' AND r.is_step_free = true AND r.stroller_friendly = true)
-            }
-        )
+        OR poi.accessibility_level = 'full'
       )
 RETURN poi.id AS id,
        poi.name AS name,
        poi.priority_score AS priority_score,
        poi.estimated_visit_minutes AS estimated_visit_minutes,
        poi.interest_tags AS interest_tags,
-       poi.opening_time AS opening_time,
-       poi.closing_time AS closing_time
+       null AS opening_time,
+       null AS closing_time
 """
 
 
