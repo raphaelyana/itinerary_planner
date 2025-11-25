@@ -755,30 +755,31 @@ def determine_route(
         ))
         for pid in poi_ids
     )
-    if all_museum_rooms and len(poi_ids) > 1:
-        logger.info("Planner: all %d POIs are museum interior rooms, attempting pre-ordered tour sequence", len(poi_ids))
-        # Try to build sequential path through the ordered rooms
-        try:
-            pair_paths: List[ShortestPathResult] = []
-            for i in range(len(poi_ids) - 1):
-                path = get_shortest_path(
-                    poi_ids[i],
-                    poi_ids[i + 1],
-                    user_profile=constraints.user_profile,
-                    accessibility=constraints.accessibility,
-                )
-                pair_paths.append(path)
-            merged = _merge_paths(pair_paths)
-            logger.info("Planner: sequential museum tour successful")
-            return poi_ids, pair_paths, merged
-        except ValueError as exc:
-            # Sequential path failed (likely due to branch disconnection)
-            # Fall back to greedy routing which can handle disconnected subsets
-            logger.warning(
-                "Planner: sequential museum path failed (%s), falling back to greedy routing",
-                str(exc)
-            )
-            return determine_route_greedy(poi_ids, constraints=constraints)
+    # TEMPORARILY DISABLED: Sequential museum routing causes hangs with disconnected branches
+    # if all_museum_rooms and len(poi_ids) > 1:
+    #     logger.info("Planner: all %d POIs are museum interior rooms, attempting pre-ordered tour sequence", len(poi_ids))
+    #     # Try to build sequential path through the ordered rooms
+    #     try:
+    #         pair_paths: List[ShortestPathResult] = []
+    #         for i in range(len(poi_ids) - 1):
+    #             path = get_shortest_path(
+    #                 poi_ids[i],
+    #                 poi_ids[i + 1],
+    #                 user_profile=constraints.user_profile,
+    #                 accessibility=constraints.accessibility,
+    #             )
+    #             pair_paths.append(path)
+    #         merged = _merge_paths(pair_paths)
+    #         logger.info("Planner: sequential museum tour successful")
+    #         return poi_ids, pair_paths, merged
+    #     except ValueError as exc:
+    #         # Sequential path failed (likely due to branch disconnection)
+    #         # Fall back to greedy routing which can handle disconnected subsets
+    #         logger.warning(
+    #             "Planner: sequential museum path failed (%s), falling back to greedy routing",
+    #             str(exc)
+    #         )
+    #         return determine_route_greedy(poi_ids, constraints=constraints)
 
     n = len(poi_ids)
     # Route solver selection:
