@@ -29,10 +29,7 @@ services:
     startCommand: uvicorn scripts.api:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: NEO4J_URI
-        fromService:
-          type: pserv
-          name: versailles-neo4j
-          property: hostport  # Gets internal hostname:port
+        value: neo4j://versailles-neo4j:7687  # Explicit scheme for Neo4j driver
       - key: NEO4J_USERNAME
         value: neo4j
       - key: NEO4J_PASSWORD

@@ -23,6 +23,17 @@ _DRIVER_CACHE: Dict[Tuple[str, str, str], Driver] = {}
 _DRIVER_LOCK = Lock()
 
 
+def normalize_neo4j_uri(raw_uri: Optional[str]) -> str:
+    """
+    Ensure the Neo4j URI has a scheme. Render's service hostport env var is scheme-less.
+    """
+    if not raw_uri:
+        return "neo4j://localhost:7687"
+    if "://" not in raw_uri:
+        return f"neo4j://{raw_uri}"
+    return raw_uri
+
+
 def _get_driver(uri: str, user: str, password: str) -> Driver:
     key = (uri, user, password)
     with _DRIVER_LOCK:
@@ -134,7 +145,7 @@ def get_shortest_path(
     if start_id == end_id:
         return ShortestPathResult(node_ids=[start_id], total_minutes=0.0, segments=[])
 
-    uri = uri or os.getenv("NEO4J_URI", "neo4j://localhost:7687")
+    uri = normalize_neo4j_uri(uri or os.getenv("NEO4J_URI"))
     user = user or os.getenv("NEO4J_USERNAME", "neo4j")
     password = password or os.getenv("NEO4J_PASSWORD", "neo4j")
 

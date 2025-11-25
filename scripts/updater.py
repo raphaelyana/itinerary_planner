@@ -9,6 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 
 from neo4j import GraphDatabase, Session
+from scripts.planner_utils import normalize_neo4j_uri
 
 Season = Literal["High", "Low"]
 Weekday = Literal["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -359,7 +360,7 @@ def run_daily_update(
         updates = list(fallback.fetch_daily_hours(target_date, season=season))
         print("[updater] Falling back to static schedule; live scrape returned no data.")
 
-    uri = uri or os.getenv("NEO4J_URI", "neo4j://localhost:7687")
+    uri = normalize_neo4j_uri(uri or os.getenv("NEO4J_URI"))
     user = user or os.getenv("NEO4J_USERNAME", "neo4j")
     password = password or os.getenv("NEO4J_PASSWORD", "neo4j")
     database = database or os.getenv("NEO4J_DATABASE", "neo4j")

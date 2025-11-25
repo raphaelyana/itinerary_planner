@@ -15,6 +15,7 @@ from scripts.planner_utils import (
     ShortestPathResult,
     UserProfile,
     get_shortest_path,
+    normalize_neo4j_uri,
 )
 from scripts.path_cache import PathCache
 from configs.network_config import (
@@ -114,7 +115,7 @@ class Itinerary:
 
 
 def _connect(uri: Optional[str], user: Optional[str], password: Optional[str]):
-    uri = uri or os.getenv("NEO4J_URI", "neo4j://localhost:7687")
+    uri = normalize_neo4j_uri(uri or os.getenv("NEO4J_URI"))
     user = user or os.getenv("NEO4J_USERNAME", "neo4j")
     password = password or os.getenv("NEO4J_PASSWORD", "neo4j")
     # Configure connection pool for AuraDB stability

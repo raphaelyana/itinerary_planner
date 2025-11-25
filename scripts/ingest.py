@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Tuple, Literal, Optional
 
 from neo4j import GraphDatabase, Session
+from scripts.planner_utils import normalize_neo4j_uri
 
 # Override a few overlong visit durations to keep the “main castle track” in the
 # 2h–2h30 range while retaining generous dwell times for highlights.
@@ -183,7 +184,7 @@ def run_ingestion(
         Number of POIs and connections processed respectively.
     """
 
-    uri = uri or os.getenv("NEO4J_URI", "neo4j://localhost:7687")
+    uri = normalize_neo4j_uri(uri or os.getenv("NEO4J_URI"))
     user = user or os.getenv("NEO4J_USERNAME", "neo4j")
     password = password or os.getenv("NEO4J_PASSWORD", "neo4j")
 
