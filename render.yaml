@@ -37,7 +37,7 @@ services:
       - key: NEO4J_DATABASE
         value: neo4j
       - key: PLANNER_LOG_LEVEL
-        value: INFO
+        value: DEBUG
     healthCheckPath: /health
 
   # One-time data ingestion job

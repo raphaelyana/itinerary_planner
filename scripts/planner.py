@@ -875,13 +875,16 @@ def determine_route_greedy(
 
         for candidate in remaining:
             try:
+                logger.debug("Planner: greedy trying path %s -> %s", current, candidate)
                 path = get_shortest_path(
                     current,
                     candidate,
                     user_profile=constraints.user_profile,
                     accessibility=constraints.accessibility,
                 )
-            except ValueError:
+                logger.debug("Planner: path found, cost=%.2f", path.total_minutes)
+            except ValueError as exc:
+                logger.debug("Planner: no path from %s to %s: %s", current, candidate, exc)
                 continue
 
             if path.total_minutes < best_cost:
