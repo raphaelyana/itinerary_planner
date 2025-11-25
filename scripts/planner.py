@@ -38,6 +38,26 @@ LUNCH_BREAK_ID = "__lunch_break__"
 GREEDY_THRESHOLD = 10
 PERM_THRESHOLD = 7
 MIN_TRAVEL_PER_HOP = 5.0
+
+# Zone interface nodes for cross-zone transitions
+ZONE_INTERFACES = {
+    ('Castle', 'Garden'): [
+        ('versailles:Castle:cour-dhonneur', 'versailles:Garden:acces-jardins-cour-des-princes'),
+        ('versailles:Castle:pavillon-dufour-sortie', 'versailles:Garden:pdv-parterre-du-midi-orangerie'),
+        ('versailles:Room:vestibule-de-marbre', 'versailles:Garden:acces-jardins-cour-des-princes'),
+    ],
+    ('Garden', 'Park'): [
+        ('versailles:Garden:entree-parc-bassin-apollon', 'versailles:Park:grand-canal'),
+    ],
+    ('Garden', 'Trianon'): [
+        ('versailles:Garden:entree-parc-bassin-apollon', 'versailles:Trianon:entree-petit-trianon'),
+    ],
+    ('Park', 'Trianon'): [
+        ('versailles:Park:etoile-royale', 'versailles:Trianon:entree-grand-trianon'),
+        ('versailles:Park:grand-canal', 'versailles:Trianon:entree-grand-trianon'),
+        ('versailles:Park:grand-canal', 'versailles:Trianon:entree-petit-trianon'),
+    ],
+}
 PROFILE_TRAVEL_RATIO = {
     "standard": 0.4,
     "family": 0.35,
@@ -736,19 +756,29 @@ def determine_route(
         for pid in poi_ids
     )
     if all_museum_rooms and len(poi_ids) > 1:
-        logger.info("Planner: all %d POIs are museum interior rooms, using pre-ordered tour sequence", len(poi_ids))
-        # Build sequential path through the ordered rooms
-        pair_paths: List[ShortestPathResult] = []
-        for i in range(len(poi_ids) - 1):
-            path = get_shortest_path(
-                poi_ids[i],
-                poi_ids[i + 1],
-                user_profile=constraints.user_profile,
-                accessibility=constraints.accessibility,
+        logger.info("Planner: all %d POIs are museum interior rooms, attempting pre-ordered tour sequence", len(poi_ids))
+        # Try to build sequential path through the ordered rooms
+        try:
+            pair_paths: List[ShortestPathResult] = []
+            for i in range(len(poi_ids) - 1):
+                path = get_shortest_path(
+                    poi_ids[i],
+                    poi_ids[i + 1],
+                    user_profile=constraints.user_profile,
+                    accessibility=constraints.accessibility,
+                )
+                pair_paths.append(path)
+            merged = _merge_paths(pair_paths)
+            logger.info("Planner: sequential museum tour successful")
+            return poi_ids, pair_paths, merged
+        except ValueError as exc:
+            # Sequential path failed (likely due to branch disconnection)
+            # Fall back to greedy routing which can handle disconnected subsets
+            logger.warning(
+                "Planner: sequential museum path failed (%s), falling back to greedy routing",
+                str(exc)
             )
-            pair_paths.append(path)
-        merged = _merge_paths(pair_paths)
-        return poi_ids, pair_paths, merged
+            return determine_route_greedy(poi_ids, constraints=constraints)
 
     n = len(poi_ids)
     # Route solver selection:
