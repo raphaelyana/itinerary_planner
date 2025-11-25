@@ -404,6 +404,76 @@ def select_pois(
     return selected
 
 
+# Canonical Castle tour order (based on actual connections in data)
+_CASTLE_TOUR_ORDER = [
+    "versailles:Room:galeries-de-lhistoire",
+    "versailles:Room:salles-des-croisades",
+    "versailles:Room:salles-louis-xiv",
+    "versailles:Room:chapelle-royale",
+    "versailles:Room:salon-dhercule",
+    "versailles:Room:salon-de-labondance",
+    "versailles:Room:salon-de-venus",
+    "versailles:Room:salon-de-diane",
+    "versailles:Room:salon-de-mars",
+    "versailles:Room:salon-de-mercure",
+    "versailles:Room:salon-dapollon",
+    "versailles:Room:salon-de-la-guerre",
+    "versailles:Room:galerie-des-glaces",
+    "versailles:Room:salon-de-la-paix",
+    "versailles:Room:chambre-de-la-reine",
+    "versailles:Room:salon-des-nobles",
+    "versailles:Room:antichambre-du-grand-couvert-reine",
+    "versailles:Room:salle-des-gardes-de-la-reine",
+    "versailles:Room:cabinet-du-conseil",
+    "versailles:Room:chambre-du-roi",
+    "versailles:Room:salle-du-sacre",
+    "versailles:Room:appartements-de-madame-de-maintenon",
+    "versailles:Room:galerie-des-batailles",
+    "versailles:Room:salle-1792",
+    "versailles:Room:galerie-basse",
+]
+
+_CASTLE_TOUR_INDEX = {poi_id: idx for idx, poi_id in enumerate(_CASTLE_TOUR_ORDER)}
+
+
+def _reorder_castle_pois_if_needed(
+    poi_ids: List[str],
+    constraints: PlannerConstraints,
+) -> List[str]:
+    """
+    Reorder Castle POIs to follow the directed tour path.
+
+    The Castle has a one-way tour structure. This function detects Castle POIs
+    and reorders them according to the canonical tour sequence.
+    """
+    # Identify which POIs are Castle rooms
+    castle_pois = [pid for pid in poi_ids if pid.startswith("versailles:Room:")]
+
+    if len(castle_pois) <= 1:
+        return poi_ids  # Nothing to reorder
+
+    logger.debug("Planner: detected %d Castle POIs, reordering by tour sequence", len(castle_pois))
+
+    # Sort Castle POIs by their position in the canonical tour
+    sorted_castle = sorted(
+        castle_pois,
+        key=lambda pid: _CASTLE_TOUR_INDEX.get(pid, 9999)  # Unknown POIs go to end
+    )
+
+    logger.info("Planner: reordered %d Castle POIs to follow tour path", len(sorted_castle))
+
+    # Reconstruct full POI list: keep non-Castle POIs in place, replace Castle POIs with sorted order
+    result = []
+    castle_iter = iter(sorted_castle)
+    for pid in poi_ids:
+        if pid in castle_pois:
+            result.append(next(castle_iter))
+        else:
+            result.append(pid)
+
+    return result
+
+
 def _compute_pairwise_paths(
     poi_ids: Sequence[str],
     *,
@@ -639,6 +709,9 @@ def determine_route(
         zero_path = ShortestPathResult(node_ids=[poi_ids[0]], total_minutes=0.0, segments=[])
         return [poi_ids[0]], [], zero_path
 
+    # Reorder Castle POIs to follow directed tour path
+    poi_ids = _reorder_castle_pois_if_needed(poi_ids, constraints)
+
     n = len(poi_ids)
     # Route solver selection:
     # - > GREEDY_THRESHOLD: use greedy heuristic (fast for large sets)
@@ -715,6 +788,9 @@ def determine_route_greedy(
     *,
     constraints: PlannerConstraints,
 ) -> Tuple[List[str], List[ShortestPathResult], ShortestPathResult]:
+    # Reorder Castle POIs to follow directed tour path
+    poi_ids = _reorder_castle_pois_if_needed(list(poi_ids), constraints)
+
     remaining = list(poi_ids)
     if not remaining:
         raise ValueError("At least one POI is required to build a route.")
