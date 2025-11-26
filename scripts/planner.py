@@ -558,37 +558,53 @@ def _reorder_castle_pois_if_needed(
     constraints: PlannerConstraints,
 ) -> List[str]:
     """
-    Reorder Castle POIs to follow the directed tour path.
+    Reorder POIs to follow proper zone sequencing: Castle→Garden/Park.
 
-    The Castle has a one-way tour structure. This function detects Castle POIs
-    and reorders them according to the canonical tour sequence.
+    The Castle has a one-way tour structure, and mixed Castle+Garden visits
+    must follow Castle-first routing to avoid gateway backtracking issues.
     """
-    # Identify which POIs are Castle rooms
+    # Categorize POIs by zone
     castle_pois = [pid for pid in poi_ids if pid.startswith("versailles:Room:")]
+    garden_pois = [pid for pid in poi_ids if ":Garden:" in pid or ":Park:" in pid]
+    other_pois = [pid for pid in poi_ids if pid not in castle_pois and pid not in garden_pois]
 
-    if len(castle_pois) <= 1:
-        return poi_ids  # Nothing to reorder
+    # If we have both Castle and Garden POIs, enforce Castle→Garden sequence
+    if castle_pois and garden_pois:
+        logger.info(
+            "Planner: mixed Castle+Garden visit detected (%d Castle, %d Garden), forcing Castle-first sequence",
+            len(castle_pois), len(garden_pois)
+        )
 
-    logger.debug("Planner: detected %d Castle POIs, reordering by tour sequence", len(castle_pois))
+        # Sort Castle POIs by tour sequence
+        sorted_castle = sorted(
+            castle_pois,
+            key=lambda pid: _CASTLE_TOUR_INDEX.get(pid, 9999)
+        )
 
-    # Sort Castle POIs by their position in the canonical tour
-    sorted_castle = sorted(
-        castle_pois,
-        key=lambda pid: _CASTLE_TOUR_INDEX.get(pid, 9999)  # Unknown POIs go to end
-    )
+        # Return: Castle POIs (sorted) → other POIs → Garden POIs
+        return sorted_castle + other_pois + garden_pois
 
-    logger.info("Planner: reordered %d Castle POIs to follow tour path", len(sorted_castle))
+    # If only Castle POIs, sort them by tour sequence
+    if len(castle_pois) > 1:
+        logger.debug("Planner: detected %d Castle POIs, reordering by tour sequence", len(castle_pois))
+        sorted_castle = sorted(
+            castle_pois,
+            key=lambda pid: _CASTLE_TOUR_INDEX.get(pid, 9999)
+        )
+        logger.info("Planner: reordered %d Castle POIs to follow tour path", len(sorted_castle))
 
-    # Reconstruct full POI list: keep non-Castle POIs in place, replace Castle POIs with sorted order
-    result = []
-    castle_iter = iter(sorted_castle)
-    for pid in poi_ids:
-        if pid in castle_pois:
-            result.append(next(castle_iter))
-        else:
-            result.append(pid)
+        # Reconstruct: keep non-Castle POIs in place, replace Castle POIs with sorted order
+        result = []
+        castle_iter = iter(sorted_castle)
+        for pid in poi_ids:
+            if pid in castle_pois:
+                result.append(next(castle_iter))
+            else:
+                result.append(pid)
+        return result
 
-    return result
+    # No special reordering needed
+    return poi_ids
 
 
 def _compute_pairwise_paths(
