@@ -256,8 +256,8 @@ RETURN poi.id AS id,
        poi.priority_score AS priority_score,
        poi.estimated_visit_minutes AS estimated_visit_minutes,
        poi.interest_tags AS interest_tags,
-       null AS opening_time,
-       null AS closing_time
+       poi.opening_time AS opening_time,
+       poi.closing_time AS closing_time
 """
 
 
