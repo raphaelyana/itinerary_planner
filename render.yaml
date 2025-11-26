@@ -47,6 +47,6 @@ services:
     name: versailles-ingest
     runtime: python
     plan: starter
-    schedule: "@manually"
+    schedule: '0 * * * *'
     buildCommand: pip install -r requirements.txt
     startCommand: python scripts/ingest.py
