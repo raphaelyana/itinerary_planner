@@ -321,7 +321,7 @@ def _add_gardens_path(
 
             garden_path = greedy_tsp_on_pois(
                 session,
-                [p["id"] for p in garden_pois[:20]],  # Limit to top 20
+                [p["id"] for p in garden_pois[:10]],  # Limit to top 10 (reduced for memory)
                 garden_start,
                 constraints.accessibility,
                 allocation.gardens_minutes,
@@ -395,7 +395,7 @@ def _add_trianon_path(
             tsp_start = get_trianon_tsp_start(grand_trianon_path)
             trianon_garden_path = greedy_tsp_on_pois(
                 session,
-                [p["id"] for p in trianon_garden_pois[:15]],
+                [p["id"] for p in trianon_garden_pois[:8]],  # Limit to top 8 (reduced for memory)
                 tsp_start,
                 constraints.accessibility,
                 allocation.trianon_minutes // 2,  # Reserve half for gardens
