@@ -10,6 +10,16 @@ from typing import Dict, List, Literal, Optional, Tuple
 from neo4j import GraphDatabase, Driver
 from neo4j.exceptions import SessionExpired, ServiceUnavailable
 
+# Import pre-computed Castle paths
+try:
+    from scripts.castle_paths import get_castle_path, is_castle_interior
+except ImportError:
+    # Fallback if module not available
+    def get_castle_path(start_id: str, end_id: str) -> Optional[List[str]]:
+        return None
+    def is_castle_interior(poi_id: str) -> bool:
+        return False
+
 UserProfile = Literal["standard", "family", "elder"]
 AccessibilityRequirement = Literal["any", "step_free", "stroller"]
 
@@ -144,6 +154,92 @@ def get_shortest_path(
 
     if start_id == end_id:
         return ShortestPathResult(node_ids=[start_id], total_minutes=0.0, segments=[])
+
+    # Try pre-computed Castle path first (fast lookup, no graph traversal)
+    if is_castle_interior(start_id) and is_castle_interior(end_id):
+        precomputed_path = get_castle_path(start_id, end_id)
+        if precomputed_path is not None:
+            # Build result from pre-computed path
+            # Need to fetch edge weights from Neo4j for this sequence
+            uri = normalize_neo4j_uri(uri or os.getenv("NEO4J_URI"))
+            user = user or os.getenv("NEO4J_USERNAME", "neo4j")
+            password = password or os.getenv("NEO4J_PASSWORD", "neo4j")
+            driver = _get_driver(uri, user, password)
+
+            try:
+                with driver.session() as session:
+                    # Fetch edge data for the pre-computed path
+                    segments = []
+                    total_minutes = 0.0
+
+                    for i in range(len(precomputed_path) - 1):
+                        from_id = precomputed_path[i]
+                        to_id = precomputed_path[i + 1]
+
+                        # Query the edge between these two nodes
+                        edge_data = session.run(
+                            """
+                            MATCH (from:POI {id: $from_id})-[r:CONNECTS_TO]->(to:POI {id: $to_id})
+                            RETURN coalesce(r[$weight_property], $default_weight) AS distance,
+                                   r.is_step_free AS is_step_free,
+                                   r.stroller_friendly AS stroller_friendly,
+                                   r.path_type AS path_type,
+                                   r.notes AS notes
+                            """,
+                            from_id=from_id,
+                            to_id=to_id,
+                            weight_property=weight_property,
+                            default_weight=float(default_edge_weight),
+                        ).single()
+
+                        if edge_data:
+                            distance = edge_data["distance"]
+                            total_minutes += distance
+
+                            segments.append(
+                                PathSegment(
+                                    from_id=from_id,
+                                    to_id=to_id,
+                                    distance_min=distance,
+                                    is_step_free=edge_data["is_step_free"],
+                                    stroller_friendly=edge_data["stroller_friendly"],
+                                    path_type=edge_data["path_type"],
+                                    notes=edge_data["notes"],
+                                )
+                            )
+
+                    # Verify accessibility requirements if needed
+                    if accessibility == "step_free":
+                        if not all(seg.is_step_free for seg in segments):
+                            # Path doesn't meet accessibility requirements, fall through to graph search
+                            pass
+                        else:
+                            return ShortestPathResult(
+                                node_ids=precomputed_path,
+                                total_minutes=total_minutes,
+                                segments=segments,
+                            )
+                    elif accessibility == "stroller":
+                        if not all(seg.is_step_free and seg.stroller_friendly for seg in segments):
+                            # Path doesn't meet accessibility requirements, fall through to graph search
+                            pass
+                        else:
+                            return ShortestPathResult(
+                                node_ids=precomputed_path,
+                                total_minutes=total_minutes,
+                                segments=segments,
+                            )
+                    else:
+                        # No accessibility filter, use pre-computed path
+                        return ShortestPathResult(
+                            node_ids=precomputed_path,
+                            total_minutes=total_minutes,
+                            segments=segments,
+                        )
+
+            except Exception:
+                # If pre-computed path fails, fall through to graph search
+                pass
 
     # Determine maxLevel based on zones involved
     # Castle and Trianon interiors have complex bidirectional branches
