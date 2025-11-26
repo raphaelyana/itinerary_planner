@@ -626,7 +626,21 @@ def _compute_pairwise_paths(
                     constraints.user_profile,
                     constraints.accessibility,
                 )
-                raise ValueError(f"No path between {origin!r} and {destination!r}: {exc}") from exc
+                error_msg = f"No path between {origin!r} and {destination!r}: {exc}"
+
+                # Add helpful context if user specified a start/finish POI
+                if constraints.start_poi and origin == DUMMY_START_ID:
+                    error_msg += (
+                        f"\n\nThe specified start POI '{constraints.start_poi}' may not be compatible with "
+                        f"the selected POIs. Try using a different start point or let the system choose automatically."
+                    )
+                elif constraints.finish_poi and (origin == constraints.finish_poi or destination == constraints.finish_poi):
+                    error_msg += (
+                        f"\n\nThe specified finish POI '{constraints.finish_poi}' may not be reachable from "
+                        f"the selected POIs. Try using a different finish point or let the system choose automatically."
+                    )
+
+                raise ValueError(error_msg) from exc
 
             pair_paths[key] = path
             PATH_CACHE.store(profile, accessibility, origin, destination, path, persist=False)
@@ -1225,6 +1239,37 @@ def plan_versailles_itinerary(
         for required in constraints.must_include:
             if required not in poi_ids:
                 raise ValueError(f"Required POI {required!r} was not selected.")
+
+    # Validate user-specified start/finish POIs exist in database
+    if constraints.start_poi or constraints.finish_poi:
+        driver = _connect(uri, user, password)
+        try:
+            with driver.session() as session:
+                if constraints.start_poi:
+                    exists = session.run(
+                        "MATCH (n:POI {id: $id}) RETURN count(n) AS count",
+                        id=constraints.start_poi
+                    ).single()["count"] > 0
+                    if not exists:
+                        raise ValueError(
+                            f"Specified start POI {constraints.start_poi!r} does not exist in database. "
+                            f"Please check the POI ID and try again."
+                        )
+                    logger.info("User specified start POI: %s", constraints.start_poi)
+
+                if constraints.finish_poi:
+                    exists = session.run(
+                        "MATCH (n:POI {id: $id}) RETURN count(n) AS count",
+                        id=constraints.finish_poi
+                    ).single()["count"] > 0
+                    if not exists:
+                        raise ValueError(
+                            f"Specified finish POI {constraints.finish_poi!r} does not exist in database. "
+                            f"Please check the POI ID and try again."
+                        )
+                    logger.info("User specified finish POI: %s", constraints.finish_poi)
+        finally:
+            driver.close()
 
     # Apply smart routing if start/finish not explicitly set
     if constraints.start_poi is None or constraints.finish_poi is None:
