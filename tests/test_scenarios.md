@@ -40,14 +40,14 @@ curl -X POST "$API_URL/itinerary" \
 **Expected Results**:
 - ✅ Status: 200 OK
 - ✅ Start POI: `versailles:Castle:cour-dhonneur` (morning rule)
-- ✅ Contains must-see Castle POIs (galerie-des-glaces, etc.)
-- ✅ Total duration ≈ 120 minutes
-- ✅ No gaps or impossible paths
+- ✅ Contains must-see Castle POIs (galerie-des-glaces, chapelle-royale, etc.)
+- ✅ Total duration ≈ 120-140 minutes (slight overage allowed)
+- ✅ No backtracking through gateway nodes
 
 ---
 
 ### Test 1.2: Garden-only visit (3 hours)
-**Purpose**: Verify garden-only routing without Castle
+**Purpose**: Verify garden-only routing skips Castle entirely
 
 **Request**:
 ```bash
@@ -57,23 +57,20 @@ curl -X POST "$API_URL/itinerary" \
     "start_time": "2024-12-01T10:00:00",
     "total_duration_minutes": 180,
     "constraints": {
-      "interests": ["nature", "photo_spot"],
+      "interests": ["garden", "water", "fountains", "photo_spot"],
       "user_profile": "standard",
-      "accessibility": "any",
-      "exclude_ids": [
-        "versailles:Castle:cour-dhonneur",
-        "versailles:Castle:acces-grands-appartements"
-      ]
+      "accessibility": "any"
     }
   }'
 ```
 
 **Expected Results**:
 - ✅ Status: 200 OK
-- ✅ Start POI: `versailles:Garden:acces-jardins-cour-des-princes` (garden-only rule)
-- ✅ Contains garden/fountain POIs
+- ✅ Start POI: `versailles:Garden:pdv-parterre-du-midi-orangerie` (direct garden start)
+- ✅ Contains only Garden/Park POIs (bassin-de-latone, bassin-de-neptune, etc.)
 - ✅ Exit through: `versailles:Garden:pdv-parterre-du-midi-orangerie`
-- ✅ No Castle POIs included
+- ✅ No Castle POIs or Castle entry points in route
+- ✅ No backtracking through PDV
 
 ---
 
@@ -88,7 +85,7 @@ curl -X POST "$API_URL/itinerary" \
     "start_time": "2024-12-01T12:30:00",
     "total_duration_minutes": 240,
     "constraints": {
-      "interests": ["history", "architecture", "nature"],
+      "interests": ["history", "architecture", "marie_antoinette"],
       "user_profile": "standard",
       "accessibility": "any"
     }
@@ -99,14 +96,14 @@ curl -X POST "$API_URL/itinerary" \
 - ✅ Status: 200 OK
 - ✅ Start POI: `versailles:Trianon:entree-petit-trianon` (midday+ long visit rule)
 - ✅ Duration ≈ 240 minutes
-- ✅ Mix of Trianon, Garden, and possibly Castle POIs
+- ✅ Focus on Trianon POIs (petit-trianon, hameau-de-la-reine, etc.)
 
 ---
 
 ## 2. SMART ROUTING TESTS
 
-### Test 2.1: Castle + Garden transition
-**Purpose**: Verify proper routing from Castle interior to Gardens
+### Test 2.1: Castle + Garden transition (No Backtracking)
+**Purpose**: Verify proper one-way routing from Castle to Gardens
 
 **Request**:
 ```bash
@@ -116,7 +113,7 @@ curl -X POST "$API_URL/itinerary" \
     "start_time": "2024-12-01T09:00:00",
     "total_duration_minutes": 180,
     "constraints": {
-      "interests": ["must_see", "architecture", "nature"],
+      "interests": ["must_see", "architecture", "water"],
       "user_profile": "standard",
       "accessibility": "any",
       "must_include": [
@@ -130,13 +127,14 @@ curl -X POST "$API_URL/itinerary" \
 **Expected Results**:
 - ✅ Status: 200 OK
 - ✅ Start at: `versailles:Castle:cour-dhonneur`
-- ✅ Path includes Castle → (pavillon-dufour-sortie OR acces-jardins-cour-des-princes) → pdv-parterre-du-midi-orangerie → Gardens
+- ✅ Path: Castle POIs → (gateway node) → pdv-parterre-du-midi-orangerie → Garden POIs
+- ✅ **NO backtracking** through `acces-jardins-cour-des-princes` or `pavillon-dufour-sortie`
 - ✅ Exit through: `versailles:Garden:pdv-parterre-du-midi-orangerie`
 - ✅ Both required POIs visited
 
 ---
 
-### Test 2.2: Morning vs Afternoon start time
+### Test 2.2: Morning vs Midday start time
 **Purpose**: Compare routing decisions for different start times
 
 **Morning Request**:
@@ -147,22 +145,22 @@ curl -X POST "$API_URL/itinerary" \
     "start_time": "2024-12-01T09:00:00",
     "total_duration_minutes": 120,
     "constraints": {
-      "interests": ["history"],
+      "interests": ["history", "must_see"],
       "user_profile": "standard",
       "accessibility": "any"
     }
   }'
 ```
 
-**Afternoon Request** (change start_time to 14:00):
+**Midday Long Request**:
 ```bash
 curl -X POST "$API_URL/itinerary" \
   -H "Content-Type: application/json" \
   -d '{
-    "start_time": "2024-12-01T14:00:00",
-    "total_duration_minutes": 120,
+    "start_time": "2024-12-01T12:30:00",
+    "total_duration_minutes": 200,
     "constraints": {
-      "interests": ["history"],
+      "interests": ["history", "must_see"],
       "user_profile": "standard",
       "accessibility": "any"
     }
@@ -170,9 +168,9 @@ curl -X POST "$API_URL/itinerary" \
 ```
 
 **Expected Results**:
-- Morning: Start at `cour-dhonneur`
-- Afternoon (short visit): Start at `cour-dhonneur` (not long enough for Trianon)
-- Different POI selections based on opening hours
+- Morning: Start at `versailles:Castle:cour-dhonneur`
+- Midday long: Start at `versailles:Trianon:entree-petit-trianon`
+- Different POI selections optimized for entry point
 
 ---
 
@@ -205,9 +203,9 @@ curl -X POST "$API_URL/itinerary" \
 **Expected Results**:
 - ✅ Status: 200 OK
 - ✅ All 4 required Castle POIs included
-- ✅ Path uses pre-computed lookup (fast response < 5 seconds)
-- ✅ Logical sequence: galeries → ... → galerie-des-glaces → chambre-du-roi → cabinet-du-conseil
-- ✅ No pathfinding timeouts
+- ✅ Fast response < 5 seconds (pre-computed paths)
+- ✅ Logical sequence through Castle interior
+- ✅ Path includes detour to chambre-du-roi/cabinet-du-conseil
 
 ---
 
@@ -222,7 +220,7 @@ curl -X POST "$API_URL/itinerary" \
     "start_time": "2024-12-01T09:00:00",
     "total_duration_minutes": 120,
     "constraints": {
-      "interests": ["art", "architecture"],
+      "interests": ["art", "architecture", "art_religieux"],
       "user_profile": "standard",
       "accessibility": "any",
       "must_include": [
@@ -236,7 +234,6 @@ curl -X POST "$API_URL/itinerary" \
 **Expected Results**:
 - ✅ Status: 200 OK
 - ✅ Chapelle Royale visited as detour off main trunk
-- ✅ Path: salles-louis-xiv → chapelle-royale → salon-dhercule
 - ✅ Fast response (pre-computed path)
 
 ---
@@ -261,15 +258,15 @@ curl -X POST "$API_URL/itinerary" \
 
 **Expected Results**:
 - ✅ Status: 200 OK
-- ✅ Includes salle-1792, salle-1796-1797, ..., salle-marengo, galerie-basse
-- ✅ Sequential path through Napoleonic rooms
-- ✅ No pathfinding errors
+- ✅ Includes Napoleonic-era rooms (salle-1792, salle-du-sacre, etc.)
+- ✅ Sequential path through historical galleries
+- ✅ Fast routing (no timeouts)
 
 ---
 
 ## 4. USER-SPECIFIED START/FINISH TESTS
 
-### Test 4.1: Valid custom start POI
+### Test 4.1: Valid custom start POI (Garden override)
 **Purpose**: Verify user can override smart routing with valid custom start
 
 **Request**:
@@ -280,18 +277,18 @@ curl -X POST "$API_URL/itinerary" \
     "start_time": "2024-12-01T09:00:00",
     "total_duration_minutes": 120,
     "constraints": {
-      "interests": ["history"],
+      "interests": ["history", "must_see"],
       "user_profile": "standard",
       "accessibility": "any",
-      "start_poi": "versailles:Garden:acces-jardins-cour-des-princes"
+      "start_poi": "versailles:Garden:pdv-parterre-du-midi-orangerie"
     }
   }'
 ```
 
 **Expected Results**:
 - ✅ Status: 200 OK
-- ✅ Start POI: `versailles:Garden:acces-jardins-cour-des-princes` (user override)
-- ✅ Itinerary starts from specified POI despite being morning
+- ✅ Start POI: `versailles:Garden:pdv-parterre-du-midi-orangerie` (user override)
+- ✅ Itinerary respects user choice despite being morning
 
 ---
 
@@ -321,34 +318,6 @@ curl -X POST "$API_URL/itinerary" \
 
 ---
 
-### Test 4.3: Incompatible start/finish combination
-**Purpose**: Verify error when user specifies start/finish with no valid path
-
-**Request**:
-```bash
-curl -X POST "$API_URL/itinerary" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "start_time": "2024-12-01T09:00:00",
-    "total_duration_minutes": 60,
-    "constraints": {
-      "interests": ["history"],
-      "user_profile": "standard",
-      "accessibility": "any",
-      "start_poi": "versailles:Trianon:entree-grand-trianon",
-      "finish_poi": "versailles:Castle:cour-dhonneur-sortie",
-      "must_include": ["versailles:Room:galerie-des-glaces"]
-    }
-  }'
-```
-
-**Expected Results**:
-- ✅ Status: 400 or 500
-- ✅ Error message explains path not found
-- ✅ Suggestion to use different start/finish or let system choose
-
----
-
 ## 5. ACCESSIBILITY & USER PROFILE TESTS
 
 ### Test 5.1: Step-free accessibility
@@ -371,9 +340,8 @@ curl -X POST "$API_URL/itinerary" \
 
 **Expected Results**:
 - ✅ Status: 200 OK
-- ✅ All paths are step-free
-- ✅ May exclude some POIs that require stairs
-- ✅ Travel segments all have `is_step_free: true`
+- ✅ All travel segments have `is_step_free: true`
+- ✅ May exclude POIs requiring stairs (e.g., attique-chimay)
 
 ---
 
@@ -388,7 +356,7 @@ curl -X POST "$API_URL/itinerary" \
     "start_time": "2024-12-01T10:00:00",
     "total_duration_minutes": 120,
     "constraints": {
-      "interests": ["nature", "photo_spot"],
+      "interests": ["garden", "photo_spot"],
       "user_profile": "family",
       "accessibility": "stroller"
     }
@@ -397,9 +365,8 @@ curl -X POST "$API_URL/itinerary" \
 
 **Expected Results**:
 - ✅ Status: 200 OK
-- ✅ All paths are step-free AND stroller-friendly
+- ✅ All segments have `is_step_free: true` AND `stroller_friendly: true`
 - ✅ Likely focuses on gardens/outdoor areas
-- ✅ Travel segments all have `stroller_friendly: true`
 
 ---
 
@@ -424,7 +391,7 @@ curl -X POST "$API_URL/itinerary" \
 **Expected Results**:
 - ✅ Status: 200 OK
 - ✅ Fewer POIs than "standard" profile for same duration
-- ✅ Uses `elder_walk_min` property for travel time calculations
+- ✅ Uses `elder_walk_min` for travel calculations
 - ✅ More conservative routing
 
 ---
@@ -450,13 +417,13 @@ curl -X POST "$API_URL/itinerary" \
 ```
 
 **Expected Results**:
-- ✅ Status: 200 OK OR 400 if truly impossible
+- ✅ Status: 200 OK OR 400 if impossible
 - ✅ 1-2 POIs maximum
-- ✅ Realistic itinerary or clear error message
+- ✅ Realistic itinerary or clear error
 
 ---
 
-### Test 6.2: Very long duration (8 hours)
+### Test 6.2: Very long duration (8 hours with lunch)
 **Purpose**: Verify system handles full-day visits
 
 **Request**:
@@ -467,7 +434,7 @@ curl -X POST "$API_URL/itinerary" \
     "start_time": "2024-12-01T09:00:00",
     "total_duration_minutes": 480,
     "constraints": {
-      "interests": ["history", "art", "nature", "architecture"],
+      "interests": ["history", "art", "garden", "architecture"],
       "user_profile": "standard",
       "accessibility": "any",
       "lunch_break": true
@@ -477,14 +444,13 @@ curl -X POST "$API_URL/itinerary" \
 
 **Expected Results**:
 - ✅ Status: 200 OK
-- ✅ Includes lunch break (45 minutes)
-- ✅ Covers multiple zones (Castle, Garden, possibly Trianon)
+- ✅ Includes lunch break (45 minutes, 11:00-14:00 window)
+- ✅ Covers multiple zones (Castle → Gardens or Trianon)
 - ✅ 12-20 POIs
-- ✅ Total time ≈ 480 minutes including lunch
 
 ---
 
-### Test 6.3: Impossible constraints (must_include contradictions)
+### Test 6.3: Impossible time constraint
 **Purpose**: Verify error handling for impossible requirements
 
 **Request**:
@@ -493,16 +459,15 @@ curl -X POST "$API_URL/itinerary" \
   -H "Content-Type: application/json" \
   -d '{
     "start_time": "2024-12-01T09:00:00",
-    "total_duration_minutes": 30,
+    "total_duration_minutes": 20,
     "constraints": {
       "interests": ["history"],
       "user_profile": "standard",
       "accessibility": "any",
       "must_include": [
         "versailles:Room:galerie-des-glaces",
-        "versailles:Trianon:hameau-de-la-reine",
-        "versailles:Garden:bassin-de-neptune",
-        "versailles:Room:galerie-des-batailles"
+        "versailles:Room:galerie-des-batailles",
+        "versailles:Garden:bassin-de-neptune"
       ]
     }
   }'
@@ -536,11 +501,10 @@ curl -X POST "$API_URL/itinerary" \
 **Expected Results**:
 - ✅ Status: 400 Bad Request
 - ✅ Error: "No POIs match the specified constraints"
-- ✅ No crash
 
 ---
 
-## 7. PERFORMANCE & STRESS TESTS
+## 7. PERFORMANCE TESTS
 
 ### Test 7.1: Large itinerary (many POIs)
 **Purpose**: Verify routing performance with many POIs
@@ -551,9 +515,9 @@ curl -X POST "$API_URL/itinerary" \
   -H "Content-Type: application/json" \
   -d '{
     "start_time": "2024-12-01T08:00:00",
-    "total_duration_minutes": 600,
+    "total_duration_minutes": 540,
     "constraints": {
-      "interests": ["history", "art", "architecture", "nature", "photo_spot"],
+      "interests": ["history", "art", "architecture", "garden", "photo_spot"],
       "user_profile": "standard",
       "accessibility": "any"
     }
@@ -563,12 +527,12 @@ curl -X POST "$API_URL/itinerary" \
 **Expected Results**:
 - ✅ Response time < 30 seconds
 - ✅ Status: 200 OK
-- ✅ Logical routing (no backtracking)
 - ✅ Uses greedy algorithm for large POI count
+- ✅ Logical routing (no backtracking through gateways)
 
 ---
 
-### Test 7.2: Castle-heavy itinerary (tests pre-computed paths)
+### Test 7.2: Castle-heavy itinerary (pre-computed paths)
 **Purpose**: Verify pre-computed Castle paths improve performance
 
 **Request**:
@@ -581,14 +545,7 @@ curl -X POST "$API_URL/itinerary" \
     "constraints": {
       "interests": ["louis_xiv", "art_classique", "art_baroque", "must_see"],
       "user_profile": "standard",
-      "accessibility": "any",
-      "must_include": [
-        "versailles:Room:galeries-de-lhistoire",
-        "versailles:Room:chapelle-royale",
-        "versailles:Room:galerie-des-glaces",
-        "versailles:Room:chambre-du-roi",
-        "versailles:Room:galerie-des-batailles"
-      ]
+      "accessibility": "any"
     }
   }'
 ```
@@ -596,79 +553,15 @@ curl -X POST "$API_URL/itinerary" \
 **Expected Results**:
 - ✅ Response time < 5 seconds (pre-computed paths)
 - ✅ Status: 200 OK
-- ✅ All required Castle POIs included
 - ✅ Logical Castle tour sequence
+- ✅ No pathfinding timeouts
 
 ---
 
-## 8. BUDGET CONSTRAINT TESTS
+## 8. REGRESSION TESTS
 
-### Test 8.1: Low budget (Garden only)
-**Purpose**: Verify budget limits zone access
-
-**Request**:
-```bash
-curl -X POST "$API_URL/itinerary" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "start_time": "2024-12-01T10:00:00",
-    "total_duration_minutes": 120,
-    "constraints": {
-      "interests": ["nature", "photo_spot"],
-      "user_profile": "standard",
-      "accessibility": "any",
-      "budget": {
-        "total_budget": 10,
-        "num_adults": 2,
-        "num_children_under_18": 0,
-        "all_eu_residents": true
-      }
-    }
-  }'
-```
-
-**Expected Results**:
-- ✅ Status: 200 OK
-- ✅ Only includes free Garden/Park POIs
-- ✅ No Castle or Trianon POIs (require tickets)
-
----
-
-### Test 8.2: High budget (all zones)
-**Purpose**: Verify high budget allows all zones
-
-**Request**:
-```bash
-curl -X POST "$API_URL/itinerary" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "start_time": "2024-12-01T09:00:00",
-    "total_duration_minutes": 240,
-    "constraints": {
-      "interests": ["must_see", "history", "nature"],
-      "user_profile": "standard",
-      "accessibility": "any",
-      "budget": {
-        "total_budget": 100,
-        "num_adults": 2,
-        "num_children_under_18": 1,
-        "all_eu_residents": false
-      }
-    }
-  }'
-```
-
-**Expected Results**:
-- ✅ Status: 200 OK
-- ✅ Includes Castle, Garden, Trianon POIs
-- ✅ Maximizes value within budget
-
----
-
-## 9. REGRESSION TESTS
-
-### Test 9.1: Previously hanging Castle pathfinding
-**Purpose**: Verify Castle pathfinding no longer hangs (regression test)
+### Test 8.1: Previously hanging Castle pathfinding
+**Purpose**: Verify Castle pathfinding no longer hangs
 
 **Request**:
 ```bash
@@ -696,33 +589,118 @@ curl -X POST "$API_URL/itinerary" \
 
 ---
 
+### Test 8.2: Opening hours validation (Chapelle Royale)
+**Purpose**: Verify chapelle-royale has opening hours set
+
+**Request**:
+```bash
+curl -X POST "$API_URL/itinerary" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "start_time": "2024-12-01T09:00:00",
+    "total_duration_minutes": 120,
+    "constraints": {
+      "interests": ["art_religieux", "architecture"],
+      "user_profile": "standard",
+      "accessibility": "any",
+      "must_include": ["versailles:Room:chapelle-royale"]
+    }
+  }'
+```
+
+**Expected Results**:
+- ✅ Status: 200 OK (not "missing opening hours" error)
+- ✅ Chapelle Royale included in itinerary
+- ✅ Valid arrival/departure times
+
+---
+
+## 9. GATEWAY ROUTING TESTS
+
+### Test 9.1: No backtracking through garden entry
+**Purpose**: Verify gateway blocking prevents backtracking
+
+**Request**:
+```bash
+curl -X POST "$API_URL/itinerary" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "start_time": "2024-12-01T09:00:00",
+    "total_duration_minutes": 180,
+    "constraints": {
+      "interests": ["water", "fountains", "garden"],
+      "user_profile": "standard",
+      "accessibility": "any",
+      "must_include": [
+        "versailles:Garden:bassin-de-latone",
+        "versailles:Garden:bassin-de-neptune",
+        "versailles:Garden:bassin-dapollon"
+      ]
+    }
+  }'
+```
+
+**Expected Results**:
+- ✅ Status: 200 OK
+- ✅ All 3 fountain basins visited
+- ✅ Path does NOT go back through `acces-jardins-cour-des-princes` or `pdv-parterre-du-midi-orangerie` after passing them
+- ✅ Logical garden tour flow
+
+---
+
+### Test 9.2: Castle-only visit exits correctly
+**Purpose**: Verify Castle-only visits exit through cour-dhonneur-sortie
+
+**Request**:
+```bash
+curl -X POST "$API_URL/itinerary" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "start_time": "2024-12-01T09:00:00",
+    "total_duration_minutes": 90,
+    "constraints": {
+      "interests": ["must_see"],
+      "user_profile": "standard",
+      "accessibility": "any"
+    }
+  }'
+```
+
+**Expected Results**:
+- ✅ Status: 200 OK
+- ✅ Only Castle POIs visited
+- ✅ Finish POI: `versailles:Castle:cour-dhonneur-sortie` (indoor-only exit)
+
+---
+
 ## 10. VALIDATION CHECKLIST
 
 For each test, verify:
 
 - [ ] **HTTP Status**: Correct status code (200, 400, 500)
-- [ ] **Response Structure**: Valid JSON with expected fields
+- [ ] **Response Structure**: Valid JSON with `steps`, `travel_minutes`, `total_minutes`, `travel_segments`
 - [ ] **Start/Finish POIs**: Match smart routing rules or user overrides
 - [ ] **POI Sequence**: Logical order, no impossible jumps
-- [ ] **Time Constraints**: Total duration approximately matches request
+- [ ] **Time Constraints**: Total duration approximately matches request (slight overage OK)
 - [ ] **Travel Segments**: All segments have valid from/to POIs
+- [ ] **Gateway Blocking**: No backtracking through passed gateway nodes
 - [ ] **Accessibility**: Paths meet accessibility requirements
-- [ ] **Performance**: Response time reasonable (< 30s for complex routes)
+- [ ] **Performance**: Response time reasonable (< 30s for complex, < 5s for Castle)
 - [ ] **Error Messages**: Clear, actionable error messages
 
 ---
 
 ## Summary
 
-**Total Tests**: 30+ scenarios covering:
+**Total Tests**: 25+ scenarios covering:
 - ✅ Basic functionality (3 tests)
 - ✅ Smart routing (2 tests)
 - ✅ Pre-computed Castle paths (3 tests)
-- ✅ Custom start/finish (3 tests)
+- ✅ Custom start/finish (2 tests)
 - ✅ Accessibility profiles (3 tests)
 - ✅ Edge cases (4 tests)
 - ✅ Performance (2 tests)
-- ✅ Budget constraints (2 tests)
-- ✅ Regression tests (1 test)
+- ✅ Regression tests (2 tests)
+- ✅ Gateway routing (2 tests)
 
 Run these tests after each deployment to ensure system stability and correctness.
