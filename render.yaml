@@ -43,18 +43,10 @@ services:
     healthCheckPath: /health
 
   # One-time data ingestion job
-  - type: worker
+  - type: cron
     name: versailles-ingest
     runtime: python
-    plan: starter  # 512 MB RAM, 0.5 CPU
+    plan: starter
+    schedule: "@manually"
     buildCommand: pip install -r requirements.txt
     startCommand: python scripts/ingest.py
-    envVars:
-      - key: NEO4J_URI
-        value: neo4j://versailles-neo4j:7687  # Internal Render service connection
-      - key: NEO4J_USERNAME
-        value: neo4j  # Standard username (safe to expose)
-      - key: NEO4J_PASSWORD
-        sync: false  # Secret managed in Render dashboard
-      - key: NEO4J_DATABASE
-        value: neo4j

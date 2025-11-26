@@ -14,8 +14,9 @@ except ImportError:
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, validator
 
-from scripts.planner import Itinerary, ItineraryStep, PlannerConstraints, BudgetConstraint, plan_versailles_itinerary
+from scripts.planner_v2 import Itinerary, ItineraryStep, PlannerConstraints, create_itinerary_v2
 from scripts.planner_utils import ShortestPathResult
+from scripts.path_validator import PathValidationError
 
 app = FastAPI(title="Versailles Itinerary Planner")
 
@@ -42,11 +43,8 @@ class ConstraintsModel(BaseModel):
     accessibility: AccessibilityLiteral = "any"
     must_include: List[str] = Field(default_factory=list)
     exclude_ids: List[str] = Field(default_factory=list)
-    lunch_break: Optional[bool] = None
-    hard_time_limits: bool = False
     start_poi: Optional[str] = Field(None, description="Specific entrance POI ID to start from")
     finish_poi: Optional[str] = Field(None, description="Specific exit POI ID to finish at")
-    budget: Optional[BudgetModel] = Field(None, description="Budget constraints for ticket pricing")
 
     @validator("interests", "must_include", "exclude_ids", each_item=True)
     def no_empty_strings(cls, value: str) -> str:
@@ -127,7 +125,6 @@ class ItineraryResponse(BaseModel):
     steps: List[ItineraryStepResponse]
     travel_minutes: float
     visit_minutes: int
-    idle_minutes: float
     total_minutes: float
     travel_segments: TravelSummaryResponse
 
@@ -137,7 +134,6 @@ class ItineraryResponse(BaseModel):
             steps=[ItineraryStepResponse.from_model(step) for step in itinerary.steps],
             travel_minutes=itinerary.travel_minutes,
             visit_minutes=itinerary.visit_minutes,
-            idle_minutes=itinerary.idle_minutes,
             total_minutes=itinerary.total_minutes,
             travel_segments=TravelSummaryResponse.from_model(itinerary.travel_segments),
         )
@@ -150,37 +146,24 @@ def health() -> dict:
 
 @app.post("/itinerary", response_model=ItineraryResponse)
 def create_itinerary(request: ItineraryRequest) -> ItineraryResponse:
-    # Convert budget model to budget constraint
-    budget_constraint = None
-    if request.constraints.budget:
-        budget_constraint = BudgetConstraint(
-            total_budget=request.constraints.budget.total_budget,
-            num_adults=request.constraints.budget.num_adults,
-            num_children_under_18=request.constraints.budget.num_children_under_18,
-            num_youth_18_25_eu=request.constraints.budget.num_youth_18_25_eu,
-            all_eu_residents=request.constraints.budget.all_eu_residents,
-            has_reduced_rate_cards=request.constraints.budget.has_reduced_rate_cards,
-        )
-
     constraints = PlannerConstraints(
         interests=request.constraints.interests,
         user_profile=request.constraints.user_profile,
         accessibility=request.constraints.accessibility,
         must_include=request.constraints.must_include,
         exclude_ids=request.constraints.exclude_ids,
-        lunch_break=request.constraints.lunch_break,
-        hard_time_limits=request.constraints.hard_time_limits,
         start_poi=request.constraints.start_poi,
         finish_poi=request.constraints.finish_poi,
-        budget=budget_constraint,
     )
 
     try:
-        itinerary = plan_versailles_itinerary(
+        itinerary = create_itinerary_v2(
             start_time=request.start_time,
             total_duration_minutes=request.total_duration_minutes,
             constraints=constraints,
         )
+    except PathValidationError as exc:
+        raise HTTPException(status_code=400, detail=f"Path validation failed: {exc}") from exc
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     except Exception as exc:  # pragma: no cover - safety net
