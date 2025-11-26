@@ -6,6 +6,7 @@ New Architecture:
 - Trianon interior: Predefined paths with accessibility variants
 - Gardens + Trianon gardens: TSP (greedy nearest-neighbor)
 - Smart time allocation across zones
+- Smart routing based on start time
 """
 
 from __future__ import annotations
@@ -28,6 +29,7 @@ from scripts.planner_utils import (
 from scripts.zone_allocation import (
     detect_requested_zones,
     allocate_time_budget,
+    determine_zone_order,
     ZoneAllocation,
 )
 from scripts.castle_routes import get_viable_castle_routes
@@ -205,7 +207,10 @@ def greedy_tsp_on_pois(
 
         for candidate in unvisited:
             path_result = get_shortest_path(
-                session, current, candidate, accessibility, "standard"
+                current,
+                candidate,
+                accessibility=accessibility,
+                user_profile="standard",
             )
             if path_result and path_result.total_minutes < best_distance:
                 best_distance = path_result.total_minutes
@@ -227,6 +232,177 @@ def greedy_tsp_on_pois(
         current_time += best_distance + visit_time
 
     return ordered_path
+
+
+def _add_castle_path(
+    session: Session,
+    allocation: ZoneAllocation,
+    constraints: PlannerConstraints,
+    full_path: List[str],
+) -> None:
+    """Add Castle interior path to full_path."""
+    if allocation.castle_minutes > 0:
+        castle_candidates = get_viable_castle_routes(allocation.castle_minutes)
+
+        # Filter must_include POIs that are in Castle zone
+        castle_must_include = [
+            poi for poi in constraints.must_include
+            if ':Room:' in poi or ':Castle:' in poi
+        ]
+
+        try:
+            castle_path = select_valid_castle_route(
+                session,
+                castle_candidates,
+                constraints.accessibility,
+                list(constraints.exclude_ids),
+            )
+
+            # Ensure all must_include Castle POIs are in the path
+            for must_poi in castle_must_include:
+                if must_poi not in castle_path:
+                    # Insert must_include POI at appropriate position
+                    # For now, append at end (could be optimized with graph insertion)
+                    logger.warning(f"Must-include POI {must_poi} not in Castle route, appending")
+                    castle_path.append(must_poi)
+
+            full_path.extend(castle_path)
+            logger.info(f"Selected Castle route with {len(castle_path)} POIs")
+        except PathValidationError as e:
+            logger.error(f"Castle path validation failed: {e}")
+            raise
+
+
+def _add_gardens_path(
+    session: Session,
+    allocation: ZoneAllocation,
+    constraints: PlannerConstraints,
+    full_path: List[str],
+) -> None:
+    """Add Gardens TSP path to full_path."""
+    if allocation.gardens_minutes > 0:
+        # Filter must_include POIs that are in Gardens zone
+        gardens_must_include = [
+            poi for poi in constraints.must_include
+            if ':Garden:' in poi or ':Park:' in poi
+        ]
+
+        garden_pois = fetch_garden_pois(
+            session,
+            constraints.interests,
+            constraints.accessibility,
+            constraints.exclude_ids,
+            ":Garden:",
+        )
+
+        # Add must_include garden POIs if not already in fetched list
+        garden_poi_ids = [p["id"] for p in garden_pois]
+        for must_poi in gardens_must_include:
+            if must_poi not in garden_poi_ids:
+                # Add to front of list (high priority)
+                garden_pois.insert(0, {"id": must_poi, "name": must_poi, "priority_score": 1000})
+                logger.info(f"Added must-include POI to gardens: {must_poi}")
+
+        if garden_pois:
+            # Determine starting point for gardens
+            # If coming from Castle, use default gardens entrance
+            # Otherwise use last POI in path
+            if full_path and (':Room:' in full_path[-1] or ':Castle:' in full_path[-1]):
+                # Coming from Castle interior - use main gardens entrance
+                garden_start = "versailles:Garden:acces-jardins-cour-des-princes"
+                full_path.append(garden_start)
+            elif full_path:
+                # Already in gardens or Trianon
+                garden_start = full_path[-1]
+            else:
+                # No previous path - start from entrance
+                garden_start = "versailles:Garden:acces-jardins-cour-des-princes"
+                full_path.append(garden_start)
+
+            garden_path = greedy_tsp_on_pois(
+                session,
+                [p["id"] for p in garden_pois[:20]],  # Limit to top 20
+                garden_start,
+                constraints.accessibility,
+                allocation.gardens_minutes,
+            )
+
+            full_path.extend(garden_path[1:])  # Exclude start (already in path)
+            logger.info(f"Added {len(garden_path)-1} Garden POIs")
+
+
+def _add_trianon_path(
+    session: Session,
+    allocation: ZoneAllocation,
+    constraints: PlannerConstraints,
+    full_path: List[str],
+) -> None:
+    """Add Trianon interior + gardens path to full_path."""
+    if allocation.trianon_minutes > 0:
+        # Filter must_include POIs that are in Trianon zone
+        trianon_must_include = [
+            poi for poi in constraints.must_include
+            if ':Trianon:' in poi
+        ]
+
+        # Grand Trianon interior
+        grand_trianon_path = GRAND_TRIANON_PATH.copy()
+
+        # Ensure must_include Trianon interior POIs are in path
+        for must_poi in trianon_must_include:
+            if must_poi not in grand_trianon_path and any(x in must_poi for x in ['grand-trianon', 'salon', 'chambre']):
+                logger.warning(f"Must-include POI {must_poi} not in Grand Trianon route, appending")
+                grand_trianon_path.append(must_poi)
+
+        full_path.extend(grand_trianon_path)
+        logger.info(f"Added Grand Trianon path ({len(grand_trianon_path)} POIs)")
+
+        # Petit Trianon interior
+        try:
+            petit_trianon_path = select_valid_petit_trianon_path(
+                session, constraints.accessibility
+            )
+
+            # Ensure must_include Petit Trianon POIs are in path
+            for must_poi in trianon_must_include:
+                if must_poi not in petit_trianon_path and 'petit-trianon' in must_poi:
+                    logger.warning(f"Must-include POI {must_poi} not in Petit Trianon route, appending")
+                    petit_trianon_path.append(must_poi)
+
+            full_path.extend(petit_trianon_path)
+            logger.info(f"Added Petit Trianon path ({len(petit_trianon_path)} POIs)")
+        except PathValidationError as e:
+            logger.warning(f"Petit Trianon path unavailable: {e}")
+
+        # Trianon gardens (TSP)
+        trianon_garden_pois = fetch_garden_pois(
+            session,
+            constraints.interests,
+            constraints.accessibility,
+            list(constraints.exclude_ids) + get_trianon_exclusions(grand_trianon_path),
+            ":Trianon:",
+        )
+
+        # Add must_include Trianon garden POIs
+        trianon_garden_poi_ids = [p["id"] for p in trianon_garden_pois]
+        for must_poi in trianon_must_include:
+            if must_poi not in trianon_garden_poi_ids and must_poi not in grand_trianon_path:
+                # This is a Trianon garden POI
+                trianon_garden_pois.insert(0, {"id": must_poi, "name": must_poi, "priority_score": 1000})
+                logger.info(f"Added must-include POI to Trianon gardens: {must_poi}")
+
+        if trianon_garden_pois:
+            tsp_start = get_trianon_tsp_start(grand_trianon_path)
+            trianon_garden_path = greedy_tsp_on_pois(
+                session,
+                [p["id"] for p in trianon_garden_pois[:15]],
+                tsp_start,
+                constraints.accessibility,
+                allocation.trianon_minutes // 2,  # Reserve half for gardens
+            )
+
+            full_path.extend(trianon_garden_path[1:])
+            logger.info(f"Added {len(trianon_garden_path)-1} Trianon garden POIs")
 
 
 def create_itinerary_v2(
@@ -278,96 +454,30 @@ def create_itinerary_v2(
 
             logger.info(f"Detected zones: {requested_zones}")
 
-            # Step 2: Allocate time budget across zones
+            # Step 2: Determine optimal zone order based on start time
+            zone_order = determine_zone_order(requested_zones, start_time)
+            logger.info(f"Zone order (based on {start_time.strftime('%H:%M')}): {zone_order}")
+
+            # Step 3: Allocate time budget across zones
             allocation = allocate_time_budget(
                 total_duration_minutes, requested_zones
             )
 
             logger.info(f"Time allocation: {allocation}")
 
-            # Step 3: Build path for each zone
+            # Step 4: Build path for each zone IN THE DETERMINED ORDER
             full_path = []
 
-            # Castle interior (predefined path)
-            if "castle" in requested_zones:
-                castle_candidates = get_viable_castle_routes(allocation.castle_minutes)
-                try:
-                    castle_path = select_valid_castle_route(
-                        session,
-                        castle_candidates,
-                        constraints.accessibility,
-                        list(constraints.exclude_ids),
-                    )
-                    full_path.extend(castle_path)
-                    logger.info(f"Selected Castle route with {len(castle_path)} POIs")
-                except PathValidationError as e:
-                    logger.error(f"Castle path validation failed: {e}")
-                    raise
+            # Process zones in smart order
+            for zone in zone_order:
+                if zone == "castle":
+                    _add_castle_path(session, allocation, constraints, full_path)
+                elif zone == "gardens":
+                    _add_gardens_path(session, allocation, constraints, full_path)
+                elif zone == "trianon":
+                    _add_trianon_path(session, allocation, constraints, full_path)
 
-            # Gardens (TSP)
-            if "gardens" in requested_zones:
-                garden_pois = fetch_garden_pois(
-                    session,
-                    constraints.interests,
-                    constraints.accessibility,
-                    constraints.exclude_ids,
-                    ":Garden:",
-                )
-
-                if garden_pois:
-                    # Start from last Castle POI or default entrance
-                    garden_start = full_path[-1] if full_path else "versailles:Garden:acces-jardins-cour-des-princes"
-
-                    garden_path = greedy_tsp_on_pois(
-                        session,
-                        [p["id"] for p in garden_pois[:20]],  # Limit to top 20
-                        garden_start,
-                        constraints.accessibility,
-                        allocation.gardens_minutes,
-                    )
-
-                    full_path.extend(garden_path[1:])  # Exclude start (already in path)
-                    logger.info(f"Added {len(garden_path)-1} Garden POIs")
-
-            # Trianon interior (predefined path) + Trianon gardens (TSP)
-            if "trianon" in requested_zones:
-                # Grand Trianon interior
-                grand_trianon_path = GRAND_TRIANON_PATH.copy()
-                full_path.extend(grand_trianon_path)
-
-                # Petit Trianon interior
-                try:
-                    petit_trianon_path = select_valid_petit_trianon_path(
-                        session, constraints.accessibility
-                    )
-                    full_path.extend(petit_trianon_path)
-                    logger.info(f"Added Petit Trianon path ({len(petit_trianon_path)} POIs)")
-                except PathValidationError as e:
-                    logger.warning(f"Petit Trianon path unavailable: {e}")
-
-                # Trianon gardens (TSP)
-                trianon_garden_pois = fetch_garden_pois(
-                    session,
-                    constraints.interests,
-                    constraints.accessibility,
-                    list(constraints.exclude_ids) + get_trianon_exclusions(grand_trianon_path),
-                    ":Trianon:",
-                )
-
-                if trianon_garden_pois:
-                    tsp_start = get_trianon_tsp_start(grand_trianon_path)
-                    trianon_garden_path = greedy_tsp_on_pois(
-                        session,
-                        [p["id"] for p in trianon_garden_pois[:15]],
-                        tsp_start,
-                        constraints.accessibility,
-                        allocation.trianon_minutes // 2,  # Reserve half for gardens
-                    )
-
-                    full_path.extend(trianon_garden_path[1:])
-                    logger.info(f"Added {len(trianon_garden_path)-1} Trianon garden POIs")
-
-            # Step 4: Compute full path with timing
+            # Step 5: Compute full path with timing
             if not full_path:
                 raise ValueError("No POIs selected for itinerary")
 
@@ -394,7 +504,6 @@ def create_itinerary_v2(
                     total_travel_time += segment_result.total_minutes
 
             # Build composite travel result
-            from scripts.planner_utils import ShortestPathResult
             travel_segments = ShortestPathResult(
                 node_ids=full_path,
                 total_minutes=total_travel_time,
