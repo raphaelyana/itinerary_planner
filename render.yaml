@@ -1,28 +1,6 @@
 services:
-  # Neo4j Graph Database - Self-hosted on Render
-  - type: pserv
-    name: versailles-neo4j
-    runtime: docker
-    plan: standard
-    dockerfilePath: ./Dockerfile.neo4j
-    dockerContext: .
-    disk:
-      name: neo4j-data
-      mountPath: /data
-      sizeGB: 1
-    envVars:
-      - key: NEO4J_AUTH
-        sync: false  # Secret managed in Render dashboard
-      - key: NEO4J_server_memory_heap_initial__size
-        value: 256m
-      - key: NEO4J_server_memory_heap_max__size
-        value: 384m
-      - key: NEO4J_server_memory_pagecache_size
-        value: 64m
-      - key: NEO4J_dbms_memory_transaction_total_max
-        value: 128m
-
   # FastAPI backend for itinerary planning
+  # Now uses Neo4j Aura (cloud-hosted) instead of self-hosted Neo4j
   - type: web
     name: versailles-planner-api
     runtime: python
@@ -30,23 +8,16 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn scripts.api:app --host 0.0.0.0 --port $PORT
     envVars:
+      # All Neo4j connection details managed in Render Dashboard
+      # pointing to Neo4j Aura instance: 4100001d
       - key: NEO4J_URI
-        value: neo4j://versailles-neo4j:7687  # Internal Render service connection
+        sync: false  # Set to: neo4j+s://4100001d.databases.neo4j.io
       - key: NEO4J_USERNAME
-        value: neo4j  # Standard username (safe to expose)
+        sync: false  # Set to: neo4j
       - key: NEO4J_PASSWORD
-        sync: false  # Secret managed in Render dashboard
+        sync: false  # Aura password from dashboard
       - key: NEO4J_DATABASE
         value: neo4j
       - key: PLANNER_LOG_LEVEL
         value: DEBUG
     healthCheckPath: /health
-
-  # One-time data ingestion job
-  - type: cron
-    name: versailles-ingest
-    runtime: python
-    plan: starter
-    schedule: '0 * * * *'
-    buildCommand: pip install -r requirements.txt
-    startCommand: python scripts/ingest.py
