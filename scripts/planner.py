@@ -1019,6 +1019,29 @@ def determine_route_greedy(
             passed_gateways.add(current)
             logger.debug("Planner: passed through gateway %s, marking as one-way", current)
 
+        # Priority routing: if there are gateway nodes in remaining, force route to them first
+        # This ensures Castle→Gateway→Garden sequence is respected
+        gateway_candidates = [poi for poi in remaining if poi in GATEWAY_NODES]
+        if gateway_candidates:
+            logger.debug("Planner: gateway nodes in remaining: %s, prioritizing gateway routing", gateway_candidates)
+            # Use sequential order: route to the first gateway in the remaining list
+            forced_candidate = gateway_candidates[0]
+            try:
+                logger.debug("Planner: forcing path to gateway %s", forced_candidate)
+                path = get_shortest_path(
+                    current,
+                    forced_candidate,
+                    user_profile=constraints.user_profile,
+                    accessibility=constraints.accessibility,
+                )
+                ordered.append(forced_candidate)
+                pair_paths.append(path)
+                remaining.remove(forced_candidate)
+                continue  # Skip greedy search, move to next iteration
+            except ValueError as exc:
+                logger.error("Planner: failed to route to gateway %s: %s", forced_candidate, exc)
+                raise ValueError(f"Unable to route to required gateway {forced_candidate}") from exc
+
         best_candidate = None
         best_path: Optional[ShortestPathResult] = None
         best_cost = float("inf")
