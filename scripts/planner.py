@@ -558,20 +558,21 @@ def _reorder_castle_pois_if_needed(
     constraints: PlannerConstraints,
 ) -> List[str]:
     """
-    Reorder POIs to follow proper zone sequencing: Castle→Garden/Park.
+    Reorder POIs to follow proper zone sequencing: Castle→Gateway→Garden/Park.
 
     The Castle has a one-way tour structure, and mixed Castle+Garden visits
-    must follow Castle-first routing to avoid gateway backtracking issues.
+    must follow Castle-first routing with gateway transitions to avoid
+    pathfinding failures due to maxLevel limits.
     """
     # Categorize POIs by zone
     castle_pois = [pid for pid in poi_ids if pid.startswith("versailles:Room:")]
     garden_pois = [pid for pid in poi_ids if ":Garden:" in pid or ":Park:" in pid]
     other_pois = [pid for pid in poi_ids if pid not in castle_pois and pid not in garden_pois]
 
-    # If we have both Castle and Garden POIs, enforce Castle→Garden sequence
+    # If we have both Castle and Garden POIs, enforce Castle→Gateway→Garden sequence
     if castle_pois and garden_pois:
         logger.info(
-            "Planner: mixed Castle+Garden visit detected (%d Castle, %d Garden), forcing Castle-first sequence",
+            "Planner: mixed Castle+Garden visit detected (%d Castle, %d Garden), injecting gateway transitions",
             len(castle_pois), len(garden_pois)
         )
 
@@ -581,8 +582,17 @@ def _reorder_castle_pois_if_needed(
             key=lambda pid: _CASTLE_TOUR_INDEX.get(pid, 9999)
         )
 
-        # Return: Castle POIs (sorted) → other POIs → Garden POIs
-        return sorted_castle + other_pois + garden_pois
+        # Inject gateway transition POIs to ensure connectivity
+        # Castle exit → PDV entry → Garden POIs
+        gateway_sequence = [
+            PAVILLON_DUFOUR,         # versailles:Castle:pavillon-dufour-sortie
+            GARDEN_PDV_ORANGERIE,    # versailles:Garden:pdv-parterre-du-midi-orangerie
+        ]
+
+        # Return: Castle POIs (sorted) → Gateway POIs → Garden POIs → Other POIs
+        result = sorted_castle + gateway_sequence + garden_pois + other_pois
+        logger.info("Planner: injected gateway sequence: %s", gateway_sequence)
+        return result
 
     # If only Castle POIs, sort them by tour sequence
     if len(castle_pois) > 1:
