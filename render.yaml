@@ -1,9 +1,9 @@
 services:
-  # Neo4j Graph Database
+  # Neo4j Graph Database - Self-hosted on Render
   - type: pserv
     name: versailles-neo4j
     runtime: docker
-    plan: standard  # Neo4j requires persistent storage (not available on free tier)
+    plan: standard
     dockerfilePath: ./Dockerfile.neo4j
     dockerContext: .
     disk:
@@ -31,7 +31,7 @@ services:
     startCommand: uvicorn scripts.api:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: NEO4J_URI
-        value: neo4j://versailles-neo4j:7687  # Internal hostname (safe to expose)
+        value: neo4j://versailles-neo4j:7687  # Internal Render service connection
       - key: NEO4J_USERNAME
         value: neo4j  # Standard username (safe to expose)
       - key: NEO4J_PASSWORD
@@ -46,12 +46,12 @@ services:
   - type: worker
     name: versailles-ingest
     runtime: python
-    plan: free
+    plan: starter  # 512 MB RAM, 0.5 CPU
     buildCommand: pip install -r requirements.txt
     startCommand: python scripts/ingest.py
     envVars:
       - key: NEO4J_URI
-        value: neo4j://versailles-neo4j:7687  # Internal hostname (safe to expose)
+        value: neo4j://versailles-neo4j:7687  # Internal Render service connection
       - key: NEO4J_USERNAME
         value: neo4j  # Standard username (safe to expose)
       - key: NEO4J_PASSWORD
