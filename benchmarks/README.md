@@ -76,7 +76,7 @@ python3.11 scripts/benchmarks/performance.py \
 
 ### Online Mode (Requires AuraDB Connection)
 ```bash
-export NEO4J_URI=neo4j+s://41e180bf.databases.neo4j.io
+export NEO4J_URI=neo4j+s://4100001d.databases.neo4j.io
 export NEO4J_USERNAME=neo4j
 export NEO4J_PASSWORD=<your-password>
 export NEO4J_DATABASE=neo4j

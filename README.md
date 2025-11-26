@@ -16,7 +16,7 @@ Intelligent itinerary planning system for Château de Versailles using TSP optim
 pip install -r requirements.txt
 
 # Set environment variables
-export NEO4J_URI=neo4j+s://41e180bf.databases.neo4j.io
+export NEO4J_URI=neo4j+s://4100001d.databases.neo4j.io
 export NEO4J_USERNAME=neo4j
 export NEO4J_PASSWORD=your_password
 export NEO4J_DATABASE=neo4j

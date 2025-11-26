@@ -13,7 +13,7 @@ OUTPUT_DIR="benchmarks/results"
 mkdir -p "${OUTPUT_DIR}"
 
 # Export Neo4j credentials (no defaults for secrets)
-export NEO4J_URI="${NEO4J_URI:-neo4j+s://41e180bf.databases.neo4j.io}"
+export NEO4J_URI="${NEO4J_URI:-neo4j+s://4100001d.databases.neo4j.io}"
 export NEO4J_USERNAME="${NEO4J_USERNAME:-neo4j}"
 export NEO4J_PASSWORD="${NEO4J_PASSWORD:-}"
 export NEO4J_DATABASE="${NEO4J_DATABASE:-neo4j}"
