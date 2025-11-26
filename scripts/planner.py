@@ -327,8 +327,9 @@ def _auto_max_poi_cap(constraints: PlannerConstraints, total_duration_minutes: i
     """Limit POI count so routing stays tractable."""
     if constraints.must_include:
         return None
-    # Conservative cap keeps pairwise path computation reasonable.
-    return 8
+    # Reduced cap to 6 to minimize CPU load on pathfinding queries
+    # Lower cap = fewer pairwise paths = less CPU usage
+    return 6
 
 
 def _should_schedule_lunch(start_time: datetime, total_duration_minutes: int, preference: Optional[bool]) -> bool:

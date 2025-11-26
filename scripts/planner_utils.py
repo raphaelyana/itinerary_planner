@@ -250,7 +250,8 @@ def get_shortest_path(
 
     if start_is_museum and end_is_museum:
         # Both in museum interiors - complex bidirectional branches
-        max_level = 15
+        # Increased from 15 to 20 to find paths between detour branches
+        max_level = 20
     elif start_is_garden or end_is_garden:
         # Garden/Park zones - more open/connected, can use lower search depth
         max_level = 10

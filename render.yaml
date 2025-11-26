@@ -18,7 +18,7 @@ services:
       - key: NEO4J_server_memory_heap_max__size
         value: 1G
       - key: NEO4J_server_memory_pagecache_size
-        value: 512m
+        value: 256m
 
   # FastAPI backend for itinerary planning
   - type: web
