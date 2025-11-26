@@ -4,6 +4,13 @@ import logging
 from datetime import datetime, timedelta
 from typing import List, Literal, Optional
 
+# Load .env file if it exists (development mode)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv not installed, use system env vars
+
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field, validator
 

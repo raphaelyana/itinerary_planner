@@ -6,6 +6,13 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# Load .env file if it exists (development mode)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv not installed, use system env vars
+
 from neo4j import GraphDatabase
 from scripts.planner_utils import normalize_neo4j_uri
 

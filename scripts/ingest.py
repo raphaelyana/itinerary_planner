@@ -9,6 +9,13 @@ from typing import Dict, Iterable, List, Tuple, Literal, Optional
 # Add parent directory to path for imports when run as script
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
+# Load .env file if it exists (development mode)
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass  # python-dotenv not installed, use system env vars
+
 from neo4j import GraphDatabase, Session
 from scripts.planner_utils import normalize_neo4j_uri
 
