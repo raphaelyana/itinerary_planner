@@ -8,16 +8,20 @@ services:
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn scripts.api:app --host 0.0.0.0 --port $PORT
     envVars:
-      # All Neo4j connection details managed in Render Dashboard
-      # pointing to Neo4j Aura instance: 4100001d
+      # All Neo4j connection details must be set in Render Dashboard
+      # These variables are marked as sync: false to pull from Dashboard secrets
       - key: NEO4J_URI
-        sync: false  # Set to: neo4j+s://4100001d.databases.neo4j.io
+        sync: false
       - key: NEO4J_USERNAME
-        sync: false  # Set to: neo4j
+        sync: false
       - key: NEO4J_PASSWORD
-        sync: false  # Aura password from dashboard
+        sync: false
       - key: NEO4J_DATABASE
-        value: neo4j
+        sync: false
+      - key: AURA_INSTANCEID
+        sync: false
+      - key: AURA_INSTANCENAME
+        sync: false
       - key: PLANNER_LOG_LEVEL
         value: DEBUG
     healthCheckPath: /health
