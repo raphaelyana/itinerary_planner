@@ -145,6 +145,19 @@ def get_shortest_path(
     if start_id == end_id:
         return ShortestPathResult(node_ids=[start_id], total_minutes=0.0, segments=[])
 
+    # Determine maxLevel based on zones involved
+    # Castle and Trianon interiors have complex bidirectional branches
+    # Use lower maxLevel to avoid exponential path explosion
+    start_is_museum = ":Room:" in start_id
+    end_is_museum = ":Room:" in end_id
+
+    if start_is_museum and end_is_museum:
+        # Both in museum interiors - use lower limit
+        max_level = 15
+    else:
+        # At least one outdoor zone - use higher limit
+        max_level = 30
+
     uri = normalize_neo4j_uri(uri or os.getenv("NEO4J_URI"))
     user = user or os.getenv("NEO4J_USERNAME", "neo4j")
     password = password or os.getenv("NEO4J_PASSWORD", "neo4j")
@@ -178,7 +191,7 @@ def get_shortest_path(
                         CALL apoc.path.expandConfig(start, {{
                             relationshipFilter: "CONNECTS_TO>",
                             minLevel: 1,
-                            maxLevel: 30,
+                            maxLevel: $max_level,
                             uniqueness: "RELATIONSHIP_PATH",
                             endNodes: [end],
                             terminatorNodes: [end]
@@ -209,6 +222,7 @@ def get_shortest_path(
                     end_id=end_id,
                     weight_property=weight_property,
                     default_weight=float(default_edge_weight),
+                    max_level=max_level,
                 ).single()
 
                 # Check if we got a result
