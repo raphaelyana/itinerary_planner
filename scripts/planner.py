@@ -149,10 +149,15 @@ def _determine_smart_start_finish(
             start_poi = TRIANON_PETIT_ENTRY
         else:
             start_poi = TRIANON_PETIT_ENTRY
-    elif "Castle" not in zones and "Garden" in zones:
-        # Rule 3: Garden-only (no Castle) -> start at garden entry
-        logger.info("Smart routing: garden-only visit, starting at garden entry")
-        start_poi = GARDEN_ENTRY_PRINCES
+    elif "Castle" not in zones and "Trianon" in zones:
+        # Rule 3a: Trianon-only (no Castle/Garden) -> start at Trianon
+        logger.info("Smart routing: Trianon-only visit, starting at Petit Trianon")
+        start_poi = TRIANON_PETIT_ENTRY
+    elif "Castle" not in zones and ("Garden" in zones or "Park" in zones):
+        # Rule 3b: Garden/Park-only (no Castle) -> start directly at PDV
+        # Skip Castle entirely and go straight to the gardens
+        logger.info("Smart routing: gardens/park-only visit (no Castle), starting at PDV")
+        start_poi = GARDEN_PDV_ORANGERIE
     elif "Castle" in zones:
         # Has Castle -> start at cour-dhonneur
         logger.info("Smart routing: Castle visit, starting at cour-dhonneur")
