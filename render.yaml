@@ -14,11 +14,13 @@ services:
       - key: NEO4J_AUTH
         value: neo4j/versailles2024
       - key: NEO4J_server_memory_heap_initial__size
-        value: 512m
-      - key: NEO4J_server_memory_heap_max__size
-        value: 1G
-      - key: NEO4J_server_memory_pagecache_size
         value: 256m
+      - key: NEO4J_server_memory_heap_max__size
+        value: 384m
+      - key: NEO4J_server_memory_pagecache_size
+        value: 64m
+      - key: NEO4J_dbms_memory_transaction_total_max
+        value: 128m
 
   # FastAPI backend for itinerary planning
   - type: web
