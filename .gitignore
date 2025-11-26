@@ -28,3 +28,5 @@ data/main_data/pois_copie.csv
 
 data/main_data/connections.csv.backup
 data/main_data/pois_20251209.csv
+
+tests/test_scenarios.md

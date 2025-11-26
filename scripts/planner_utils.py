@@ -242,16 +242,20 @@ def get_shortest_path(
                 pass
 
     # Determine maxLevel based on zones involved
-    # Castle and Trianon interiors have complex bidirectional branches
-    # Use lower maxLevel to avoid exponential path explosion
+    # Different zones need different search depths to balance performance and completeness
     start_is_museum = ":Room:" in start_id
     end_is_museum = ":Room:" in end_id
+    start_is_garden = ":Garden:" in start_id or ":Park:" in start_id
+    end_is_garden = ":Garden:" in end_id or ":Park:" in end_id
 
     if start_is_museum and end_is_museum:
-        # Both in museum interiors - use lower limit
+        # Both in museum interiors - complex bidirectional branches
         max_level = 15
+    elif start_is_garden or end_is_garden:
+        # Garden/Park zones - more open/connected, can use lower search depth
+        max_level = 10
     else:
-        # At least one outdoor zone - use higher limit
+        # Mixed zones or other outdoor areas - use higher limit
         max_level = 30
 
     uri = normalize_neo4j_uri(uri or os.getenv("NEO4J_URI"))
