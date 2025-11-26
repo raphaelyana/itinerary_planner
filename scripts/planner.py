@@ -5,7 +5,7 @@ import logging
 import os
 from dataclasses import dataclass
 from datetime import datetime, timedelta, time
-from typing import Dict, Iterable, List, Optional, Sequence, Tuple
+from typing import Dict, Iterable, List, Optional, Sequence, Set, Tuple
 
 from neo4j import GraphDatabase
 
@@ -969,16 +969,32 @@ def determine_route_greedy(
     if not remaining:
         raise ValueError("At least one POI is required to build a route.")
 
+    # One-way gateway nodes that shouldn't be revisited after passing through
+    GATEWAY_NODES = {
+        GARDEN_ENTRY_PRINCES,  # acces-jardins-cour-des-princes
+        PAVILLON_DUFOUR,       # pavillon-dufour-sortie
+        GARDEN_PDV_ORANGERIE,  # pdv-parterre-du-midi-orangerie
+    }
+    passed_gateways: Set[str] = set()
+
     ordered: List[str] = [remaining.pop(0)]
     pair_paths: List[ShortestPathResult] = []
 
     while remaining:
         current = ordered[-1]
+
+        # Mark current node as a passed gateway if applicable
+        if current in GATEWAY_NODES:
+            passed_gateways.add(current)
+            logger.debug("Planner: passed through gateway %s, marking as one-way", current)
+
         best_candidate = None
         best_path: Optional[ShortestPathResult] = None
         best_cost = float("inf")
 
         for candidate in remaining:
+            # Skip candidates that would route back through already-passed gateways
+            # Check if the path would go through a passed gateway
             try:
                 logger.debug("Planner: greedy trying path %s -> %s", current, candidate)
                 path = get_shortest_path(
@@ -987,6 +1003,17 @@ def determine_route_greedy(
                     user_profile=constraints.user_profile,
                     accessibility=constraints.accessibility,
                 )
+
+                # Check if path goes back through any passed gateway
+                path_nodes = set(path.node_ids)
+                forbidden_backtrack = path_nodes & passed_gateways
+                if forbidden_backtrack:
+                    logger.debug(
+                        "Planner: skipping path %s -> %s (would backtrack through gateway: %s)",
+                        current, candidate, forbidden_backtrack
+                    )
+                    continue
+
                 logger.debug("Planner: path found, cost=%.2f", path.total_minutes)
             except ValueError as exc:
                 logger.debug("Planner: no path from %s to %s: %s", current, candidate, exc)
