@@ -74,9 +74,100 @@ PROFILE_TRAVEL_MAX = {
     "elder": 90.0,
 }
 
+# Entry point constants for smart routing
+COUR_DHONNEUR = "versailles:Castle:cour-dhonneur"
+GARDEN_ENTRY_PRINCES = "versailles:Garden:acces-jardins-cour-des-princes"
+GARDEN_PDV_ORANGERIE = "versailles:Garden:pdv-parterre-du-midi-orangerie"
+PAVILLON_DUFOUR = "versailles:Castle:pavillon-dufour-sortie"
+TRIANON_GRAND_ENTRY = "versailles:Trianon:entree-grand-trianon"
+TRIANON_PETIT_ENTRY = "versailles:Trianon:entree-petit-trianon"
+COUR_DHONNEUR_SORTIE = "versailles:Castle:cour-dhonneur-sortie"
+
+# Time thresholds for smart routing
+MORNING_END_HOUR = 12  # Before 12:00 is considered morning
+MIDDAY_START_HOUR = 12  # 12:30+ is considered midday
+MIDDAY_START_MINUTE = 30
+
 
 def _parse_time(value: str) -> time:
     return datetime.strptime(value, "%H:%M").time()
+
+
+def _determine_smart_start_finish(
+    start_time: datetime,
+    total_duration_minutes: int,
+    poi_ids: List[str],
+    constraints: PlannerConstraints,
+) -> Tuple[Optional[str], Optional[str]]:
+    """
+    Determine smart start and finish points based on time, duration, and zones.
+
+    Rules:
+    1. Morning visits (before 12:00): start at cour-dhonneur
+    2. Midday+ long visits (12:30+): start at Trianon
+    3. Garden-only visits (no Castle): start at garden entry
+    4. Castle+Garden visits: ensure proper transition through required nodes
+    5. Exit through gardens if gardens visited, otherwise cour-dhonneur-sortie
+    """
+    # Extract zones from POI IDs
+    zones = set()
+    for poi_id in poi_ids:
+        if ":Castle:" in poi_id or ":Room:" in poi_id:
+            zones.add("Castle")
+        elif ":Garden:" in poi_id:
+            zones.add("Garden")
+        elif ":Park:" in poi_id:
+            zones.add("Park")
+        elif ":Trianon:" in poi_id:
+            zones.add("Trianon")
+
+    # Rule 1: Morning start (before 12:00) -> cour-dhonneur
+    is_morning = start_time.hour < MORNING_END_HOUR
+
+    # Rule 2: Midday+ (12:30+) with long duration -> Trianon
+    is_midday_or_later = (
+        start_time.hour > MIDDAY_START_HOUR or
+        (start_time.hour == MIDDAY_START_HOUR and start_time.minute >= MIDDAY_START_MINUTE)
+    )
+    is_long_visit = total_duration_minutes >= 180  # 3+ hours
+
+    start_poi = None
+    finish_poi = None
+
+    # Determine start point
+    if is_morning:
+        # Rule 1: Morning -> always start at cour-dhonneur
+        logger.info("Smart routing: morning visit, starting at cour-dhonneur")
+        start_poi = COUR_DHONNEUR
+    elif is_midday_or_later and is_long_visit:
+        # Rule 2: Midday+ long visit -> start at Trianon
+        logger.info("Smart routing: midday+ long visit, starting at Trianon")
+        # Choose Grand or Petit Trianon based on POIs
+        if "Trianon" in zones:
+            # If Trianon POIs exist, let routing decide which entry
+            # For now, default to Petit Trianon (more popular)
+            start_poi = TRIANON_PETIT_ENTRY
+        else:
+            start_poi = TRIANON_PETIT_ENTRY
+    elif "Castle" not in zones and "Garden" in zones:
+        # Rule 3: Garden-only (no Castle) -> start at garden entry
+        logger.info("Smart routing: garden-only visit, starting at garden entry")
+        start_poi = GARDEN_ENTRY_PRINCES
+    elif "Castle" in zones:
+        # Has Castle -> start at cour-dhonneur
+        logger.info("Smart routing: Castle visit, starting at cour-dhonneur")
+        start_poi = COUR_DHONNEUR
+
+    # Determine finish point
+    # Rule 4 & 5: If gardens visited, exit through gardens; otherwise cour-dhonneur-sortie
+    if "Garden" in zones or "Park" in zones or "Trianon" in zones:
+        logger.info("Smart routing: outdoor zones visited, exiting through gardens")
+        finish_poi = GARDEN_PDV_ORANGERIE
+    else:
+        logger.info("Smart routing: indoor-only visit, exiting through cour-dhonneur-sortie")
+        finish_poi = COUR_DHONNEUR_SORTIE
+
+    return start_poi, finish_poi
 
 
 @dataclass
@@ -1134,6 +1225,30 @@ def plan_versailles_itinerary(
         for required in constraints.must_include:
             if required not in poi_ids:
                 raise ValueError(f"Required POI {required!r} was not selected.")
+
+    # Apply smart routing if start/finish not explicitly set
+    if constraints.start_poi is None or constraints.finish_poi is None:
+        smart_start, smart_finish = _determine_smart_start_finish(
+            start_time, total_duration_minutes, poi_ids, constraints
+        )
+        # Create updated constraints with smart routing
+        constraints = PlannerConstraints(
+            interests=constraints.interests,
+            user_profile=constraints.user_profile,
+            accessibility=constraints.accessibility,
+            must_include=constraints.must_include,
+            exclude_ids=constraints.exclude_ids,
+            lunch_break=constraints.lunch_break,
+            hard_time_limits=constraints.hard_time_limits,
+            start_poi=constraints.start_poi or smart_start,
+            finish_poi=constraints.finish_poi or smart_finish,
+            budget=constraints.budget,
+        )
+        logger.info(
+            "Smart routing applied: start=%s, finish=%s",
+            constraints.start_poi,
+            constraints.finish_poi
+        )
 
     selected_current = list(selected)
     while True:
