@@ -355,10 +355,11 @@ def run_daily_update(
     effective_source = source or VersaillesWebSource()
     updates = list(effective_source.fetch_daily_hours(target_date, season=season))
 
-    if not updates:
+    # Fallback to static schedule if scraping failed or returned invalid data
+    if not updates or all(u.opening_time is None for u in updates):
         fallback = StaticScheduleSource(DEFAULT_SCHEDULE)
         updates = list(fallback.fetch_daily_hours(target_date, season=season))
-        print("[updater] Falling back to static schedule; live scrape returned no data.")
+        print("[updater] Falling back to static schedule; live scrape returned no valid data.")
 
     uri = normalize_neo4j_uri(uri or os.getenv("NEO4J_URI"))
     user = user or os.getenv("NEO4J_USERNAME", "neo4j")

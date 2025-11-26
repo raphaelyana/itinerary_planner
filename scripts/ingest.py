@@ -89,9 +89,8 @@ def prepare_poi(row: Dict[str, str]) -> Tuple[str, str, Dict[str, object]]:
         "facility_type": row.get("facility_type"),
         "cost_category": row.get("cost_category"),
         "entrance_type": row.get("entrance_type"),
-        # Date-specific opening hours (needed for planner filters)
-        "opening_time": row.get("opening_time"),
-        "closing_time": row.get("closing_time"),
+        # Note: opening_time and closing_time are NOT ingested from CSV
+        # They are computed and set by the updater script based on opening_ruleset_id
     }
 
     for key, value in optional_fields.items():
@@ -246,6 +245,27 @@ def run_ingestion(
         driver.close()
 
     print(f"Ingested {poi_count} POIs and {rel_count} connections.")
+
+    # Run opening hours updater if POIs were ingested
+    if mode in ("all", "pois_only") and poi_count > 0:
+        print("\n" + "="*70)
+        print("UPDATING OPENING HOURS")
+        print("="*70)
+        try:
+            from scripts.updater import run_daily_update
+            updated_count = run_daily_update(
+                uri=uri,
+                user=user,
+                password=password,
+                database=database,
+            )
+            print(f"✓ Updated opening hours for {updated_count} POIs")
+        except Exception as e:
+            print(f"⚠️  Warning: Failed to update opening hours: {e}")
+            print("   POIs will not have opening_time/closing_time set.")
+            print("   Run 'python -m scripts.updater' manually to fix.")
+        print("="*70)
+
     return poi_count, rel_count
 
 
