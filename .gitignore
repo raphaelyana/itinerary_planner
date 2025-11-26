@@ -25,3 +25,6 @@ data/main_data/pois_copie.csv
 *.md
 !README.md
 !configs/*.md
+
+data/main_data/connections.csv.backup
+data/main_data/pois_20251209.csv

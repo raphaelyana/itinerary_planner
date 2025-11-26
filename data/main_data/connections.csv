@@ -55,6 +55,7 @@ versailles:Room:salle-marengo,versailles:Room:galerie-basse,2,3.0,4,True,True,in
 versailles:Room:galerie-basse,versailles:Room:vestibule-de-marbre,2,3.0,4,True,True,indoor,Galerie Basse vers Vestibule de Marbre
 versailles:Room:vestibule-de-marbre,versailles:Castle:cour-royale,2,3.0,4,True,True,indoor,Vestibule de Marbre vers Cour Royale
 versailles:Room:vestibule-de-marbre,versailles:Garden:acces-jardins-cour-des-princes,3,4.5,6,True,True,indoor,Vestibule de Marbre vers Accès Jardins Cour des Princes
+versailles:Room:vestibule-de-marbre,versailles:Castle::pavillon-dufour-sortie,3,4.5,6,True,True,indoor,Vestibule de Marbre vers Pavillon Dufour Sortie
 versailles:Room:salle-du-sacre,versailles:Room:attique-chimay,2,3.0,4,False,False,indoor,Salle du Sacre vers Attique Chimay
 versailles:Room:attique-chimay,versailles:Room:salle-du-sacre,2,3.0,4,False,False,indoor,Attique Chimay vers Salle du Sacre
 versailles:Room:salle-du-sacre,versailles:Room:attique-midi,2,3.0,4,False,False,indoor,Salle du Sacre vers Attique Midi
@@ -184,7 +185,6 @@ versailles:Park:grand-canal,versailles:Trianon:entree-grand-trianon,18,20,22.5,T
 versailles:Park:grand-canal,versailles:Trianon:entree-petit-trianon,22,24,26,True,True,outdoor,Grand Canal vers Entrée Petit Trianon
 versailles:Trianon:entree-petit-trianon,versailles:Garden:entree-parc-bassin-apollon,22,24,26,True,True,outdoor,Grand Canal vers Entrée Petit Trianon
 versailles:Trianon:entree-petit-trianon,versailles:Garden:entree-parc-bassin-apollon,0,0,0,True,True,outdoor,Grand Canal vers Entrée Petit Trianon
-
 versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bosquet-de-la-salle-des-empereurs,1,1,1,True,True,outdoor,Bosquet de la Salle des Empereurs vers Bosquet de la Colonnade
 versailles:Garden:bassin-dapollon,versailles:Garden:bosquet-de-la-salle-des-empereurs,3,4,5,True,True,outdoor,Bosquet de la Salle des Empereurs vers Bassin d'Apollon
 versailles:Garden:bosquet-des-trois-fontaines,versailles:Garden:bassin-de-neptune,1,2,2,True,True,outdoor,Bassin de Neptune vers Bosquet des Trois Fontaines
@@ -206,7 +206,6 @@ versailles:Garden:bosquet-de-la-salle-des-empereurs,versailles:Garden:bassin-de-
 versailles:Garden:bosquet-de-la-colonnade,versailles:Garden:bassin-de-saturne,1,1,1,True,True,outdoor,Bassin de Saturne vers Bosquet de la Colonnade
 versailles:Garden:pdv-parterre-du-midi-orangerie,versailles:Garden:acces-jardins-cour-des-princes,0,0,0,True,True,outdoor,Accès Jardins Cour des Princes vers PDV Parterre du Midi Orangerie
 versailles:Garden:bassin-dapollon,versailles:Garden:bosquet-de-lencelade,4,5,5,True,True,outdoor,Bosquet de l'Encelade vers Bassin d'Apollon
-
 versailles:Trianon:entree-grand-trianon,versailles:Trianon:boudoir-imperatrice-Marie-Louise,0,0,0,True,True,indoor,,
 versailles:Trianon:boudoir-imperatrice-Marie-Louise,versailles:Trianon:salon-des-glaces,0,0,0,True,True,indoor,,
 versailles:Trianon:salon-des-glaces,versailles:Trianon:chambre-de-limperatrice,0,0,0,True,True,indoor,,
