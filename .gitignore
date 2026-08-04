@@ -1,6 +1,9 @@
 .env
 
-.claude/
+# Local Claude Code settings stay private, but skills are project tooling
+# and belong in version control.
+.claude/*
+!.claude/skills/
 
 # Python caches
 __pycache__/
@@ -15,16 +18,20 @@ venv/
 benchmarks.json
 benchmarks_offline.json
 
+# Training runs
+checkpoints/
+
 # OS cruft
 .DS_Store
 
 data/main_data/connections_2.csv
 data/main_data/pois_copie.csv
 
-# Documentation (personal notes, not for repo)
+# Personal notes are not tracked, but project documentation is.
 *.md
 !README.md
 !configs/*.md
+docs/archive
 
 data/main_data/connections.csv.backup
 data/main_data/pois_20251209.csv

@@ -1,9 +1,29 @@
+# Core planning stack (no database required)
+networkx>=3.2,<4.0
+numpy>=1.26
+scipy>=1.11
+ortools>=9.8
+
+# Environment and training
+gymnasium>=0.29,<2.0
+torch>=2.2
+
+# Visualization
+matplotlib>=3.8
+
+# Legacy Neo4j stack: still required by scripts/ and the deployed Render API.
+neo4j>=5.14,<7.0
+
+# API serving
 fastapi>=0.110,<1.0
 uvicorn[standard]>=0.27,<0.30
-neo4j>=5.14,<7.0
 pydantic>=1.10,<2.0
-pytest>=7.0,<8.0
+python-dotenv>=1.0,<2.0
+
+# Data fetching utilities
 requests>=2.31,<3.0
 beautifulsoup4>=4.12,<5.0
 click>=8.1,<9.0
-python-dotenv>=1.0,<2.0
+
+# Tests
+pytest>=7.0
