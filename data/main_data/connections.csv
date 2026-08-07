@@ -55,7 +55,7 @@ versailles:Room:salle-marengo,versailles:Room:galerie-basse,2,3.0,4,True,True,in
 versailles:Room:galerie-basse,versailles:Room:vestibule-de-marbre,2,3.0,4,True,True,indoor,Galerie Basse vers Vestibule de Marbre
 versailles:Room:vestibule-de-marbre,versailles:Castle:cour-royale,2,3.0,4,True,True,indoor,Vestibule de Marbre vers Cour Royale
 versailles:Room:vestibule-de-marbre,versailles:Garden:acces-jardins-cour-des-princes,3,4.5,6,True,True,indoor,Vestibule de Marbre vers Accès Jardins Cour des Princes
-versailles:Room:vestibule-de-marbre,versailles:Castle::pavillon-dufour-sortie,3,4.5,6,True,True,indoor,Vestibule de Marbre vers Pavillon Dufour Sortie
+versailles:Room:vestibule-de-marbre,versailles:Castle:pavillon-dufour-sortie,3,4.5,6,True,True,indoor,Vestibule de Marbre vers Pavillon Dufour Sortie
 versailles:Room:salle-du-sacre,versailles:Room:attique-chimay,2,3.0,4,False,False,indoor,Salle du Sacre vers Attique Chimay
 versailles:Room:attique-chimay,versailles:Room:salle-du-sacre,2,3.0,4,False,False,indoor,Attique Chimay vers Salle du Sacre
 versailles:Room:salle-du-sacre,versailles:Room:attique-midi,2,3.0,4,False,False,indoor,Salle du Sacre vers Attique Midi
@@ -306,9 +306,9 @@ versailles:Trianon:maison-de-la-reine-hameau,versailles:Trianon:le-moulin-hameau
 versailles:Trianon:le-moulin-hameau,versailles:Trianon:maison-de-la-reine-hameau,2,2,2,True,True,outdoor,,
 versailles:Trianon:maison-de-la-reine-hameau,versailles:Trianon:maison-du-billard-hameau,0,0,0,True,True,outdoor,,
 versailles:Trianon:maison-du-billard-hameau,versailles:Trianon:maison-de-la-reine-hameau,0,0,0,True,True,outdoor,,
-versailles:Trianon:rechauffoir-hameau,versailles:Trianon:maison-du-billard-hameau,1,1,1,,True,True,outdoor,,
+versailles:Trianon:rechauffoir-hameau,versailles:Trianon:maison-du-billard-hameau,1,1,1,True,True,outdoor,Réchauffoir vers Maison du Billard
 versailles:Trianon:maison-du-billard-hameau,versailles:Trianon:rechauffoir-hameau,1,1,1,True,True,outdoor,,
-versailles:Trianon:rechauffoir-hameau,versailles:Trianon:maison-de-la-reine-hameau,1,1,1,,True,True,outdoor,,
+versailles:Trianon:rechauffoir-hameau,versailles:Trianon:maison-de-la-reine-hameau,1,1,1,True,True,outdoor,Réchauffoir vers Maison de la Reine
 versailles:Trianon:maison-de-la-reine-hameau,versailles:Trianon:rechauffoir-hameau,1,1,1,True,True,outdoor,,
 versailles:Trianon:colombier-hameau,versailles:Trianon:maison-du-billard-hameau,2,2,2,True,True,outdoor,,
 versailles:Trianon:maison-du-billard-hameau,versailles:Trianon:colombier-hameau,2,2,2,True,True,outdoor,,
